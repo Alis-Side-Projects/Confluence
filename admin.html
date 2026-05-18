@@ -15,6 +15,7 @@
     --accent1: #6c5ce7;
     --accent2: #00cec9;
     --accent3: #fd79a8;
+    --yellow: #feca57;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -25,131 +26,122 @@
     padding: 24px;
   }
   .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-    gap: 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
   }
   .header h1 {
-    font-size: 1.8rem;
-    font-weight: 800;
+    font-size: 1.8rem; font-weight: 800;
     background: linear-gradient(135deg, #6c5ce7, #00cec9);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
   .header .refresh-btn {
-    padding: 8px 20px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.2s;
+    padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); cursor: pointer;
+    font-size: 0.9rem; transition: all 0.2s;
   }
-  .header .refresh-btn:hover {
-    border-color: var(--accent1);
-    background: var(--surface2);
-  }
-  .stats-row {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
+  .header .refresh-btn:hover { border-color: var(--accent1); background: var(--surface2); }
+  .stats-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
   .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    flex: 1;
-    min-width: 150px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 24px; flex: 1; min-width: 130px;
   }
   .stat-card .label {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 4px;
+    font-size: 0.75rem; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
   }
-  .stat-card .value {
-    font-size: 2rem;
-    font-weight: 800;
-  }
+  .stat-card .value { font-size: 1.8rem; font-weight: 800; }
   .stat-card .value.purple { color: var(--accent1); }
   .stat-card .value.teal { color: var(--accent2); }
   .stat-card .value.pink { color: var(--accent3); }
+  .stat-card .value.yellow { color: var(--yellow); }
   .table-wrapper {
-    overflow-x: auto;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--surface);
+    overflow-x: auto; border: 1px solid var(--border);
+    border-radius: 12px; background: var(--surface);
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.88rem;
-  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
   th {
-    text-align: left;
-    padding: 14px 16px;
-    background: var(--surface2);
-    color: var(--text-muted);
-    font-weight: 700;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
+    text-align: left; padding: 14px 16px; background: var(--surface2);
+    color: var(--text-muted); font-weight: 700; font-size: 0.75rem;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    white-space: nowrap; border-bottom: 1px solid var(--border);
   }
   td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
+    padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap;
   }
   tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(108,92,231,0.04); }
+  .session-row { cursor: pointer; transition: background 0.15s; }
+  .session-row:hover td { background: rgba(108,92,231,0.06); }
+  .session-row td:first-child::before {
+    content: '▶'; font-size: 0.7rem; margin-right: 8px; color: var(--text-muted);
+    display: inline-block; transition: transform 0.2s;
+  }
+  .session-row.expanded td:first-child::before { transform: rotate(90deg); }
   .ip-cell { color: var(--accent2); font-family: monospace; }
   .time-cell { color: var(--text-muted); }
   .page-cell {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.78rem;
-    background: rgba(108,92,231,0.1);
-    color: #a78bfa;
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.78rem; background: rgba(108,92,231,0.1); color: #a78bfa;
   }
   .os-cell { color: var(--accent3); }
   .browser-cell { color: var(--accent2); }
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-muted);
+
+  /* Expanded detail panel */
+  .detail-row { display: none; }
+  .detail-row.show { display: table-row; }
+  .detail-row td {
+    padding: 0 16px 16px 48px; background: rgba(108,92,231,0.02);
+    border-bottom: 1px solid var(--border);
   }
+  .detail-panel { padding: 16px 0; }
+  .detail-panel h4 {
+    font-size: 0.85rem; color: var(--accent1); margin-bottom: 12px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .event-list { list-style: none; }
+  .event-list li {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 12px; border-radius: 8px; margin-bottom: 4px;
+    background: var(--surface2); font-size: 0.85rem;
+  }
+  .event-list .ev-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; flex-shrink: 0;
+  }
+  .ev-pageview .ev-icon { background: rgba(108,92,231,0.15); }
+  .ev-click .ev-icon { background: rgba(0,206,201,0.15); }
+  .ev-leave .ev-icon { background: rgba(253,121,168,0.15); }
+  .event-list .ev-time {
+    color: var(--text-muted); font-size: 0.78rem; margin-left: auto; white-space: nowrap;
+  }
+  .event-list .ev-detail { color: var(--text); }
+  .ev-duration {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 600;
+    background: rgba(253,121,168,0.1); color: var(--accent3);
+  }
+  .ev-click-name {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75rem; background: rgba(0,206,201,0.1); color: var(--accent2);
+  }
+  .no-events { color: var(--text-muted); font-size: 0.85rem; font-style: italic; }
+  .loading { text-align: center; padding: 40px; color: var(--text-muted); }
   .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-muted);
+    text-align: center; padding: 60px 20px; color: var(--text-muted);
   }
   .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
-  .error-msg { color: var(--accent3); }
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1>📊 Confluence Analytics</h1>
-  <button class="refresh-btn" onclick="loadVisitors()">↻ Refresh</button>
+  <button class="refresh-btn" onclick="loadAll()">↻ Refresh</button>
 </div>
 
 <div class="stats-row">
   <div class="stat-card">
-    <div class="label">Total Visits</div>
+    <div class="label">Total Sessions</div>
     <div class="value purple" id="totalVisits">—</div>
   </div>
   <div class="stat-card">
@@ -160,10 +152,14 @@
     <div class="label">Unique IPs</div>
     <div class="value pink" id="uniqueIPs">—</div>
   </div>
+  <div class="stat-card">
+    <div class="label">Link Clicks</div>
+    <div class="value yellow" id="totalClicks">—</div>
+  </div>
 </div>
 
 <div class="table-wrapper">
-  <div class="loading" id="loadingState">Loading visitor data from Google Sheets...</div>
+  <div class="loading" id="loadingState">Loading analytics...</div>
   <table id="visitorTable" style="display:none;">
     <thead>
       <tr>
@@ -171,131 +167,206 @@
         <th>IP Address</th>
         <th>Date</th>
         <th>Time</th>
-        <th>Page</th>
+        <th>Entry Page</th>
         <th>Browser</th>
         <th>OS</th>
         <th>Screen</th>
-        <th>Language</th>
-        <th>Referrer</th>
+        <th>Pages</th>
+        <th>Clicks</th>
       </tr>
     </thead>
     <tbody id="visitorRows"></tbody>
   </table>
   <div class="empty-state" id="emptyState" style="display:none;">
     <div class="icon">👀</div>
-    <p>No visitors yet. Data will appear here once someone visits the site.</p>
+    <p>No visitors yet.</p>
   </div>
 </div>
 
 <script>
-// ============================================================
-// Google Sheet ID (from your URL)
-// ============================================================
-const SHEET_ID = '1_CiIlQat2JN7YzbkY83Kbjq76zBjVFdcbm1tZFRdNHw';
-const SHEET_NAME = 'Sheet1';
-// ============================================================
+var SHEET_ID = '1_CiIlQat2JN7YzbkY83Kbjq76zBjVFdcbm1tZFRdNHw';
 
-function escHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str || '';
-  return div.innerHTML;
+function esc(str) {
+  var d = document.createElement('div'); d.textContent = str || ''; return d.innerHTML;
 }
 
-async function loadVisitors() {
+function fetchSheet(name) {
+  var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+    '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(name);
+  return fetch(url).then(function(r) { return r.text(); }).then(function(t) {
+    var json = t.replace(/^[^(]*\(/, '').replace(/\);?\s*$/, '');
+    var data = JSON.parse(json);
+    var rows = data.table.rows || [];
+    var cols = data.table.cols || [];
+    // skip header row
+    var result = [];
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i].c;
+      if (!r) continue;
+      var first = r[0] ? (r[0].v || '') : '';
+      if (i === 0 && (first === 'Session ID' || first === 'IP Address')) continue;
+      var obj = {};
+      for (var j = 0; j < cols.length; j++) {
+        var key = cols[j].label || ('col' + j);
+        obj[key] = r[j] ? (r[j].f || r[j].v || '') : '';
+        obj['raw_' + key] = r[j] ? (r[j].v || '') : '';
+      }
+      result.push(obj);
+    }
+    return result;
+  });
+}
+
+function parseRows(rows, keys) {
+  return rows.map(function(r) {
+    var obj = {};
+    keys.forEach(function(k, i) { obj[k] = r['col' + i] || r[Object.keys(r)[i]] || ''; });
+    return obj;
+  });
+}
+
+async function loadAll() {
   document.getElementById('loadingState').style.display = 'block';
   document.getElementById('visitorTable').style.display = 'none';
   document.getElementById('emptyState').style.display = 'none';
 
   try {
-    // Use Google Sheets published CSV endpoint
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-    const res = await fetch(url);
-    const text = await res.text();
+    var sessionsRaw = await fetchSheet('Sessions');
+    var eventsRaw = [];
+    try { eventsRaw = await fetchSheet('Events'); } catch(e) {}
 
-    // Google wraps the JSON in a callback — strip it
-    const jsonStr = text.replace(/^[^(]*\(/, '').replace(/\);?\s*$/, '');
-    const data = JSON.parse(jsonStr);
+    // Parse sessions
+    var sessions = sessionsRaw.map(function(r) {
+      var vals = Object.values(r).filter(function(v,i) { return i % 2 === 0; }); // skip raw_ keys
+      return {
+        sid: vals[0] || '', ip: vals[1] || '', date: vals[2] || '',
+        time: vals[3] || '', page: vals[4] || '', browser: vals[5] || '',
+        os: vals[6] || '', screen: vals[7] || '', language: vals[8] || '',
+        referrer: vals[9] || ''
+      };
+    });
 
-    const rows = data.table.rows || [];
-    const cols = data.table.cols || [];
+    // Parse events
+    var events = eventsRaw.map(function(r) {
+      var vals = Object.values(r).filter(function(v,i) { return i % 2 === 0; });
+      return {
+        sid: vals[0] || '', type: vals[1] || '', page: vals[2] || '',
+        detail: vals[3] || '', duration: vals[4] || '', date: vals[5] || '',
+        time: vals[6] || ''
+      };
+    });
 
-    if (rows.length === 0) {
+    // Group events by session ID
+    var eventMap = {};
+    events.forEach(function(ev) {
+      if (!ev.sid) return;
+      if (!eventMap[ev.sid]) eventMap[ev.sid] = [];
+      eventMap[ev.sid].push(ev);
+    });
+
+    if (sessions.length === 0) {
       document.getElementById('loadingState').style.display = 'none';
       document.getElementById('emptyState').style.display = 'block';
       document.getElementById('totalVisits').textContent = '0';
       document.getElementById('todayVisits').textContent = '0';
       document.getElementById('uniqueIPs').textContent = '0';
+      document.getElementById('totalClicks').textContent = '0';
       return;
     }
 
-    // Parse rows (skip header if first row looks like headers)
-    const visitors = [];
-    const firstIP = rows[0]?.c?.[0]?.v || '';
-    const startIdx = (firstIP === 'IP Address' || firstIP === 'ip') ? 1 : 0;
-
-    for (let i = startIdx; i < rows.length; i++) {
-      const r = rows[i].c;
-      if (!r) continue;
-      visitors.push({
-        ip:       r[0]?.v || '—',
-        date:     r[1]?.f || r[1]?.v || '—',
-        time:     r[2]?.f || r[2]?.v || '—',
-        page:     r[3]?.v || '—',
-        browser:  r[4]?.v || '—',
-        os:       r[5]?.v || '—',
-        screen:   r[6]?.v || '—',
-        language: r[7]?.v || '—',
-        referrer: r[8]?.v || '—'
-      });
-    }
-
     // Stats
-    const today = new Date().toLocaleDateString('en-US', {year:'numeric', month:'2-digit', day:'2-digit'});
-    const todayCount = visitors.filter(v => {
-      try {
-        const vDate = new Date(v.date).toLocaleDateString('en-US', {year:'numeric', month:'2-digit', day:'2-digit'});
-        return vDate === today;
-      } catch { return false; }
-    }).length;
-    const uniqueIps = new Set(visitors.map(v => v.ip).filter(v => v !== '—')).size;
+    var today = new Date().toISOString().split('T')[0];
+    var todayCount = sessions.filter(function(s) { return s.date === today; }).length;
+    var uniqueIps = new Set(sessions.map(function(s) { return s.ip; }).filter(Boolean)).size;
+    var totalClicks = events.filter(function(e) { return e.type === 'click'; }).length;
 
-    document.getElementById('totalVisits').textContent = visitors.length.toLocaleString();
-    document.getElementById('todayVisits').textContent = todayCount.toLocaleString();
-    document.getElementById('uniqueIPs').textContent = uniqueIps.toLocaleString();
+    document.getElementById('totalVisits').textContent = sessions.length;
+    document.getElementById('todayVisits').textContent = todayCount;
+    document.getElementById('uniqueIPs').textContent = uniqueIps;
+    document.getElementById('totalClicks').textContent = totalClicks;
 
     // Build table (newest first)
-    const tbody = document.getElementById('visitorRows');
+    var tbody = document.getElementById('visitorRows');
     tbody.innerHTML = '';
+    var reversed = sessions.slice().reverse();
 
-    const reversed = [...visitors].reverse();
-    reversed.forEach((v, i) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="color:var(--text-muted);font-size:0.8rem;">${i + 1}</td>
-        <td class="ip-cell">${escHtml(v.ip)}</td>
-        <td class="time-cell">${escHtml(v.date)}</td>
-        <td class="time-cell">${escHtml(v.time)}</td>
-        <td><span class="page-cell">${escHtml(v.page)}</span></td>
-        <td class="browser-cell">${escHtml(v.browser)}</td>
-        <td class="os-cell">${escHtml(v.os)}</td>
-        <td>${escHtml(v.screen)}</td>
-        <td>${escHtml(v.language)}</td>
-        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;color:var(--text-muted);font-size:0.8rem;">${escHtml(v.referrer)}</td>
-      `;
+    reversed.forEach(function(s, i) {
+      var sessEvents = eventMap[s.sid] || [];
+      var pageviews = sessEvents.filter(function(e) { return e.type === 'pageview'; }).length;
+      var clicks = sessEvents.filter(function(e) { return e.type === 'click'; }).length;
+
+      // Session row
+      var tr = document.createElement('tr');
+      tr.className = 'session-row';
+      tr.dataset.idx = i;
+      tr.innerHTML =
+        '<td style="color:var(--text-muted);font-size:0.8rem;">' + (i+1) + '</td>' +
+        '<td class="ip-cell">' + esc(s.ip) + '</td>' +
+        '<td class="time-cell">' + esc(s.date) + '</td>' +
+        '<td class="time-cell">' + esc(s.time) + '</td>' +
+        '<td><span class="page-cell">' + esc(s.page) + '</span></td>' +
+        '<td class="browser-cell">' + esc(s.browser) + '</td>' +
+        '<td class="os-cell">' + esc(s.os) + '</td>' +
+        '<td>' + esc(s.screen) + '</td>' +
+        '<td>' + pageviews + '</td>' +
+        '<td>' + clicks + '</td>';
       tbody.appendChild(tr);
+
+      // Detail row (hidden by default)
+      var detailTr = document.createElement('tr');
+      detailTr.className = 'detail-row';
+      detailTr.id = 'detail-' + i;
+      var detailHtml = '<td colspan="10"><div class="detail-panel">';
+      detailHtml += '<h4>Session Activity (' + s.sid + ')</h4>';
+
+      if (sessEvents.length === 0) {
+        detailHtml += '<p class="no-events">No detailed events recorded for this session.</p>';
+      } else {
+        detailHtml += '<ul class="event-list">';
+        sessEvents.forEach(function(ev) {
+          var icon = '👁️', cls = 'ev-pageview', label = '';
+          if (ev.type === 'pageview') {
+            icon = '📄'; label = 'Viewed <span class="page-cell">' + esc(ev.page) + '</span>';
+          } else if (ev.type === 'click') {
+            icon = '🔗'; cls = 'ev-click';
+            label = 'Clicked <span class="ev-click-name">' + esc(ev.detail) + '</span> on <span class="page-cell">' + esc(ev.page) + '</span>';
+          } else if (ev.type === 'leave') {
+            icon = '🚪'; cls = 'ev-leave';
+            label = 'Left <span class="page-cell">' + esc(ev.page) + '</span> — <span class="ev-duration">' + esc(ev.duration) + 's on page</span>';
+          }
+          detailHtml += '<li class="' + cls + '"><span class="ev-icon">' + icon + '</span><span class="ev-detail">' + label + '</span><span class="ev-time">' + esc(ev.time) + '</span></li>';
+        });
+        detailHtml += '</ul>';
+      }
+
+      detailHtml += '</div></td>';
+      detailTr.innerHTML = detailHtml;
+      tbody.appendChild(detailTr);
+
+      // Click to expand
+      tr.addEventListener('click', function() {
+        var detail = document.getElementById('detail-' + this.dataset.idx);
+        var isOpen = detail.classList.contains('show');
+        // Close all
+        document.querySelectorAll('.detail-row.show').forEach(function(el) { el.classList.remove('show'); });
+        document.querySelectorAll('.session-row.expanded').forEach(function(el) { el.classList.remove('expanded'); });
+        if (!isOpen) {
+          detail.classList.add('show');
+          this.classList.add('expanded');
+        }
+      });
     });
 
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('visitorTable').style.display = 'table';
 
-  } catch (err) {
+  } catch(err) {
     document.getElementById('loadingState').innerHTML =
-      `<span class="error-msg">Error loading data: ${escHtml(err.message)}<br><br>Make sure the Google Sheet is shared as "Anyone with the link can view".</span>`;
+      '<span style="color:var(--accent3);">Error: ' + esc(err.message) + '</span>';
   }
 }
 
-loadVisitors();
+loadAll();
 </script>
-
 </body>
 </html>
