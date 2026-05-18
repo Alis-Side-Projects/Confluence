@@ -1,7 +1,7 @@
 // ============================================================
 // ⚙️ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
 // ============================================================
-const TRACKER_URL = '';  // e.g. 'https://script.google.com/macros/s/ABC.../exec'
+const TRACKER_URL = 'https://script.google.com/macros/s/AKfycbxg34rAeJ26dSi_wGe_rALeY_mUvCHdlHSCrIrCsN9l1s6BvbCo4w8At3kzm5j3Msix/exec';
 // ============================================================
 
 (function() {
