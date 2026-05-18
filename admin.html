@@ -24,7 +24,6 @@
     min-height: 100vh;
     padding: 24px;
   }
-
   .header {
     display: flex;
     align-items: center;
@@ -55,8 +54,6 @@
     border-color: var(--accent1);
     background: var(--surface2);
   }
-
-  /* Stats row */
   .stats-row {
     display: flex;
     gap: 16px;
@@ -85,36 +82,6 @@
   .stat-card .value.purple { color: var(--accent1); }
   .stat-card .value.teal { color: var(--accent2); }
   .stat-card .value.pink { color: var(--accent3); }
-
-  /* Setup notice */
-  .setup-notice {
-    background: rgba(108,92,231,0.1);
-    border: 1px solid rgba(108,92,231,0.3);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 32px;
-    display: none;
-  }
-  .setup-notice h3 { margin-bottom: 12px; color: #a78bfa; }
-  .setup-notice code {
-    background: var(--surface2);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-  }
-  .setup-notice pre {
-    background: var(--surface2);
-    padding: 16px;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 12px 0;
-    font-size: 0.85rem;
-    line-height: 1.5;
-  }
-  .setup-notice ol { padding-left: 20px; }
-  .setup-notice li { margin-bottom: 8px; line-height: 1.5; }
-
-  /* Table */
   .table-wrapper {
     overflow-x: auto;
     border: 1px solid var(--border);
@@ -137,6 +104,8 @@
     letter-spacing: 0.06em;
     white-space: nowrap;
     border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
   }
   td {
     padding: 12px 16px;
@@ -145,7 +114,6 @@
   }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: rgba(108,92,231,0.04); }
-
   .ip-cell { color: var(--accent2); font-family: monospace; }
   .time-cell { color: var(--text-muted); }
   .page-cell {
@@ -158,19 +126,18 @@
   }
   .os-cell { color: var(--accent3); }
   .browser-cell { color: var(--accent2); }
-
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+  }
   .empty-state {
     text-align: center;
     padding: 60px 20px;
     color: var(--text-muted);
   }
   .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
-
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-muted);
-  }
+  .error-msg { color: var(--accent3); }
 </style>
 </head>
 <body>
@@ -178,43 +145,6 @@
 <div class="header">
   <h1>📊 Confluence Analytics</h1>
   <button class="refresh-btn" onclick="loadVisitors()">↻ Refresh</button>
-</div>
-
-<!-- Setup notice - shown when Supabase not configured -->
-<div class="setup-notice" id="setupNotice">
-  <h3>⚙️ Setup Required</h3>
-  <p>To enable visitor tracking, you need a free Supabase project. Takes 5 minutes:</p>
-  <ol>
-    <li>Go to <a href="https://supabase.com" target="_blank" style="color:#a78bfa;">supabase.com</a> → Create a free project</li>
-    <li>Go to SQL Editor → Run this migration:</li>
-  </ol>
-  <pre>CREATE TABLE visitors (
-  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  ip text,
-  page text,
-  browser text,
-  os text,
-  user_agent text,
-  referrer text,
-  screen_width int,
-  screen_height int,
-  language text,
-  visited_at timestamptz DEFAULT now()
-);
-
--- Allow anonymous inserts (for tracking)
-ALTER TABLE visitors ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow anonymous inserts"
-  ON visitors FOR INSERT
-  TO anon WITH CHECK (true);
-CREATE POLICY "Allow authenticated reads"
-  ON visitors FOR SELECT
-  TO anon USING (true);</pre>
-  <ol start="3">
-    <li>Go to Settings → API → Copy your <strong>Project URL</strong> and <strong>anon public key</strong></li>
-    <li>Open <code>tracker.js</code> in this repo and paste them into <code>SUPABASE_URL</code> and <code>SUPABASE_KEY</code></li>
-    <li>Do the same in <code>admin.html</code> at the bottom of the file</li>
-  </ol>
 </div>
 
 <div class="stats-row">
@@ -233,18 +163,20 @@ CREATE POLICY "Allow authenticated reads"
 </div>
 
 <div class="table-wrapper">
-  <div class="loading" id="loadingState">Loading visitor data...</div>
+  <div class="loading" id="loadingState">Loading visitor data from Google Sheets...</div>
   <table id="visitorTable" style="display:none;">
     <thead>
       <tr>
         <th>#</th>
         <th>IP Address</th>
-        <th>Date & Time</th>
+        <th>Date</th>
+        <th>Time</th>
         <th>Page</th>
         <th>Browser</th>
         <th>OS</th>
         <th>Screen</th>
         <th>Language</th>
+        <th>Referrer</th>
       </tr>
     </thead>
     <tbody id="visitorRows"></tbody>
@@ -257,38 +189,37 @@ CREATE POLICY "Allow authenticated reads"
 
 <script>
 // ============================================================
-// ⚙️ PASTE YOUR SUPABASE CREDENTIALS HERE
+// Google Sheet ID (from your URL)
 // ============================================================
-const SUPABASE_URL = '';   // e.g. 'https://xyzabc.supabase.co'
-const SUPABASE_KEY = '';   // your anon/public key
+const SHEET_ID = '1_CiIlQat2JN7YzbkY83Kbjq76zBjVFdcbm1tZFRdNHw';
+const SHEET_NAME = 'Sheet1';
 // ============================================================
+
+function escHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
 
 async function loadVisitors() {
-  if (!SUPABASE_URL || !SUPABASE_KEY) {
-    document.getElementById('setupNotice').style.display = 'block';
-    document.getElementById('loadingState').innerHTML = 'Configure Supabase credentials above to see visitor data.';
-    return;
-  }
-
   document.getElementById('loadingState').style.display = 'block';
   document.getElementById('visitorTable').style.display = 'none';
   document.getElementById('emptyState').style.display = 'none';
 
   try {
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/visitors?select=*&order=visited_at.desc&limit=500`,
-      {
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`
-        }
-      }
-    );
+    // Use Google Sheets published CSV endpoint
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
+    const res = await fetch(url);
+    const text = await res.text();
 
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const visitors = await res.json();
+    // Google wraps the JSON in a callback — strip it
+    const jsonStr = text.replace(/^[^(]*\(/, '').replace(/\);?\s*$/, '');
+    const data = JSON.parse(jsonStr);
 
-    if (visitors.length === 0) {
+    const rows = data.table.rows || [];
+    const cols = data.table.cols || [];
+
+    if (rows.length === 0) {
       document.getElementById('loadingState').style.display = 'none';
       document.getElementById('emptyState').style.display = 'block';
       document.getElementById('totalVisits').textContent = '0';
@@ -297,37 +228,59 @@ async function loadVisitors() {
       return;
     }
 
+    // Parse rows (skip header if first row looks like headers)
+    const visitors = [];
+    const firstIP = rows[0]?.c?.[0]?.v || '';
+    const startIdx = (firstIP === 'IP Address' || firstIP === 'ip') ? 1 : 0;
+
+    for (let i = startIdx; i < rows.length; i++) {
+      const r = rows[i].c;
+      if (!r) continue;
+      visitors.push({
+        ip:       r[0]?.v || '—',
+        date:     r[1]?.f || r[1]?.v || '—',
+        time:     r[2]?.f || r[2]?.v || '—',
+        page:     r[3]?.v || '—',
+        browser:  r[4]?.v || '—',
+        os:       r[5]?.v || '—',
+        screen:   r[6]?.v || '—',
+        language: r[7]?.v || '—',
+        referrer: r[8]?.v || '—'
+      });
+    }
+
     // Stats
-    const today = new Date().toISOString().split('T')[0];
-    const todayCount = visitors.filter(v => v.visited_at && v.visited_at.startsWith(today)).length;
-    const uniqueIps = new Set(visitors.map(v => v.ip).filter(Boolean)).size;
+    const today = new Date().toLocaleDateString('en-US', {year:'numeric', month:'2-digit', day:'2-digit'});
+    const todayCount = visitors.filter(v => {
+      try {
+        const vDate = new Date(v.date).toLocaleDateString('en-US', {year:'numeric', month:'2-digit', day:'2-digit'});
+        return vDate === today;
+      } catch { return false; }
+    }).length;
+    const uniqueIps = new Set(visitors.map(v => v.ip).filter(v => v !== '—')).size;
 
     document.getElementById('totalVisits').textContent = visitors.length.toLocaleString();
     document.getElementById('todayVisits').textContent = todayCount.toLocaleString();
     document.getElementById('uniqueIPs').textContent = uniqueIps.toLocaleString();
 
-    // Build table
+    // Build table (newest first)
     const tbody = document.getElementById('visitorRows');
     tbody.innerHTML = '';
 
-    visitors.forEach((v, i) => {
-      const dt = v.visited_at ? new Date(v.visited_at) : null;
-      const dateStr = dt ? dt.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'}) : '—';
-      const timeStr = dt ? dt.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'}) : '';
-      const screen = (v.screen_width && v.screen_height) ? `${v.screen_width}×${v.screen_height}` : '—';
-      const page = v.page || '—';
-      const pageName = page.replace(/.*\//, '').replace('.html', '') || 'index';
-
+    const reversed = [...visitors].reverse();
+    reversed.forEach((v, i) => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td style="color:var(--text-muted);font-size:0.8rem;">${i + 1}</td>
-        <td class="ip-cell">${escHtml(v.ip || '—')}</td>
-        <td class="time-cell">${dateStr}<br><small>${timeStr}</small></td>
-        <td><span class="page-cell">${escHtml(pageName)}</span></td>
-        <td class="browser-cell">${escHtml(v.browser || '—')}</td>
-        <td class="os-cell">${escHtml(v.os || '—')}</td>
-        <td>${screen}</td>
-        <td>${escHtml(v.language || '—')}</td>
+        <td class="ip-cell">${escHtml(v.ip)}</td>
+        <td class="time-cell">${escHtml(v.date)}</td>
+        <td class="time-cell">${escHtml(v.time)}</td>
+        <td><span class="page-cell">${escHtml(v.page)}</span></td>
+        <td class="browser-cell">${escHtml(v.browser)}</td>
+        <td class="os-cell">${escHtml(v.os)}</td>
+        <td>${escHtml(v.screen)}</td>
+        <td>${escHtml(v.language)}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;color:var(--text-muted);font-size:0.8rem;">${escHtml(v.referrer)}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -337,17 +290,10 @@ async function loadVisitors() {
 
   } catch (err) {
     document.getElementById('loadingState').innerHTML =
-      `<span style="color:var(--accent3);">Error loading data: ${escHtml(err.message)}</span>`;
+      `<span class="error-msg">Error loading data: ${escHtml(err.message)}<br><br>Make sure the Google Sheet is shared as "Anyone with the link can view".</span>`;
   }
 }
 
-function escHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-// Load on page open
 loadVisitors();
 </script>
 

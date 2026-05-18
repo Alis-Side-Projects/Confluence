@@ -1,26 +1,23 @@
 // ============================================================
-// ⚙️ PASTE YOUR SUPABASE CREDENTIALS HERE
+// ⚙️ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
 // ============================================================
-const SUPABASE_URL = '';   // e.g. 'https://xyzabc.supabase.co'
-const SUPABASE_KEY = '';   // your anon/public key
+const TRACKER_URL = '';  // e.g. 'https://script.google.com/macros/s/ABC.../exec'
 // ============================================================
 
 (function() {
-  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+  if (!TRACKER_URL) return;
 
-  // Only count once per session (new tab/window = new visit, navigating within = same visit)
+  // Only count once per session (new tab = new visit, navigating within = same visit)
   const sessionKey = 'confluence_tracked';
   if (sessionStorage.getItem(sessionKey)) return;
   sessionStorage.setItem(sessionKey, '1');
 
-  // Parse user agent
   const ua = navigator.userAgent;
 
   function getBrowser() {
     if (ua.includes('Firefox/')) return 'Firefox';
     if (ua.includes('Edg/')) return 'Edge';
     if (ua.includes('OPR/') || ua.includes('Opera')) return 'Opera';
-    if (ua.includes('Brave')) return 'Brave';
     if (ua.includes('Chrome/') && !ua.includes('Edg/')) return 'Chrome';
     if (ua.includes('Safari/') && !ua.includes('Chrome')) return 'Safari';
     if (ua.includes('MSIE') || ua.includes('Trident/')) return 'IE';
@@ -38,34 +35,22 @@ const SUPABASE_KEY = '';   // your anon/public key
     return 'Unknown';
   }
 
-  // Get IP via free API, then log the visit
+  // Get IP, then log the visit
   fetch('https://api.ipify.org?format=json')
     .then(r => r.json())
     .then(data => {
-      const payload = {
-        ip: data.ip || null,
-        page: window.location.pathname,
+      const params = new URLSearchParams({
+        ip: data.ip || 'unknown',
+        page: window.location.pathname.replace(/.*\//, '').replace('.html', '') || 'index',
         browser: getBrowser(),
         os: getOS(),
-        user_agent: ua.substring(0, 500),
-        referrer: document.referrer || null,
-        screen_width: window.screen.width,
-        screen_height: window.screen.height,
-        language: navigator.language || null
-      };
-
-      return fetch(`${SUPABASE_URL}/rest/v1/visitors`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(payload)
+        referrer: document.referrer || 'direct',
+        screen: window.screen.width + 'x' + window.screen.height,
+        language: navigator.language || 'unknown'
       });
+
+      // Use image beacon approach (more reliable than fetch for cross-origin Apps Script)
+      return fetch(TRACKER_URL + '?' + params.toString(), { mode: 'no-cors' });
     })
-    .catch(() => {
-      // Silently fail - don't break the site if tracking fails
-    });
+    .catch(() => {});
 })();
