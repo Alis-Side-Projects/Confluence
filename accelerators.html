@@ -28,11 +28,11 @@
     align-items: center;
     padding: 16px 24px;
     border-bottom: 1px solid var(--border);
-    background: var(--surface);
+    background: rgba(18,18,26,0.95);
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
   }
   .topbar a {
     color: var(--text-muted);
@@ -68,11 +68,73 @@
     margin: 0 auto;
     line-height: 1.6;
   }
+
+  /* Filter bar */
+  .filter-bar {
+    max-width: 900px;
+    margin: 24px auto 8px;
+    padding: 0 20px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-bar .search-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .filter-bar .search-box:focus {
+    border-color: var(--accent1);
+  }
+  .filter-bar .search-box::placeholder {
+    color: var(--text-muted);
+  }
+  .filter-bar select {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238888a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    min-width: 160px;
+    transition: border-color 0.2s;
+  }
+  .filter-bar select:focus {
+    border-color: var(--accent1);
+  }
+  .filter-bar select option {
+    background: var(--surface);
+    color: var(--text);
+  }
+  .results-count {
+    max-width: 900px;
+    margin: 12px auto 4px;
+    padding: 0 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
   .section-title {
     max-width: 900px;
-    margin: 40px auto 16px;
+    margin: 32px auto 16px;
     padding: 0 20px;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
@@ -80,38 +142,39 @@
   }
   .entries {
     max-width: 900px;
-    margin: 0 auto 60px;
+    margin: 0 auto 40px;
     padding: 0 20px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   .entry {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 24px 28px;
+    padding: 22px 26px;
     transition: all 0.2s;
   }
   .entry:hover {
     border-color: rgba(108,92,231,0.3);
     background: var(--surface2);
   }
+  .entry.hidden { display: none; }
   .entry-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .entry-num {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 8px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     flex-shrink: 0;
   }
@@ -119,10 +182,29 @@
   .entry-num.teal { background: rgba(0,206,201,0.15); color: #00cec9; }
   .entry-num.pink { background: rgba(253,121,168,0.15); color: #fd79a8; }
   .entry-name {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
     flex: 1;
   }
+  .entry-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .entry-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .entry-tag.school { background: rgba(108,92,231,0.12); color: #a78bfa; }
+  .entry-tag.country-ca { background: rgba(253,121,168,0.12); color: #fd79a8; }
+  .entry-tag.country-us { background: rgba(0,206,201,0.12); color: #00cec9; }
+  .entry-tag.country-both { background: rgba(255,180,50,0.12); color: #f0b040; }
   .entry-link {
     font-size: 0.8rem;
     color: var(--accent1);
@@ -140,9 +222,18 @@
   }
   .entry-desc {
     color: var(--text-muted);
-    font-size: 0.92rem;
-    line-height: 1.65;
+    font-size: 0.9rem;
+    line-height: 1.6;
     margin-top: 4px;
+  }
+  .no-results {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    display: none;
   }
   footer {
     text-align: center;
@@ -153,9 +244,11 @@
   }
   @media (max-width: 600px) {
     .page-header h1 { font-size: 1.8rem; }
-    .entry { padding: 18px 20px; }
+    .entry { padding: 16px 18px; }
     .entry-header { flex-direction: column; }
     .entry-link { align-self: flex-start; }
+    .filter-bar { flex-direction: column; }
+    .filter-bar select { width: 100%; }
   }
 </style>
 </head>
@@ -169,832 +262,1008 @@
 <div class="page-header">
   <div class="icon">🚀</div>
   <h1>Startup Accelerators</h1>
-  <p>100 structured cohort accelerator programs across Canada and the US — from Y Combinator to CDL.</p>
+  <p>100 structured accelerator programs across Canada and the US — filter by country or search by name.</p>
 </div>
+
+
+    <div class="filter-bar">
+      <input type="text" id="searchBox" class="search-box" placeholder="Search accelerators...">
+      <select id="filterSelect" data-attr="country">
+        <option value="">All Countries</option>
+        <option value="Canada">🇨🇦 Canada</option>
+        <option value="United States">🇺🇸 United States</option>
+        <option value="Cross-Border">🌐 Cross-Border</option>
+      </select>
+    </div>
+    <div class="results-count" id="resultsCount">100 of 100 shown</div>
+    
 
 <div class="section-title">🇺🇸 UNITED STATES — Major Accelerators</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="Y Combinator — Mountain View, CA" data-desc="The world&#x27;s most prestigious startup accelerator. Invests $500K total ($125K for 7% equity + $375K uncapped SAFE). 3-month program with weekly progress and Demo Day. Alumni include Airbnb, Stripe, Dropbox, Coinbase. ~2% acceptance rate." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">1</span>
       <span class="entry-name">Y Combinator — Mountain View, CA</span>
       <a class="entry-link" href="https://www.ycombinator.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">The world&#x27;s most prestigious startup accelerator. Invests $500K total ($125K for 7% equity + $375K uncapped SAFE). 3-month program with weekly progress and Demo Day. Alumni include Airbnb, Stripe, Dropbox, Coinbase. ~2% acceptance rate.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Techstars — Global (HQ Boulder, CO)" data-desc="Global accelerator operating 40+ programs across cities and verticals. Standard deal: $220K for 5% ($20K + $200K SAFE). 3-month mentor-driven format. Alumni include SendGrid, DigitalOcean, Sphero. Each cohort is tied to a city or corporate partner." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">2</span>
       <span class="entry-name">Techstars — Global (HQ Boulder, CO)</span>
       <a class="entry-link" href="https://www.techstars.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Global accelerator operating 40+ programs across cities and verticals. Standard deal: $220K for 5% ($20K + $200K SAFE). 3-month mentor-driven format. Alumni include SendGrid, DigitalOcean, Sphero. Each cohort is tied to a city or corporate partner.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="500 Global — San Francisco" data-desc="Major global accelerator investing $150K for 6% equity. 4-month program focused on growth execution and distribution. Strong international footprint with programs in 75+ countries. Alumni include Canva, Grab, Credit Karma." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">3</span>
       <span class="entry-name">500 Global — San Francisco</span>
       <a class="entry-link" href="https://500.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Major global accelerator investing $150K for 6% equity. 4-month program focused on growth execution and distribution. Strong international footprint with programs in 75+ countries. Alumni include Canva, Grab, Credit Karma.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="a16z Speedrun — San Francisco" data-desc="Andreessen Horowitz&#x27;s accelerator investing up to $1M per company for 10% (SAFE). 12-week program with 1:1 mentorship from a16z operators. Access to $5M+ in cloud/AI credits and Demo Day with 1,000+ investors." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">4</span>
       <span class="entry-name">a16z Speedrun — San Francisco</span>
       <a class="entry-link" href="https://speedrun.a16z.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Andreessen Horowitz&#x27;s accelerator investing up to $1M per company for 10% (SAFE). 12-week program with 1:1 mentorship from a16z operators. Access to $5M+ in cloud/AI credits and Demo Day with 1,000+ investors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Alchemist Accelerator — San Francisco" data-desc="Enterprise and B2B specialist accelerator. ~5% equity + ~$30K SAFE plus ~$450K in credits. 6-month program emphasizing pipeline strategy, positioning, and enterprise sales validation. Ideal for startups selling to large companies." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">5</span>
       <span class="entry-name">Alchemist Accelerator — San Francisco</span>
       <a class="entry-link" href="https://www.alchemistaccelerator.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Enterprise and B2B specialist accelerator. ~5% equity + ~$30K SAFE plus ~$450K in credits. 6-month program emphasizing pipeline strategy, positioning, and enterprise sales validation. Ideal for startups selling to large companies.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="MassChallenge — Boston (Global)" data-desc="World&#x27;s largest zero-equity accelerator. No equity taken. Awards $2M+ in non-dilutive prizes annually across 100+ startups per cohort. Tracks in healthcare, fintech, climate, and cybersecurity." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">6</span>
       <span class="entry-name">MassChallenge — Boston (Global)</span>
       <a class="entry-link" href="https://masschallenge.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">World&#x27;s largest zero-equity accelerator. No equity taken. Awards $2M+ in non-dilutive prizes annually across 100+ startups per cohort. Tracks in healthcare, fintech, climate, and cybersecurity.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Plug and Play Tech Center — Sunnyvale, CA" data-desc="Silicon Valley&#x27;s largest innovation platform. Equity-free program (PnP Ventures may invest separately $100-150K via SAFE). ~3-month cohorts connecting startups with 500+ corporate partners for pilots and partnerships." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">7</span>
       <span class="entry-name">Plug and Play Tech Center — Sunnyvale, CA</span>
       <a class="entry-link" href="https://www.plugandplaytechcenter.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Silicon Valley&#x27;s largest innovation platform. Equity-free program (PnP Ventures may invest separately $100-150K via SAFE). ~3-month cohorts connecting startups with 500+ corporate partners for pilots and partnerships.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Google for Startups Accelerator — Global" data-desc="Equity-free accelerator providing Google mentorship, cloud credits, and technical support. ~3-month programs with regional cohorts (US, Canada, Europe, etc.). Focus on AI/ML, cloud infrastructure, and tech scaling." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">8</span>
       <span class="entry-name">Google for Startups Accelerator — Global</span>
       <a class="entry-link" href="https://startup.google.com/programs/accelerator/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Equity-free accelerator providing Google mentorship, cloud credits, and technical support. ~3-month programs with regional cohorts (US, Canada, Europe, etc.). Focus on AI/ML, cloud infrastructure, and tech scaling.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Entrepreneurs Roundtable Accelerator (ERA) — New York" data-desc="NYC-based accelerator investing $150K for 6% (post-money SAFE). 4-month program for B2B and B2C software startups. Strong NYC network with emphasis on enterprise and consumer tech." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">9</span>
       <span class="entry-name">Entrepreneurs Roundtable Accelerator (ERA) — New York</span>
       <a class="entry-link" href="https://www.eranyc.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">NYC-based accelerator investing $150K for 6% (post-money SAFE). 4-month program for B2B and B2C software startups. Strong NYC network with emphasis on enterprise and consumer tech.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="AngelPad — New York &amp; San Francisco" data-desc="Boutique seed-stage accelerator with very small cohorts (~15 teams). $120K for ~7% equity plus $300K+ in cloud credits. 3-month intensive focused on product-market fit. Consistently ranked #1 by Seed Accelerator Rankings Project." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">10</span>
       <span class="entry-name">AngelPad — New York &amp; San Francisco</span>
       <a class="entry-link" href="https://angelpad.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Boutique seed-stage accelerator with very small cohorts (~15 teams). $120K for ~7% equity plus $300K+ in cloud credits. 3-month intensive focused on product-market fit. Consistently ranked #1 by Seed Accelerator Rankings Project.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="SOSV — Global (HQ Princeton, NJ)" data-desc="Deep tech-focused accelerator operating sub-programs: HAX (hardware), IndieBio (biotech), and Chinaccelerator/MOX (Asia). Invests $250K-$550K. Programs in NYC, SF, and globally. Strong for hardware and life sciences." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">11</span>
       <span class="entry-name">SOSV — Global (HQ Princeton, NJ)</span>
       <a class="entry-link" href="https://sosv.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Deep tech-focused accelerator operating sub-programs: HAX (hardware), IndieBio (biotech), and Chinaccelerator/MOX (Asia). Invests $250K-$550K. Programs in NYC, SF, and globally. Strong for hardware and life sciences.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Capital Factory — Austin, TX" data-desc="Austin&#x27;s premier tech accelerator investing $100K for up to 1% equity. Industry-agnostic with strong Texas tech network. Also operates co-working, events, and the Texas Venture Capital ecosystem." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">12</span>
       <span class="entry-name">Capital Factory — Austin, TX</span>
       <a class="entry-link" href="https://www.capitalfactory.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Austin&#x27;s premier tech accelerator investing $100K for up to 1% equity. Industry-agnostic with strong Texas tech network. Also operates co-working, events, and the Texas Venture Capital ecosystem.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="StartX — Palo Alto, CA" data-desc="Stanford-affiliated equity-free accelerator. No equity taken, no investment. Provides Stanford network access, mentorship, and resources. Open to Stanford-connected founders across all sectors." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">13</span>
       <span class="entry-name">StartX — Palo Alto, CA</span>
       <a class="entry-link" href="https://startx.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Stanford-affiliated equity-free accelerator. No equity taken, no investment. Provides Stanford network access, mentorship, and resources. Open to Stanford-connected founders across all sectors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Berkeley SkyDeck — Berkeley, CA" data-desc="UC Berkeley&#x27;s accelerator offering $200K for 7.5% (cohort track). Also has Pad-13 track with no set investment. Focus on deep tech, biotech, and AI from Berkeley&#x27;s research ecosystem." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">14</span>
       <span class="entry-name">Berkeley SkyDeck — Berkeley, CA</span>
       <a class="entry-link" href="https://skydeck.berkeley.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">UC Berkeley&#x27;s accelerator offering $200K for 7.5% (cohort track). Also has Pad-13 track with no set investment. Focus on deep tech, biotech, and AI from Berkeley&#x27;s research ecosystem.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Boomtown Accelerators — Boulder, CO" data-desc="Boulder-based accelerator investing $20K for ~6% equity. Focus on hardware, software, and healthtech. 3-month program with Demo Day. Leverages Boulder&#x27;s strong startup community." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">15</span>
       <span class="entry-name">Boomtown Accelerators — Boulder, CO</span>
       <a class="entry-link" href="https://boomtownaccelerators.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Boulder-based accelerator investing $20K for ~6% equity. Focus on hardware, software, and healthtech. 3-month program with Demo Day. Leverages Boulder&#x27;s strong startup community.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="AlphaLab — Pittsburgh, PA" data-desc="Pittsburgh-based accelerator investing up to $100K + 2% equity. Focus on software, robotics, and life sciences. Connected to CMU and Pittsburgh&#x27;s AI/robotics ecosystem. Also runs AlphaLab Gear for hardware." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">16</span>
       <span class="entry-name">AlphaLab — Pittsburgh, PA</span>
       <a class="entry-link" href="https://alphalab.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Pittsburgh-based accelerator investing up to $100K + 2% equity. Focus on software, robotics, and life sciences. Connected to CMU and Pittsburgh&#x27;s AI/robotics ecosystem. Also runs AlphaLab Gear for hardware.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="MuckerLab — Los Angeles, CA" data-desc="LA-based accelerator investing $100K-$175K for 10-15% equity. Industry-agnostic with strong LA media and entertainment connections. 6-month program for early-stage startups." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">17</span>
       <span class="entry-name">MuckerLab — Los Angeles, CA</span>
       <a class="entry-link" href="https://www.mucker.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">LA-based accelerator investing $100K-$175K for 10-15% equity. Industry-agnostic with strong LA media and entertainment connections. 6-month program for early-stage startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="MetaProp — New York, NY" data-desc="PropTech (property technology) specialist accelerator. Invests ~$150K for ~6% equity. NYC-based with deep real estate industry connections. One of the few sector-specific accelerators for real estate tech." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">18</span>
       <span class="entry-name">MetaProp — New York, NY</span>
       <a class="entry-link" href="https://www.metaprop.vc/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">PropTech (property technology) specialist accelerator. Invests ~$150K for ~6% equity. NYC-based with deep real estate industry connections. One of the few sector-specific accelerators for real estate tech.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="The Company Lab (CO.LAB) — Chattanooga, TN" data-desc="Chattanooga-based accelerator focused on mobility, energy, and logistics. Leverages Chattanooga&#x27;s smart city infrastructure (gigabit fiber) for pilot testing. Investment varies by program." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">19</span>
       <span class="entry-name">The Company Lab (CO.LAB) — Chattanooga, TN</span>
       <a class="entry-link" href="https://www.colab.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Chattanooga-based accelerator focused on mobility, energy, and logistics. Leverages Chattanooga&#x27;s smart city infrastructure (gigabit fiber) for pilot testing. Investment varies by program.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Union Kitchen — Washington, DC" data-desc="Food and CPG (consumer packaged goods) accelerator. Takes 10% equity + board seat. Provides commercial kitchen, distribution, and retail shelf space. One of the few accelerators specifically for food startups." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">20</span>
       <span class="entry-name">Union Kitchen — Washington, DC</span>
       <a class="entry-link" href="https://unionkitchen.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Food and CPG (consumer packaged goods) accelerator. Takes 10% equity + board seat. Provides commercial kitchen, distribution, and retail shelf space. One of the few accelerators specifically for food startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Village Capital — Global (HQ Washington, DC)" data-desc="Impact-focused accelerator using a unique peer-selection investment model. Startups in each cohort rank each other, and the top two receive investment. Focus on sustainability, agriculture, financial inclusion." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">21</span>
       <span class="entry-name">Village Capital — Global (HQ Washington, DC)</span>
       <a class="entry-link" href="https://vilcap.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Impact-focused accelerator using a unique peer-selection investment model. Startups in each cohort rank each other, and the top two receive investment. Focus on sustainability, agriculture, financial inclusion.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Startupbootcamp — Global" data-desc="Global network of accelerators running vertical-specific cohorts. ~8% equity for €15K-€40K cash plus up to €450K in partner services. ~3-month programs in fintech, IoT, energy, and more." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">22</span>
       <span class="entry-name">Startupbootcamp — Global</span>
       <a class="entry-link" href="https://www.startupbootcamp.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Global network of accelerators running vertical-specific cohorts. ~8% equity for €15K-€40K cash plus up to €450K in partner services. ~3-month programs in fintech, IoT, energy, and more.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Wayra (Telefónica) — Global" data-desc="Telefónica&#x27;s corporate accelerator investing €50K-€5M. Focus on AI, IoT, cloud, and fintech with potential Telefónica enterprise partnerships. Offices in major cities including US and Latin America." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">23</span>
       <span class="entry-name">Wayra (Telefónica) — Global</span>
       <a class="entry-link" href="https://www.wayra.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Telefónica&#x27;s corporate accelerator investing €50K-€5M. Focus on AI, IoT, cloud, and fintech with potential Telefónica enterprise partnerships. Offices in major cities including US and Latin America.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Endless Frontier Labs — New York, NY" data-desc="NYU-affiliated deep tech accelerator. Equity-free, mentorship-only program. 9-month format for deep tech, life sciences, and physical sciences. Helps translate hard science into market-ready ventures." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">24</span>
       <span class="entry-name">Endless Frontier Labs — New York, NY</span>
       <a class="entry-link" href="https://endlessfrontierlabs.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">NYU-affiliated deep tech accelerator. Equity-free, mentorship-only program. 9-month format for deep tech, life sciences, and physical sciences. Helps translate hard science into market-ready ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Forum Ventures — Global (HQ NYC/SF)" data-desc="B2B SaaS-focused pre-seed fund and accelerator. Invests $100K for 7.5% equity. 12-week intensive focused on go-to-market strategy for enterprise software. Also has Toronto program." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">25</span>
       <span class="entry-name">Forum Ventures — Global (HQ NYC/SF)</span>
       <a class="entry-link" href="https://www.forumvc.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">B2B SaaS-focused pre-seed fund and accelerator. Invests $100K for 7.5% equity. 12-week intensive focused on go-to-market strategy for enterprise software. Also has Toronto program.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Newchip Accelerator — Austin, TX (Online)" data-desc="Fully online accelerator for global startups. Multiple tracks (pre-seed, seed, Series A). Focus on investor readiness and fundraising. Flexible format for founders who can&#x27;t relocate." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">26</span>
       <span class="entry-name">Newchip Accelerator — Austin, TX (Online)</span>
       <a class="entry-link" href="https://launch.newchip.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Fully online accelerator for global startups. Multiple tracks (pre-seed, seed, Series A). Focus on investor readiness and fundraising. Flexible format for founders who can&#x27;t relocate.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Dreamit Ventures — Philadelphia/New York" data-desc="Healthtech and urbantech focused accelerator. Investment varies. Programs connect startups with hospital systems, city governments, and enterprise partners for pilots and contracts." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">27</span>
       <span class="entry-name">Dreamit Ventures — Philadelphia/New York</span>
       <a class="entry-link" href="https://www.dreamit.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Healthtech and urbantech focused accelerator. Investment varies. Programs connect startups with hospital systems, city governments, and enterprise partners for pilots and contracts.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="gener8tor — Milwaukee (Multiple Cities)" data-desc="Midwest-focused accelerator investing $100K for 6% equity. 12-week program in Milwaukee, Madison, Minneapolis, and other Midwest cities. Also runs gBETA (free, equity-free pre-accelerator) programs." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">28</span>
       <span class="entry-name">gener8tor — Milwaukee (Multiple Cities)</span>
       <a class="entry-link" href="https://www.gener8tor.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Midwest-focused accelerator investing $100K for 6% equity. 12-week program in Milwaukee, Madison, Minneapolis, and other Midwest cities. Also runs gBETA (free, equity-free pre-accelerator) programs.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="The Brandery — Cincinnati" data-desc="Consumer brand-focused accelerator investing $50K for 6% equity. 3-month program leveraging Cincinnati&#x27;s consumer products ecosystem (P&amp;G, Kroger). Ideal for CPG and DTC brands." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">29</span>
       <span class="entry-name">The Brandery — Cincinnati</span>
       <a class="entry-link" href="https://www.brandery.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Consumer brand-focused accelerator investing $50K for 6% equity. 3-month program leveraging Cincinnati&#x27;s consumer products ecosystem (P&amp;G, Kroger). Ideal for CPG and DTC brands.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Founder Institute — Global (HQ Silicon Valley)" data-desc="World&#x27;s largest pre-seed accelerator with chapters in 200+ cities. 4-month part-time program. Equity: 3.5% (warrant). Designed for idea-stage founders with structured curriculum and local mentors." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">30</span>
       <span class="entry-name">Founder Institute — Global (HQ Silicon Valley)</span>
       <a class="entry-link" href="https://fi.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">World&#x27;s largest pre-seed accelerator with chapters in 200+ cities. 4-month part-time program. Equity: 3.5% (warrant). Designed for idea-stage founders with structured curriculum and local mentors.</div>
   </div>
 </div>
 <div class="section-title">🇺🇸 SECTOR-SPECIFIC ACCELERATORS</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="IndieBio (SOSV) — San Francisco" data-desc="World&#x27;s largest biotech accelerator. Invests $250K-$500K for ~10% equity. 4-month program with lab space in SF. Focus on synthetic biology, therapeutics, diagnostics, and food/agriculture bio." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">31</span>
       <span class="entry-name">IndieBio (SOSV) — San Francisco</span>
       <a class="entry-link" href="https://indiebio.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">World&#x27;s largest biotech accelerator. Invests $250K-$500K for ~10% equity. 4-month program with lab space in SF. Focus on synthetic biology, therapeutics, diagnostics, and food/agriculture bio.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="HAX (SOSV) — San Francisco / Shenzhen" data-desc="World&#x27;s leading hardware accelerator. Invests $250K for ~10% equity. Programs in SF (prototyping) and Shenzhen (manufacturing). For hardware, robotics, and IoT startups." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">32</span>
       <span class="entry-name">HAX (SOSV) — San Francisco / Shenzhen</span>
       <a class="entry-link" href="https://hax.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">World&#x27;s leading hardware accelerator. Invests $250K for ~10% equity. Programs in SF (prototyping) and Shenzhen (manufacturing). For hardware, robotics, and IoT startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Techstars Healthcare — Various Cities" data-desc="Techstars&#x27; health-specific program run in partnership with Cedars-Sinai, AdventHealth, and others. Standard Techstars deal ($220K/5%). Access to hospital systems for clinical pilots." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">33</span>
       <span class="entry-name">Techstars Healthcare — Various Cities</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators/healthcare" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Techstars&#x27; health-specific program run in partnership with Cedars-Sinai, AdventHealth, and others. Standard Techstars deal ($220K/5%). Access to hospital systems for clinical pilots.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Techstars AI — Various Cities" data-desc="Techstars&#x27; AI-focused cohorts for startups building with artificial intelligence. Standard deal with access to AI-specific mentors and corporate partners." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">34</span>
       <span class="entry-name">Techstars AI — Various Cities</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Techstars&#x27; AI-focused cohorts for startups building with artificial intelligence. Standard deal with access to AI-specific mentors and corporate partners.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Blueprint Health — New York" data-desc="Health tech accelerator connecting startups with healthcare organizations in NYC. Provides mentorship, pilot opportunities, and investor introductions. Focused on digital health and health IT." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">35</span>
       <span class="entry-name">Blueprint Health — New York</span>
       <a class="entry-link" href="https://www.blueprinthealth.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Health tech accelerator connecting startups with healthcare organizations in NYC. Provides mentorship, pilot opportunities, and investor introductions. Focused on digital health and health IT.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Starburst Aerospace — Los Angeles/Global" data-desc="Aerospace and defense tech accelerator. Connects startups with major defense contractors and space agencies. Programs in LA, Munich, and Singapore. Investment and partnership opportunities." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">36</span>
       <span class="entry-name">Starburst Aerospace — Los Angeles/Global</span>
       <a class="entry-link" href="https://starburst.aero/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Aerospace and defense tech accelerator. Connects startups with major defense contractors and space agencies. Programs in LA, Munich, and Singapore. Investment and partnership opportunities.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Clean Energy Trust — Chicago" data-desc="Midwest cleantech accelerator providing grants ($50K-$150K equity-free) and mentorship for clean energy and sustainability startups. Connected to Midwest utilities and energy companies." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">37</span>
       <span class="entry-name">Clean Energy Trust — Chicago</span>
       <a class="entry-link" href="https://www.cleanenergytrust.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Midwest cleantech accelerator providing grants ($50K-$150K equity-free) and mentorship for clean energy and sustainability startups. Connected to Midwest utilities and energy companies.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Halcyon — Washington, DC" data-desc="Social impact accelerator in Georgetown, DC. Equity-free 5-month fellowship providing housing, workspace, mentorship, and stipend for social entrepreneurs." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">38</span>
       <span class="entry-name">Halcyon — Washington, DC</span>
       <a class="entry-link" href="https://halcyonhouse.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Social impact accelerator in Georgetown, DC. Equity-free 5-month fellowship providing housing, workspace, mentorship, and stipend for social entrepreneurs.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Rebel Bio (SOSV) — Cork, Ireland / NYC" data-desc="Life sciences accelerator focused on sustainability and biotechnology. Part of SOSV portfolio. Smaller cohorts with deep science mentorship and lab access." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">39</span>
       <span class="entry-name">Rebel Bio (SOSV) — Cork, Ireland / NYC</span>
       <a class="entry-link" href="https://www.sosv.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Life sciences accelerator focused on sustainability and biotechnology. Part of SOSV portfolio. Smaller cohorts with deep science mentorship and lab access.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Elemental Excelerator — Honolulu, HI" data-desc="Climate tech accelerator investing up to $1M per startup (no equity in initial stages). Focus on energy, water, agriculture, and mobility. Unique: requires pilot deployment in Hawaii or Asia-Pacific." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">40</span>
       <span class="entry-name">Elemental Excelerator — Honolulu, HI</span>
       <a class="entry-link" href="https://elementalexcelerator.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Climate tech accelerator investing up to $1M per startup (no equity in initial stages). Focus on energy, water, agriculture, and mobility. Unique: requires pilot deployment in Hawaii or Asia-Pacific.</div>
   </div>
 </div>
 <div class="section-title">🇨🇦 CANADA — Major Accelerators</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="Creative Destruction Lab (CDL) — Toronto (Global)" data-desc="World-renowned program for massively scalable, science-based companies. Founded at UofT Rotman. No guaranteed investment — uses objectives-based mentorship model. Multiple streams: AI, health, climate, quantum, space." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">41</span>
       <span class="entry-name">Creative Destruction Lab (CDL) — Toronto (Global)</span>
       <a class="entry-link" href="https://www.creativedestructionlab.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">World-renowned program for massively scalable, science-based companies. Founded at UofT Rotman. No guaranteed investment — uses objectives-based mentorship model. Multiple streams: AI, health, climate, quantum, space.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="DMZ — Toronto Metropolitan University" data-desc="" data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">42</span>
       <span class="entry-name">DMZ — Toronto Metropolitan University</span>
       <a class="entry-link" href="https://dmz.torontomu.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc"></div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="FounderFuel — Montreal" data-desc="Montreal&#x27;s premier mentor-driven accelerator. Invests $120K CAD ($20K for 5% + $100K SAFE at $3.5M cap). 16-week program. Part of Real Ventures ecosystem. 100+ startups supported, 18 exits." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">43</span>
       <span class="entry-name">FounderFuel — Montreal</span>
       <a class="entry-link" href="https://founderfuel.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Montreal&#x27;s premier mentor-driven accelerator. Invests $120K CAD ($20K for 5% + $100K SAFE at $3.5M cap). 16-week program. Part of Real Ventures ecosystem. 100+ startups supported, 18 exits.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Highline Beta — Toronto" data-desc="Venture studio bridging corporations and startups. Builds startups from scratch and accelerates existing ones through corporate partnerships. Combines venture capital with corporate innovation methodology." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">44</span>
       <span class="entry-name">Highline Beta — Toronto</span>
       <a class="entry-link" href="https://highlinebeta.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Venture studio bridging corporations and startups. Builds startups from scratch and accelerates existing ones through corporate partnerships. Combines venture capital with corporate innovation methodology.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Next Canada (Next 36 / Next AI) — Toronto" data-desc="National program for young Canadian entrepreneurs. Next 36: cohort of 36 entrepreneurs with seed funding and mentorship from Canada&#x27;s top business leaders. Next AI: AI-focused stream with hands-on technical support." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">45</span>
       <span class="entry-name">Next Canada (Next 36 / Next AI) — Toronto</span>
       <a class="entry-link" href="https://www.nextcanada.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">National program for young Canadian entrepreneurs. Next 36: cohort of 36 entrepreneurs with seed funding and mentorship from Canada&#x27;s top business leaders. Next AI: AI-focused stream with hands-on technical support.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Antler Canada — Toronto" data-desc="Global venture builder&#x27;s Canadian outpost. Pre-seed investment ($250K+) with co-founder matching process. Brings exceptional individuals together to form companies from scratch over 6 months." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">46</span>
       <span class="entry-name">Antler Canada — Toronto</span>
       <a class="entry-link" href="https://www.antler.co/location/canada" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Global venture builder&#x27;s Canadian outpost. Pre-seed investment ($250K+) with co-founder matching process. Brings exceptional individuals together to form companies from scratch over 6 months.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="500 Global Alberta (A500 Global) — Alberta" data-desc="500 Global&#x27;s Alberta-specific program supporting early-stage companies in Alberta. Combines 500 Global&#x27;s global network with Alberta-specific mentorship and connections." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">47</span>
       <span class="entry-name">500 Global Alberta (A500 Global) — Alberta</span>
       <a class="entry-link" href="https://500.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">500 Global&#x27;s Alberta-specific program supporting early-stage companies in Alberta. Combines 500 Global&#x27;s global network with Alberta-specific mentorship and connections.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="L-SPARK — Ottawa" data-desc="Ottawa-based B2B SaaS accelerator. Unique performance-based equity model: 3% only IF funding raised within 18 months. 24-week program with intensive mentorship. 108 investments, 13 exits." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">48</span>
       <span class="entry-name">L-SPARK — Ottawa</span>
       <a class="entry-link" href="https://www.l-spark.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Ottawa-based B2B SaaS accelerator. Unique performance-based equity model: 3% only IF funding raised within 18 months. 24-week program with intensive mentorship. 108 investments, 13 exits.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Velocity — University of Waterloo" data-desc="Canada&#x27;s most productive university startup accelerator. Alumni raised $3.5B+. Multiple programs: Velocity Start, Velocity Fund (seed funding), Velocity Residence (incubator space). Zero equity taken." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">49</span>
       <span class="entry-name">Velocity — University of Waterloo</span>
       <a class="entry-link" href="https://www.velocityincubator.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Canada&#x27;s most productive university startup accelerator. Alumni raised $3.5B+. Multiple programs: Velocity Start, Velocity Fund (seed funding), Velocity Residence (incubator space). Zero equity taken.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Communitech Rev — Waterloo" data-desc="Communitech&#x27;s accelerator program (Rev) for growth-stage tech startups. Provides intensive peer-driven program with mentorship and connections to Waterloo&#x27;s tech ecosystem. No equity taken." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">50</span>
       <span class="entry-name">Communitech Rev — Waterloo</span>
       <a class="entry-link" href="https://www.communitech.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Communitech&#x27;s accelerator program (Rev) for growth-stage tech startups. Provides intensive peer-driven program with mentorship and connections to Waterloo&#x27;s tech ecosystem. No equity taken.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Tandem Launch — Montreal" data-desc="Deep tech venture builder creating startups from university research. Partners with leading research institutions to identify breakthrough technologies and build companies around them. Invests $2M+ per company." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">51</span>
       <span class="entry-name">Tandem Launch — Montreal</span>
       <a class="entry-link" href="https://www.tandemlaunch.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Deep tech venture builder creating startups from university research. Partners with leading research institutions to identify breakthrough technologies and build companies around them. Invests $2M+ per company.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="MaRS IAF (Investment Accelerator Fund) — Toronto" data-desc="MaRS Discovery District&#x27;s investment arm providing seed funding ($250K-$500K) to health, cleantech, fintech, and enterprise startups. Connected to MaRS&#x27;s ecosystem of 1,200+ ventures." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">52</span>
       <span class="entry-name">MaRS IAF (Investment Accelerator Fund) — Toronto</span>
       <a class="entry-link" href="https://www.marsdd.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">MaRS Discovery District&#x27;s investment arm providing seed funding ($250K-$500K) to health, cleantech, fintech, and enterprise startups. Connected to MaRS&#x27;s ecosystem of 1,200+ ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Plug and Play Toronto" data-desc="Silicon Valley accelerator&#x27;s Toronto outpost. Equity-free program connecting Canadian startups with 500+ corporate partners for pilots and investment. Focus on fintech, health, supply chain." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">53</span>
       <span class="entry-name">Plug and Play Toronto</span>
       <a class="entry-link" href="https://www.plugandplaytechcenter.com/toronto/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Silicon Valley accelerator&#x27;s Toronto outpost. Equity-free program connecting Canadian startups with 500+ corporate partners for pilots and investment. Focus on fintech, health, supply chain.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Google for Startups Canada" data-desc="Google&#x27;s Canadian accelerator cohort. Equity-free with mentorship from Google engineers, product leads, and industry experts. Cloud credits and technical support. Focus on AI/ML startups." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">54</span>
       <span class="entry-name">Google for Startups Canada</span>
       <a class="entry-link" href="https://startup.google.com/programs/accelerator/canada/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Google&#x27;s Canadian accelerator cohort. Equity-free with mentorship from Google engineers, product leads, and industry experts. Cloud credits and technical support. Focus on AI/ML startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Foresight Canada — Vancouver" data-desc="Canada&#x27;s cleantech accelerator. Supports cleantech and climate innovation startups with mentorship, funding connections, and programming. Strong government and industry partnerships for sustainability." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">55</span>
       <span class="entry-name">Foresight Canada — Vancouver</span>
       <a class="entry-link" href="https://foresightcac.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Canada&#x27;s cleantech accelerator. Supports cleantech and climate innovation startups with mentorship, funding connections, and programming. Strong government and industry partnerships for sustainability.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Spring Activator — Vancouver" data-desc="Impact investment accelerator in Vancouver. Programs for impact-driven entrepreneurs including investment readiness bootcamps, mentorship, and connections to impact investor network." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">56</span>
       <span class="entry-name">Spring Activator — Vancouver</span>
       <a class="entry-link" href="https://www.springactivator.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Impact investment accelerator in Vancouver. Programs for impact-driven entrepreneurs including investment readiness bootcamps, mentorship, and connections to impact investor network.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Platform Calgary — Alberta" data-desc="Calgary&#x27;s innovation hub running accelerator programs connecting startups with mentors, investors, and corporate partners. Programs supporting Alberta&#x27;s tech diversification." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">57</span>
       <span class="entry-name">Platform Calgary — Alberta</span>
       <a class="entry-link" href="https://www.platformcalgary.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Calgary&#x27;s innovation hub running accelerator programs connecting startups with mentors, investors, and corporate partners. Programs supporting Alberta&#x27;s tech diversification.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Alacrity Canada — Victoria, BC" data-desc="Venture builder creating B2B tech companies from scratch. Provides entrepreneurs with a business idea, $120K salary, mentorship, and operational support to build enterprise software companies." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">58</span>
       <span class="entry-name">Alacrity Canada — Victoria, BC</span>
       <a class="entry-link" href="https://alacritycanada.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Venture builder creating B2B tech companies from scratch. Provides entrepreneurs with a business idea, $120K salary, mentorship, and operational support to build enterprise software companies.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="BrandProject — Toronto" data-desc="Consumer brand venture studio providing $500K-$2M in investment plus hands-on operational support. Alumni include Daily Harvest and Freshly. Combines capital with deep brand-building expertise." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">59</span>
       <span class="entry-name">BrandProject — Toronto</span>
       <a class="entry-link" href="https://www.brandproject.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Consumer brand venture studio providing $500K-$2M in investment plus hands-on operational support. Alumni include Daily Harvest and Freshly. Combines capital with deep brand-building expertise.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Innovate BC / Accelerate Okanagan — BC" data-desc="Provincial innovation agency running accelerator programs across BC. Supports tech startups with funding, mentorship, and connections to BC&#x27;s growing tech ecosystem." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num pink">60</span>
       <span class="entry-name">Innovate BC / Accelerate Okanagan — BC</span>
       <a class="entry-link" href="https://www.innovatebc.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Provincial innovation agency running accelerator programs across BC. Supports tech startups with funding, mentorship, and connections to BC&#x27;s growing tech ecosystem.</div>
   </div>
 </div>
 <div class="section-title">🇨🇦🇺🇸 CROSS-BORDER / OPERATING IN BOTH</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="Techstars Toronto" data-desc="Techstars&#x27; Canadian cohort. Standard $220K/5% deal with Toronto-specific mentors and corporate partners. 3-month program connecting Canadian startups to Techstars&#x27; global network." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">61</span>
       <span class="entry-name">Techstars Toronto</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators/toronto" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Techstars&#x27; Canadian cohort. Standard $220K/5% deal with Toronto-specific mentors and corporate partners. 3-month program connecting Canadian startups to Techstars&#x27; global network.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Antler — Multiple US + Canada Cities" data-desc="Global co-founder matching and pre-seed program. Operating in NYC, Austin, Toronto, and other cities. Invests $250K+ at pre-seed. 6-month residency program for forming and building companies." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">62</span>
       <span class="entry-name">Antler — Multiple US + Canada Cities</span>
       <a class="entry-link" href="https://www.antler.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Global co-founder matching and pre-seed program. Operating in NYC, Austin, Toronto, and other cities. Invests $250K+ at pre-seed. 6-month residency program for forming and building companies.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="EWOR — Europe/US" data-desc="Founder fellowship investing up to €500K for 7%. Virtual-first format accessible from North America. Ultra-selective (0.1% acceptance). Focus on operator-led mentorship from unicorn founders." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">63</span>
       <span class="entry-name">EWOR — Europe/US</span>
       <a class="entry-link" href="https://www.ewor.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Founder fellowship investing up to €500K for 7%. Virtual-first format accessible from North America. Ultra-selective (0.1% acceptance). Focus on operator-led mentorship from unicorn founders.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Founder Institute — US + Canada Chapters" data-desc="World&#x27;s largest pre-seed accelerator with chapters in Toronto, Vancouver, Montreal, and 200+ other cities. 4-month part-time program. 3.5% warrant. Structured curriculum for idea-stage founders." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">64</span>
       <span class="entry-name">Founder Institute — US + Canada Chapters</span>
       <a class="entry-link" href="https://fi.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">World&#x27;s largest pre-seed accelerator with chapters in Toronto, Vancouver, Montreal, and 200+ other cities. 4-month part-time program. 3.5% warrant. Structured curriculum for idea-stage founders.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Startupbootcamp Scale FinTech — Toronto/US" data-desc="Global fintech accelerator with North American programs. ~8% equity for cash + partner services. Connects fintech startups with major financial institutions for partnerships and pilots." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">65</span>
       <span class="entry-name">Startupbootcamp Scale FinTech — Toronto/US</span>
       <a class="entry-link" href="https://www.startupbootcamp.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Global fintech accelerator with North American programs. ~8% equity for cash + partner services. Connects fintech startups with major financial institutions for partnerships and pilots.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Holt Xchange — Montreal" data-desc="Fintech accelerator associated with the Holt family (founders of numerous Canadian financial institutions). Provides mentorship, investment, and connections to financial services industry." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">66</span>
       <span class="entry-name">Holt Xchange — Montreal</span>
       <a class="entry-link" href="https://hfrg.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Fintech accelerator associated with the Holt family (founders of numerous Canadian financial institutions). Provides mentorship, investment, and connections to financial services industry.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Startup TNT — Edmonton" data-desc="Edmonton-based investment accelerator and community. Regular pitch events where startups receive investment from angel investors. Has invested $3M+ in Alberta ventures." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">67</span>
       <span class="entry-name">Startup TNT — Edmonton</span>
       <a class="entry-link" href="https://startuptnt.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Edmonton-based investment accelerator and community. Regular pitch events where startups receive investment from angel investors. Has invested $3M+ in Alberta ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Forum Ventures Toronto" data-desc="B2B SaaS accelerator&#x27;s Toronto program. Invests $200K with 12-week intensive on go-to-market strategy. Connects Canadian SaaS startups to US enterprise customers." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">68</span>
       <span class="entry-name">Forum Ventures Toronto</span>
       <a class="entry-link" href="https://www.forumvc.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">B2B SaaS accelerator&#x27;s Toronto program. Invests $200K with 12-week intensive on go-to-market strategy. Connects Canadian SaaS startups to US enterprise customers.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Reach Canada — Toronto" data-desc="Accelerator for international startups entering the Canadian market. Provides market entry support, mentorship, and connections to Canadian enterprise customers and investors." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">69</span>
       <span class="entry-name">Reach Canada — Toronto</span>
       <a class="entry-link" href="https://reachcanada.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Accelerator for international startups entering the Canadian market. Provides market entry support, mentorship, and connections to Canadian enterprise customers and investors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Climate Ventures Accelerator — National" data-desc="National platform accelerating climate innovation across Canada. Programs connecting climate tech startups with funding, mentorship, and government partnerships." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">70</span>
       <span class="entry-name">Climate Ventures Accelerator — National</span>
       <a class="entry-link" href="https://climateventures.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">National platform accelerating climate innovation across Canada. Programs connecting climate tech startups with funding, mentorship, and government partnerships.</div>
   </div>
 </div>
 <div class="section-title">🇺🇸 MORE US ACCELERATORS</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="Sequoia Arc — Menlo Park, CA" data-desc="Sequoia Capital&#x27;s early-stage program for pre-product founders. Invests $1M per company. 13-week program with access to Sequoia&#x27;s legendary partner network. Extremely selective." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">71</span>
       <span class="entry-name">Sequoia Arc — Menlo Park, CA</span>
       <a class="entry-link" href="https://www.sequoiacap.com/arc/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Sequoia Capital&#x27;s early-stage program for pre-product founders. Invests $1M per company. 13-week program with access to Sequoia&#x27;s legendary partner network. Extremely selective.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="South Park Commons — San Francisco" data-desc="Community and pre-company accelerator for founders exploring ideas before committing. Fellowship model with stipend and community. Alumni often go on to raise from top VCs." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">72</span>
       <span class="entry-name">South Park Commons — San Francisco</span>
       <a class="entry-link" href="https://www.southparkcommons.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Community and pre-company accelerator for founders exploring ideas before committing. Fellowship model with stipend and community. Alumni often go on to raise from top VCs.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Neo — San Francisco" data-desc="Accelerator for student and recent graduate founders. No equity taken in the community program. Provides mentorship, network, and connections to top Silicon Valley investors and operators." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">73</span>
       <span class="entry-name">Neo — San Francisco</span>
       <a class="entry-link" href="https://neo.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Accelerator for student and recent graduate founders. No equity taken in the community program. Provides mentorship, network, and connections to top Silicon Valley investors and operators.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="On Deck — Remote" data-desc="Fellowship-style accelerator for founders, angels, and operators. Multiple tracks (Founders, Scale, Climate). Primarily a community and network play with strong peer connections." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">74</span>
       <span class="entry-name">On Deck — Remote</span>
       <a class="entry-link" href="https://www.beondeck.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Fellowship-style accelerator for founders, angels, and operators. Multiple tracks (Founders, Scale, Climate). Primarily a community and network play with strong peer connections.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Pioneer — Remote" data-desc="Fully remote accelerator that uses a tournament-style selection. Winners receive $20K+ in funding. Focus on ambitious projects from anywhere in the world. Unique gamified application process." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">75</span>
       <span class="entry-name">Pioneer — Remote</span>
       <a class="entry-link" href="https://pioneer.app/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Fully remote accelerator that uses a tournament-style selection. Winners receive $20K+ in funding. Focus on ambitious projects from anywhere in the world. Unique gamified application process.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Uncharted — Denver, CO" data-desc="Social impact accelerator investing in ventures addressing poverty, education, health, and environment. Provides mentorship, pitch coaching, and investor connections." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">76</span>
       <span class="entry-name">Uncharted — Denver, CO</span>
       <a class="entry-link" href="https://uncharted.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Social impact accelerator investing in ventures addressing poverty, education, health, and environment. Provides mentorship, pitch coaching, and investor connections.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Techstars NYC" data-desc="Techstars&#x27; flagship NYC program. Standard deal. Strong NYC fintech, media, and enterprise network. 3-month intensive with Demo Day at a major NYC venue." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">77</span>
       <span class="entry-name">Techstars NYC</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators/new-york-city" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Techstars&#x27; flagship NYC program. Standard deal. Strong NYC fintech, media, and enterprise network. 3-month intensive with Demo Day at a major NYC venue.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Techstars Boulder" data-desc="Techstars&#x27; original program in Boulder, CO. Standard deal. Known for the &quot;give first&quot; mentality and Boulder&#x27;s tight-knit startup community. One of the most established cohorts." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">78</span>
       <span class="entry-name">Techstars Boulder</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators/boulder" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Techstars&#x27; original program in Boulder, CO. Standard deal. Known for the &quot;give first&quot; mentality and Boulder&#x27;s tight-knit startup community. One of the most established cohorts.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Indie.vc / Calm Fund — Portland" data-desc="Alternative accelerator/fund for founders building sustainable businesses (not hypergrowth). Patient capital model. Invests in profitability over unicorn outcomes. Refreshing alternative to traditional VC-track programs." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">79</span>
       <span class="entry-name">Indie.vc / Calm Fund — Portland</span>
       <a class="entry-link" href="https://calmfund.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Alternative accelerator/fund for founders building sustainable businesses (not hypergrowth). Patient capital model. Invests in profitability over unicorn outcomes. Refreshing alternative to traditional VC-track programs.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Betaspring — Providence, RI" data-desc="Rhode Island-based accelerator supporting early-stage tech startups. Provides investment, mentorship, and workspace in Providence&#x27;s growing tech community." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">80</span>
       <span class="entry-name">Betaspring — Providence, RI</span>
       <a class="entry-link" href="https://betaspring.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Rhode Island-based accelerator supporting early-stage tech startups. Provides investment, mentorship, and workspace in Providence&#x27;s growing tech community.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Lightspeed Scout (Launch) — Menlo Park, CA" data-desc="Lightspeed Venture Partners&#x27; early-stage scout and launch program. Connects pre-seed founders with Lightspeed&#x27;s network for mentorship and potential investment." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">81</span>
       <span class="entry-name">Lightspeed Scout (Launch) — Menlo Park, CA</span>
       <a class="entry-link" href="https://lsvp.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Lightspeed Venture Partners&#x27; early-stage scout and launch program. Connects pre-seed founders with Lightspeed&#x27;s network for mentorship and potential investment.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Boost VC — San Mateo, CA" data-desc="Frontier tech accelerator focused on emerging technologies including VR/AR, blockchain, space, and science fiction-inspired ventures. Invests $500K for 7%. 3-month program." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">82</span>
       <span class="entry-name">Boost VC — San Mateo, CA</span>
       <a class="entry-link" href="https://www.boost.vc/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Frontier tech accelerator focused on emerging technologies including VR/AR, blockchain, space, and science fiction-inspired ventures. Invests $500K for 7%. 3-month program.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Launch (Jason Calacanis) — San Francisco" data-desc="Jason Calacanis&#x27;s accelerator and investment vehicle. Invests $100K per startup. Connected to the LAUNCH podcast/conference audience. Industry-agnostic with strong media/PR value." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">83</span>
       <span class="entry-name">Launch (Jason Calacanis) — San Francisco</span>
       <a class="entry-link" href="https://www.launch.co/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Jason Calacanis&#x27;s accelerator and investment vehicle. Invests $100K per startup. Connected to the LAUNCH podcast/conference audience. Industry-agnostic with strong media/PR value.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Lemnos Labs — San Francisco" data-desc="Hardware-focused venture firm and accelerator. Provides prototyping support, manufacturing connections, and investment for hardware startups. SF-based with workshop space." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">84</span>
       <span class="entry-name">Lemnos Labs — San Francisco</span>
       <a class="entry-link" href="https://lemnos.vc/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Hardware-focused venture firm and accelerator. Provides prototyping support, manufacturing connections, and investment for hardware startups. SF-based with workshop space.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Cedars-Sinai Accelerator — Los Angeles" data-desc="Hospital-backed health tech accelerator at Cedars-Sinai Medical Center in LA. Provides clinical access, mentorship from physicians, and investment. Powered by Techstars." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">85</span>
       <span class="entry-name">Cedars-Sinai Accelerator — Los Angeles</span>
       <a class="entry-link" href="https://csaccelerator.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Hospital-backed health tech accelerator at Cedars-Sinai Medical Center in LA. Provides clinical access, mentorship from physicians, and investment. Powered by Techstars.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Stanley + Techstars Additive Manufacturing — Hartford, CT" data-desc="Corporate accelerator with Stanley Black &amp; Decker focused on advanced manufacturing, 3D printing, and industrial IoT. Standard Techstars deal with corporate pilot opportunities." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">86</span>
       <span class="entry-name">Stanley + Techstars Additive Manufacturing — Hartford, CT</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Corporate accelerator with Stanley Black &amp; Decker focused on advanced manufacturing, 3D printing, and industrial IoT. Standard Techstars deal with corporate pilot opportunities.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Barclays Accelerator (Techstars) — New York" data-desc="Fintech accelerator powered by Barclays and Techstars. Connects fintech startups with Barclays&#x27; global banking network for pilots and enterprise partnerships." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">87</span>
       <span class="entry-name">Barclays Accelerator (Techstars) — New York</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Fintech accelerator powered by Barclays and Techstars. Connects fintech startups with Barclays&#x27; global banking network for pilots and enterprise partnerships.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Nike Valiant Labs — Portland, OR" data-desc="Nike&#x27;s internal startup accelerator exploring the future of retail, digital experiences, and consumer engagement. Supports both internal and external ventures." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">88</span>
       <span class="entry-name">Nike Valiant Labs — Portland, OR</span>
       <a class="entry-link" href="https://www.nike.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Nike&#x27;s internal startup accelerator exploring the future of retail, digital experiences, and consumer engagement. Supports both internal and external ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Target Accelerator (Techstars Retail) — Minneapolis" data-desc="Retail tech accelerator in partnership with Target. Connects startups with Target&#x27;s supply chain, stores, and data platform for pilot testing." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">89</span>
       <span class="entry-name">Target Accelerator (Techstars Retail) — Minneapolis</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Retail tech accelerator in partnership with Target. Connects startups with Target&#x27;s supply chain, stores, and data platform for pilot testing.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Comcast NBCUniversal LIFT Labs — Philadelphia" data-desc="Corporate accelerator connecting startups with Comcast&#x27;s media, entertainment, connectivity, and smart home platforms. Provides investment, mentorship, and enterprise pilot opportunities." data-country="United States">
     <div class="entry-header">
       <span class="entry-num pink">90</span>
       <span class="entry-name">Comcast NBCUniversal LIFT Labs — Philadelphia</span>
       <a class="entry-link" href="https://liftlabs.comcast.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Corporate accelerator connecting startups with Comcast&#x27;s media, entertainment, connectivity, and smart home platforms. Provides investment, mentorship, and enterprise pilot opportunities.</div>
   </div>
 </div>
 <div class="section-title">🇨🇦🇺🇸 ADDITIONAL NOTABLE PROGRAMS</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="Velocity Fund Finals — University of Waterloo" data-desc="Annual seed funding competition within Velocity&#x27;s accelerator. Student startups pitch for investment from the Velocity Fund. One of Canada&#x27;s most respected university venture funds." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">91</span>
       <span class="entry-name">Velocity Fund Finals — University of Waterloo</span>
       <a class="entry-link" href="https://www.velocityincubator.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Annual seed funding competition within Velocity&#x27;s accelerator. Student startups pitch for investment from the Velocity Fund. One of Canada&#x27;s most respected university venture funds.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="JLABS — Toronto / Multiple US Cities" data-desc="Johnson &amp; Johnson Innovation&#x27;s life sciences accelerator. Lab space, equipment, and mentorship in Toronto, San Diego, San Francisco, Houston, NYC, and Shanghai." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">92</span>
       <span class="entry-name">JLABS — Toronto / Multiple US Cities</span>
       <a class="entry-link" href="https://jlabs.jnjinnovation.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Johnson &amp; Johnson Innovation&#x27;s life sciences accelerator. Lab space, equipment, and mentorship in Toronto, San Diego, San Francisco, Houston, NYC, and Shanghai.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Techstars Energy (Equinor) — Houston/Denver" data-desc="Energy-focused accelerator backed by Equinor. Focuses on oil &amp; gas optimization, renewable energy, and energy storage. Standard Techstars deal with enterprise pilot access." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">93</span>
       <span class="entry-name">Techstars Energy (Equinor) — Houston/Denver</span>
       <a class="entry-link" href="https://www.techstars.com/accelerators" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Energy-focused accelerator backed by Equinor. Focuses on oil &amp; gas optimization, renewable energy, and energy storage. Standard Techstars deal with enterprise pilot access.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Insight Partners ScaleUp — New York" data-desc="Growth-stage accelerator from Insight Partners. For companies past seed/Series A looking to scale operations, sales, and international expansion. More advisory than traditional accelerator." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">94</span>
       <span class="entry-name">Insight Partners ScaleUp — New York</span>
       <a class="entry-link" href="https://www.insightpartners.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Growth-stage accelerator from Insight Partners. For companies past seed/Series A looking to scale operations, sales, and international expansion. More advisory than traditional accelerator.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Quake Capital — Austin/Dallas" data-desc="Texas-based accelerator investing $100K for 5% equity. 4-month program focused on B2B software and marketplace startups. Strong Texas and Southern US deal flow." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">95</span>
       <span class="entry-name">Quake Capital — Austin/Dallas</span>
       <a class="entry-link" href="https://quakecapital.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Texas-based accelerator investing $100K for 5% equity. 4-month program focused on B2B software and marketplace startups. Strong Texas and Southern US deal flow.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Startup Genome Programs — San Francisco" data-desc="Research-backed accelerator programs leveraging Startup Genome&#x27;s ecosystem data. Helps founders understand their market position and optimize for growth based on benchmark data." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">96</span>
       <span class="entry-name">Startup Genome Programs — San Francisco</span>
       <a class="entry-link" href="https://startupgenome.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Research-backed accelerator programs leveraging Startup Genome&#x27;s ecosystem data. Helps founders understand their market position and optimize for growth based on benchmark data.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Creative Startups — Albuquerque, NM" data-desc="Accelerator for creative industry startups (art, design, media, entertainment). Provides business training and investment for founders in the creative economy." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">97</span>
       <span class="entry-name">Creative Startups — Albuquerque, NM</span>
       <a class="entry-link" href="https://www.creativestartups.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Accelerator for creative industry startups (art, design, media, entertainment). Provides business training and investment for founders in the creative economy.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="URBAN-X — Brooklyn, NY" data-desc="Urban tech accelerator for startups building solutions for cities. Focus on mobility, energy, waste, building tech, and urban resilience. Invests $150K per company." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">98</span>
       <span class="entry-name">URBAN-X — Brooklyn, NY</span>
       <a class="entry-link" href="https://www.urban-x.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Urban tech accelerator for startups building solutions for cities. Focus on mobility, energy, waste, building tech, and urban resilience. Invests $150K per company.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Illuminate Ventures — Silicon Valley" data-desc="Enterprise cloud accelerator and fund. Invests in B2B cloud startups with emphasis on diversity. Provides mentorship and enterprise customer connections." data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">99</span>
       <span class="entry-name">Illuminate Ventures — Silicon Valley</span>
       <a class="entry-link" href="https://www.illuminateventures.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Enterprise cloud accelerator and fund. Invests in B2B cloud startups with emphasis on diversity. Provides mentorship and enterprise customer connections.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="TechNexus Venture Collaborative — Chicago" data-desc="Chicago-based venture collaborative providing corporate innovation partnerships. Connects startups with Fortune 500 companies for co-development, pilots, and investment. **List 3 complete: 100 Startup Accelerators (Canada + US)**" data-country="Cross-Border">
     <div class="entry-header">
       <span class="entry-num pink">100</span>
       <span class="entry-name">TechNexus Venture Collaborative — Chicago</span>
       <a class="entry-link" href="https://www.technexus.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-both">🌐 Cross-Border</span></div>
     <div class="entry-desc">Chicago-based venture collaborative providing corporate innovation partnerships. Connects startups with Fortune 500 companies for co-development, pilots, and investment. **List 3 complete: 100 Startup Accelerators (Canada + US)**</div>
   </div>
 </div>
 
 
+<div class="no-results" id="noResults">No results match your filters. Try adjusting your search or filter.</div>
+
 <footer>
   <p>Project Confluence — Built for founders navigating the ecosystem.</p>
 </footer>
+
+
+<script>
+function applyFilters() {
+  const searchVal = (document.getElementById('searchBox')?.value || '').toLowerCase();
+  const filterSelect = document.getElementById('filterSelect');
+  const filterVal = filterSelect ? filterSelect.value : '';
+  const filterAttr = filterSelect ? filterSelect.dataset.attr : '';
+
+  const entries = document.querySelectorAll('.entry');
+  let visible = 0;
+
+  entries.forEach(el => {
+    const name = (el.dataset.name || '').toLowerCase();
+    const desc = (el.dataset.desc || '').toLowerCase();
+    const filterData = (el.dataset[filterAttr] || '').toLowerCase();
+
+    let show = true;
+
+    // Search filter
+    if (searchVal && !name.includes(searchVal) && !desc.includes(searchVal)) {
+      show = false;
+    }
+
+    // Dropdown filter
+    if (filterVal && filterData !== filterVal.toLowerCase()) {
+      show = false;
+    }
+
+    el.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  // Update count
+  const countEl = document.getElementById('resultsCount');
+  if (countEl) {
+    countEl.textContent = visible + ' of ' + entries.length + ' shown';
+  }
+
+  // No results message
+  const noResults = document.getElementById('noResults');
+  if (noResults) {
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  // Hide/show section titles based on visible children
+  document.querySelectorAll('.section-title').forEach(title => {
+    const nextEntries = title.nextElementSibling;
+    if (nextEntries && nextEntries.classList.contains('entries')) {
+      const hasVisible = nextEntries.querySelector('.entry:not(.hidden)');
+      title.style.display = hasVisible ? '' : 'none';
+      nextEntries.style.display = hasVisible ? '' : 'none';
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('searchBox')?.addEventListener('input', applyFilters);
+  document.getElementById('filterSelect')?.addEventListener('change', applyFilters);
+});
+</script>
 
 </body>
 </html>

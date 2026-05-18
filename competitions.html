@@ -28,11 +28,11 @@
     align-items: center;
     padding: 16px 24px;
     border-bottom: 1px solid var(--border);
-    background: var(--surface);
+    background: rgba(18,18,26,0.95);
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
   }
   .topbar a {
     color: var(--text-muted);
@@ -68,11 +68,73 @@
     margin: 0 auto;
     line-height: 1.6;
   }
+
+  /* Filter bar */
+  .filter-bar {
+    max-width: 900px;
+    margin: 24px auto 8px;
+    padding: 0 20px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-bar .search-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .filter-bar .search-box:focus {
+    border-color: var(--accent1);
+  }
+  .filter-bar .search-box::placeholder {
+    color: var(--text-muted);
+  }
+  .filter-bar select {
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238888a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    min-width: 160px;
+    transition: border-color 0.2s;
+  }
+  .filter-bar select:focus {
+    border-color: var(--accent1);
+  }
+  .filter-bar select option {
+    background: var(--surface);
+    color: var(--text);
+  }
+  .results-count {
+    max-width: 900px;
+    margin: 12px auto 4px;
+    padding: 0 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
   .section-title {
     max-width: 900px;
-    margin: 40px auto 16px;
+    margin: 32px auto 16px;
     padding: 0 20px;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
@@ -80,38 +142,39 @@
   }
   .entries {
     max-width: 900px;
-    margin: 0 auto 60px;
+    margin: 0 auto 40px;
     padding: 0 20px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   .entry {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 24px 28px;
+    padding: 22px 26px;
     transition: all 0.2s;
   }
   .entry:hover {
     border-color: rgba(108,92,231,0.3);
     background: var(--surface2);
   }
+  .entry.hidden { display: none; }
   .entry-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .entry-num {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 8px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     flex-shrink: 0;
   }
@@ -119,10 +182,29 @@
   .entry-num.teal { background: rgba(0,206,201,0.15); color: #00cec9; }
   .entry-num.pink { background: rgba(253,121,168,0.15); color: #fd79a8; }
   .entry-name {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 700;
     flex: 1;
   }
+  .entry-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .entry-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .entry-tag.school { background: rgba(108,92,231,0.12); color: #a78bfa; }
+  .entry-tag.country-ca { background: rgba(253,121,168,0.12); color: #fd79a8; }
+  .entry-tag.country-us { background: rgba(0,206,201,0.12); color: #00cec9; }
+  .entry-tag.country-both { background: rgba(255,180,50,0.12); color: #f0b040; }
   .entry-link {
     font-size: 0.8rem;
     color: var(--accent1);
@@ -140,9 +222,18 @@
   }
   .entry-desc {
     color: var(--text-muted);
-    font-size: 0.92rem;
-    line-height: 1.65;
+    font-size: 0.9rem;
+    line-height: 1.6;
     margin-top: 4px;
+  }
+  .no-results {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    display: none;
   }
   footer {
     text-align: center;
@@ -153,9 +244,11 @@
   }
   @media (max-width: 600px) {
     .page-header h1 { font-size: 1.8rem; }
-    .entry { padding: 18px 20px; }
+    .entry { padding: 16px 18px; }
     .entry-header { flex-direction: column; }
     .entry-link { align-self: flex-start; }
+    .filter-bar { flex-direction: column; }
+    .filter-bar select { width: 100%; }
   }
 </style>
 </head>
@@ -169,823 +262,999 @@
 <div class="page-header">
   <div class="icon">🏆</div>
   <h1>Pitch Competitions</h1>
-  <p>100 annual startup pitch and business plan competitions across Canada and the United States.</p>
+  <p>100 annual pitch and business plan competitions — filter by country or search by name.</p>
 </div>
+
+
+    <div class="filter-bar">
+      <input type="text" id="searchBox" class="search-box" placeholder="Search competitions...">
+      <select id="filterSelect" data-attr="country">
+        <option value="">All Countries</option>
+        <option value="Canada">🇨🇦 Canada</option>
+        <option value="United States">🇺🇸 United States</option>
+        <option value="Cross-Border">🌐 Cross-Border / Open</option>
+      </select>
+    </div>
+    <div class="results-count" id="resultsCount">100 of 100 shown</div>
+    
 
 <div class="section-title">🇨🇦 CANADA</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="McGill Dobson Cup — Montreal" data-desc="McGill University&#x27;s flagship startup competition awarding up to $200K in funding. Features a bootcamp program leading to the final pitch event. Open to McGill students and alumni across all faculties." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">1</span>
       <span class="entry-name">McGill Dobson Cup — Montreal</span>
       <a class="entry-link" href="https://www.mcgill.ca/dobson/entrepreneurship-programs/mcgill-dobson-cup" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">McGill University&#x27;s flagship startup competition awarding up to $200K in funding. Features a bootcamp program leading to the final pitch event. Open to McGill students and alumni across all faculties.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="LiONS LAIR — Hamilton" data-desc="Innovation Factory&#x27;s premier annual pitch competition and gala event in Hamilton. 10 finalists compete for $50K+ in cash prizes (grand prize $30K). In its 15th year, one of Ontario&#x27;s largest pitch events." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">2</span>
       <span class="entry-name">LiONS LAIR — Hamilton</span>
       <a class="entry-link" href="https://lionslair.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Innovation Factory&#x27;s premier annual pitch competition and gala event in Hamilton. 10 finalists compete for $50K+ in cash prizes (grand prize $30K). In its 15th year, one of Ontario&#x27;s largest pitch events.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="New Ventures BC Competition — Vancouver" data-desc="British Columbia&#x27;s largest startup competition offering $250K+ in cash and prizes. For 26 years, has helped BC&#x27;s most promising tech startups launch and grow through mentorship, feedback, and non-dilutive funding." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">3</span>
       <span class="entry-name">New Ventures BC Competition — Vancouver</span>
       <a class="entry-link" href="https://www.newventuresbc.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">British Columbia&#x27;s largest startup competition offering $250K+ in cash and prizes. For 26 years, has helped BC&#x27;s most promising tech startups launch and grow through mentorship, feedback, and non-dilutive funding.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Startupfest Pitch Competition — Montreal" data-desc="Canada&#x27;s leading startup festival held annually in Montreal. Features multiple pitch tracks, startup showcases, and investor meetings. Attracts thousands of founders and hundreds of investors." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">4</span>
       <span class="entry-name">Startupfest Pitch Competition — Montreal</span>
       <a class="entry-link" href="https://www.startupfest.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Canada&#x27;s leading startup festival held annually in Montreal. Features multiple pitch tracks, startup showcases, and investor meetings. Attracts thousands of founders and hundreds of investors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Collision Pitch Competition — Toronto" data-desc="Major international tech conference (moved from New Orleans to Toronto in 2019). Features a startup pitch competition alongside the conference with exposure to thousands of attendees and investors." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">5</span>
       <span class="entry-name">Collision Pitch Competition — Toronto</span>
       <a class="entry-link" href="https://collisionconf.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Major international tech conference (moved from New Orleans to Toronto in 2019). Features a startup pitch competition alongside the conference with exposure to thousands of attendees and investors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Dragons&#x27; Den — CBC (National)" data-desc="Canada&#x27;s iconic TV pitch show where entrepreneurs pitch to a panel of investor &quot;Dragons.&quot; While dilutive, the national TV exposure and PR value can be transformative for consumer-facing startups." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">6</span>
       <span class="entry-name">Dragons&#x27; Den — CBC (National)</span>
       <a class="entry-link" href="https://www.cbc.ca/dragonsden/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Canada&#x27;s iconic TV pitch show where entrepreneurs pitch to a panel of investor &quot;Dragons.&quot; While dilutive, the national TV exposure and PR value can be transformative for consumer-facing startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Upstart Competition — Concordia University, Montreal" data-desc="Concordia University&#x27;s annual student startup competition supporting early-stage ventures from the Concordia community. Offers cash prizes, mentorship, and connections to Montreal&#x27;s startup ecosystem." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">7</span>
       <span class="entry-name">Upstart Competition — Concordia University, Montreal</span>
       <a class="entry-link" href="https://gcesconcordia.com/upstart" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Concordia University&#x27;s annual student startup competition supporting early-stage ventures from the Concordia community. Offers cash prizes, mentorship, and connections to Montreal&#x27;s startup ecosystem.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Dobson X-1 Accelerator Pitch — McGill University" data-desc="Part of the Dobson Centre&#x27;s programming, the X-1 Accelerator culminates in a pitch event. Teams receive mentorship and resources over 4 months before presenting to investors and judges." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">8</span>
       <span class="entry-name">Dobson X-1 Accelerator Pitch — McGill University</span>
       <a class="entry-link" href="https://www.mcgill.ca/dobson/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Part of the Dobson Centre&#x27;s programming, the X-1 Accelerator culminates in a pitch event. Teams receive mentorship and resources over 4 months before presenting to investors and judges.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="The Fongo Cup — Various Canadian Universities" data-desc="National student pitch competition connecting university entrepreneurs across Canada. Winners receive cash prizes and connections to the Canadian venture capital community." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">9</span>
       <span class="entry-name">The Fongo Cup — Various Canadian Universities</span>
       <a class="entry-link" href="https://fongocup.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">National student pitch competition connecting university entrepreneurs across Canada. Winners receive cash prizes and connections to the Canadian venture capital community.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Velocity Fund Finals — University of Waterloo" data-desc="Annual pitch competition at UWaterloo where Velocity incubator startups compete for seed funding. One of Canada&#x27;s most respected university venture competitions, backed by alumni investment." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">10</span>
       <span class="entry-name">Velocity Fund Finals — University of Waterloo</span>
       <a class="entry-link" href="https://www.velocityincubator.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual pitch competition at UWaterloo where Velocity incubator startups compete for seed funding. One of Canada&#x27;s most respected university venture competitions, backed by alumni investment.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="FemSTEM Pitch — University of Toronto" data-desc="Annual competition supporting women in STEM and healthcare entrepreneurship. Held at UofT&#x27;s Health Innovation Hub, providing funding and mentorship for women-led health ventures." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">11</span>
       <span class="entry-name">FemSTEM Pitch — University of Toronto</span>
       <a class="entry-link" href="https://h2i.utoronto.ca/resource/femstem/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual competition supporting women in STEM and healthcare entrepreneurship. Held at UofT&#x27;s Health Innovation Hub, providing funding and mentorship for women-led health ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="PITCH With a Twist — ICUBE UTM, Mississauga" data-desc="UofT Mississauga&#x27;s annual pitch competition with a twist element. Open to UofT students with early-stage venture ideas, offering cash prizes and mentorship." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">12</span>
       <span class="entry-name">PITCH With a Twist — ICUBE UTM, Mississauga</span>
       <a class="entry-link" href="https://icubeutm.ca/twist/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">UofT Mississauga&#x27;s annual pitch competition with a twist element. Open to UofT students with early-stage venture ideas, offering cash prizes and mentorship.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Sauga Pitch — Mississauga" data-desc="Annual pitch competition celebrating Mississauga&#x27;s local startup ecosystem. Brings together entrepreneurs, investors, and community members for a live pitch event with cash prizes." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">13</span>
       <span class="entry-name">Sauga Pitch — Mississauga</span>
       <a class="entry-link" href="https://icubeutm.ca/competitions/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual pitch competition celebrating Mississauga&#x27;s local startup ecosystem. Brings together entrepreneurs, investors, and community members for a live pitch event with cash prizes.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Canada&#x27;s Total Mom Pitch" data-desc="Annual competition supporting mom entrepreneurs building products and businesses. National platform providing exposure, mentorship, and funding for parent founders." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">14</span>
       <span class="entry-name">Canada&#x27;s Total Mom Pitch</span>
       <a class="entry-link" href="https://www.totalmompitch.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual competition supporting mom entrepreneurs building products and businesses. National platform providing exposure, mentorship, and funding for parent founders.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Falcons&#x27; Fortunes — FACIT, Toronto" data-desc="Life sciences pitch competition hosted by FACIT (Fight Against Cancer Innovation Trust). Funds early-stage cancer-focused ventures with significant investment prizes." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">15</span>
       <span class="entry-name">Falcons&#x27; Fortunes — FACIT, Toronto</span>
       <a class="entry-link" href="https://facit.ca/falcons-fortunes" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Life sciences pitch competition hosted by FACIT (Fight Against Cancer Innovation Trust). Funds early-stage cancer-focused ventures with significant investment prizes.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="EFFERVESCENCE Pitch — Montreal" data-desc="Annual medtech startup pitch competition in Montreal. Brings together health innovation startups with investors and industry leaders in the medtech and life sciences sector." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">16</span>
       <span class="entry-name">EFFERVESCENCE Pitch — Montreal</span>
       <a class="entry-link" href="https://effervescencemtl.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual medtech startup pitch competition in Montreal. Brings together health innovation startups with investors and industry leaders in the medtech and life sciences sector.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="INNOVATEwest Grizzly Pursuit — Vancouver" data-desc="Western Canada&#x27;s pitch competition for tech startups. Features the &quot;Grizzly Pursuit&quot; format with investor judges and significant prizes for winning ventures." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">17</span>
       <span class="entry-name">INNOVATEwest Grizzly Pursuit — Vancouver</span>
       <a class="entry-link" href="https://innovatewest.tech/grizzly-pursuit/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Western Canada&#x27;s pitch competition for tech startups. Features the &quot;Grizzly Pursuit&quot; format with investor judges and significant prizes for winning ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="The $10K Pitch: BC&#x27;s Startup All-Stars — Web Summit Vancouver" data-desc="Innovate BC competition where 12 New Ventures BC alumni pitch at Web Summit Vancouver for a $10K prize. High-profile exposure at a major international tech conference." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">18</span>
       <span class="entry-name">The $10K Pitch: BC&#x27;s Startup All-Stars — Web Summit Vancouver</span>
       <a class="entry-link" href="https://www.innovatebc.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Innovate BC competition where 12 New Ventures BC alumni pitch at Web Summit Vancouver for a $10K prize. High-profile exposure at a major international tech conference.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Next 36 / Next AI Pitch Day — Toronto" data-desc="Annual demo day and pitch event for Next Canada&#x27;s cohort of AI and tech startups. High-profile investor audience featuring Canada&#x27;s top VCs and angel investors." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">19</span>
       <span class="entry-name">Next 36 / Next AI Pitch Day — Toronto</span>
       <a class="entry-link" href="https://www.nextcanada.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual demo day and pitch event for Next Canada&#x27;s cohort of AI and tech startups. High-profile investor audience featuring Canada&#x27;s top VCs and angel investors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Venture Ontario Pitch Competition" data-desc="Provincial pitch competition supporting Ontario-based startups with cash prizes and connections to Ontario&#x27;s investment community and regional innovation centres." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">20</span>
       <span class="entry-name">Venture Ontario Pitch Competition</span>
       <a class="entry-link" href="https://www.ventureontario.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Provincial pitch competition supporting Ontario-based startups with cash prizes and connections to Ontario&#x27;s investment community and regional innovation centres.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Alberta Catalyzer Pitch Competition" data-desc="Alberta Innovates-backed pitch competition for Alberta-based startups across tech, energy, and health sectors. Part of the provincial strategy to diversify Alberta&#x27;s economy." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">21</span>
       <span class="entry-name">Alberta Catalyzer Pitch Competition</span>
       <a class="entry-link" href="https://albertainnovates.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Alberta Innovates-backed pitch competition for Alberta-based startups across tech, energy, and health sectors. Part of the provincial strategy to diversify Alberta&#x27;s economy.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="YSpace Pitch Night — York University, Markham" data-desc="Regular pitch events at York University&#x27;s community innovation hub. Provides early-stage founders with pitch practice, feedback from judges, and networking with investors." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">22</span>
       <span class="entry-name">YSpace Pitch Night — York University, Markham</span>
       <a class="entry-link" href="https://yspace.yorku.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Regular pitch events at York University&#x27;s community innovation hub. Provides early-stage founders with pitch practice, feedback from judges, and networking with investors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Western Accelerator Demo Day — Western University" data-desc="Annual demo day for Western University&#x27;s accelerator cohort. Startups pitch to investors and alumni after an intensive summer program with $5K-25K in seed funding." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">23</span>
       <span class="entry-name">Western Accelerator Demo Day — Western University</span>
       <a class="entry-link" href="https://www.uwo.ca/se/western_accelerator/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual demo day for Western University&#x27;s accelerator cohort. Startups pitch to investors and alumni after an intensive summer program with $5K-25K in seed funding.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="The Forge Startup Competition — McMaster University" data-desc="McMaster&#x27;s annual pitch competition for student and community entrepreneurs. Multiple competition tracks for different venture stages with cash prizes and mentorship." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">24</span>
       <span class="entry-name">The Forge Startup Competition — McMaster University</span>
       <a class="entry-link" href="https://theforge.mcmaster.ca/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">McMaster&#x27;s annual pitch competition for student and community entrepreneurs. Multiple competition tracks for different venture stages with cash prizes and mentorship.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Grand Challenges Canada" data-desc="National competition funding global health innovation. Awards seed funding to bold ideas with the potential to achieve major impact in global health, open to Canadian innovators." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">25</span>
       <span class="entry-name">Grand Challenges Canada</span>
       <a class="entry-link" href="https://www.grandchallenges.ca/funding-opportunities/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">National competition funding global health innovation. Awards seed funding to bold ideas with the potential to achieve major impact in global health, open to Canadian innovators.</div>
   </div>
 </div>
 <div class="section-title">🇺🇸 UNITED STATES</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="Rice Business Plan Competition (RBPC) — Houston" data-desc="World&#x27;s largest and richest student startup competition, now in its 26th year. 42 graduate-led startups compete for $1M+ in investment and cash prizes. Alumni have raised billions in follow-on funding." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">26</span>
       <span class="entry-name">Rice Business Plan Competition (RBPC) — Houston</span>
       <a class="entry-link" href="https://rbpc.rice.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">World&#x27;s largest and richest student startup competition, now in its 26th year. 42 graduate-led startups compete for $1M+ in investment and cash prizes. Alumni have raised billions in follow-on funding.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="MIT $100K Entrepreneurship Competition — Cambridge" data-desc="One of the most prestigious university startup competitions globally. Features three phases: Pitch, Accelerate, and Launch. Open to MIT students and has launched companies worth billions." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">27</span>
       <span class="entry-name">MIT $100K Entrepreneurship Competition — Cambridge</span>
       <a class="entry-link" href="https://www.mit100k.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">One of the most prestigious university startup competitions globally. Features three phases: Pitch, Accelerate, and Launch. Open to MIT students and has launched companies worth billions.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="TechCrunch Startup Battlefield — San Francisco" data-desc="Elite global pitch competition held at TechCrunch Disrupt. Startups compete for $100K and a Disrupt Cup. Past participants include Dropbox, Mint, and Cloudflare." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">28</span>
       <span class="entry-name">TechCrunch Startup Battlefield — San Francisco</span>
       <a class="entry-link" href="https://techcrunch.com/startup-battlefield/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Elite global pitch competition held at TechCrunch Disrupt. Startups compete for $100K and a Disrupt Cup. Past participants include Dropbox, Mint, and Cloudflare.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="SXSW Pitch — Austin" data-desc="High-profile startup pitch event at South by Southwest in Austin. Categories include AI, enterprise, fintech, health, and more. Winners get massive media exposure and investor introductions." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">29</span>
       <span class="entry-name">SXSW Pitch — Austin</span>
       <a class="entry-link" href="https://www.sxsw.com/pitch/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">High-profile startup pitch event at South by Southwest in Austin. Categories include AI, enterprise, fintech, health, and more. Winners get massive media exposure and investor introductions.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="43North — Buffalo" data-desc="Annual $5M startup competition in Buffalo, NY. Grand prize of $1M in investment. Winners must relocate to Buffalo for one year, contributing to the city&#x27;s tech ecosystem growth." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">30</span>
       <span class="entry-name">43North — Buffalo</span>
       <a class="entry-link" href="https://www.43north.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Annual $5M startup competition in Buffalo, NY. Grand prize of $1M in investment. Winners must relocate to Buffalo for one year, contributing to the city&#x27;s tech ecosystem growth.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="MassChallenge — Boston (Global)" data-desc="One of the world&#x27;s largest zero-equity startup accelerator and competition. Accepts 100+ startups per cohort and awards over $2M in equity-free cash prizes annually." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">31</span>
       <span class="entry-name">MassChallenge — Boston (Global)</span>
       <a class="entry-link" href="https://masschallenge.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">One of the world&#x27;s largest zero-equity startup accelerator and competition. Accepts 100+ startups per cohort and awards over $2M in equity-free cash prizes annually.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Arch Grants — St. Louis" data-desc="Equity-free startup competition awarding $50K-100K grants to early-stage startups. Winners must relocate to St. Louis, building the city&#x27;s startup ecosystem. Over $30M awarded since founding." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">32</span>
       <span class="entry-name">Arch Grants — St. Louis</span>
       <a class="entry-link" href="https://archgrants.org/competition/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Equity-free startup competition awarding $50K-100K grants to early-stage startups. Winners must relocate to St. Louis, building the city&#x27;s startup ecosystem. Over $30M awarded since founding.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Startup World Cup — San Francisco" data-desc="Global startup pitch competition with regional qualifying rounds. Grand prize is a $1M investment from Pegasus Tech Ventures. Regional winners advance to the global finals in San Francisco." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">33</span>
       <span class="entry-name">Startup World Cup — San Francisco</span>
       <a class="entry-link" href="https://www.startupworldcup.io/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Global startup pitch competition with regional qualifying rounds. Grand prize is a $1M investment from Pegasus Tech Ventures. Regional winners advance to the global finals in San Francisco.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Entrepreneurship World Cup" data-desc="Global startup competition organized by GEN (Global Entrepreneurship Network). Multiple stages from national to global finals. Over $1M in prizes and support for winners." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">34</span>
       <span class="entry-name">Entrepreneurship World Cup</span>
       <a class="entry-link" href="https://www.genglobal.org/ewc" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Global startup competition organized by GEN (Global Entrepreneurship Network). Multiple stages from national to global finals. Over $1M in prizes and support for winners.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Harvard Business School New Venture Competition" data-desc="HBS&#x27;s flagship startup competition for student-led ventures. Features business plan track and social enterprise track. Awards significant funding and leverages HBS&#x27;s powerful alumni network." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">35</span>
       <span class="entry-name">Harvard Business School New Venture Competition</span>
       <a class="entry-link" href="https://www.hbs.edu/newventurecompetition/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">HBS&#x27;s flagship startup competition for student-led ventures. Features business plan track and social enterprise track. Awards significant funding and leverages HBS&#x27;s powerful alumni network.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Stanford BASES ($150K Challenge) — Palo Alto" data-desc="Stanford&#x27;s business plan competition offering $150K in prizes. Open to Stanford students across all schools. One of Silicon Valley&#x27;s most prominent university startup competitions." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">36</span>
       <span class="entry-name">Stanford BASES ($150K Challenge) — Palo Alto</span>
       <a class="entry-link" href="https://bases.stanford.edu/e-challenge/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Stanford&#x27;s business plan competition offering $150K in prizes. Open to Stanford students across all schools. One of Silicon Valley&#x27;s most prominent university startup competitions.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Wharton Business Plan Competition — Philadelphia" data-desc="University of Pennsylvania&#x27;s annual competition offering cash and mentorship. Features multiple tracks including technology, social impact, and health. Strong Wharton alumni investor network." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">37</span>
       <span class="entry-name">Wharton Business Plan Competition — Philadelphia</span>
       <a class="entry-link" href="https://entrepreneurship.wharton.upenn.edu/wharton-business-plan-competition/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">University of Pennsylvania&#x27;s annual competition offering cash and mentorship. Features multiple tracks including technology, social impact, and health. Strong Wharton alumni investor network.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="VentureCat — Northwestern University" data-desc="Northwestern&#x27;s annual pitch competition for student startups. Multiple rounds culminating in a live pitch event with investor judges. Awards cash prizes and incubation support." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">38</span>
       <span class="entry-name">VentureCat — Northwestern University</span>
       <a class="entry-link" href="https://www.venturecat.northwestern.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Northwestern&#x27;s annual pitch competition for student startups. Multiple rounds culminating in a live pitch event with investor judges. Awards cash prizes and incubation support.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Big Bang Competition — UC Davis" data-desc="UC Davis&#x27;s annual business competition for student and postdoc entrepreneurs. Offers $50K+ in prizes across tracks including tech, food &amp; agriculture, and social ventures." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">39</span>
       <span class="entry-name">Big Bang Competition — UC Davis</span>
       <a class="entry-link" href="https://innovate.ucdavis.edu/big-bang-competition" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">UC Davis&#x27;s annual business competition for student and postdoc entrepreneurs. Offers $50K+ in prizes across tracks including tech, food &amp; agriculture, and social ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="MN Cup — Minnesota" data-desc="One of the largest annual startup competitions in the US, based in Minnesota. Features eight division tracks and awards $600K+ in total prizes. Open to Minnesota-connected entrepreneurs." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">40</span>
       <span class="entry-name">MN Cup — Minnesota</span>
       <a class="entry-link" href="https://carlsonschool.umn.edu/mn-cup" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">One of the largest annual startup competitions in the US, based in Minnesota. Features eight division tracks and awards $600K+ in total prizes. Open to Minnesota-connected entrepreneurs.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Utah Entrepreneur Challenge — University of Utah" data-desc="Annual student startup competition at the University of Utah&#x27;s Lassonde Entrepreneur Institute. Multiple rounds with mentorship and $50K+ in prizes for winning teams." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">41</span>
       <span class="entry-name">Utah Entrepreneur Challenge — University of Utah</span>
       <a class="entry-link" href="https://lassonde.utah.edu/uec/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Annual student startup competition at the University of Utah&#x27;s Lassonde Entrepreneur Institute. Multiple rounds with mentorship and $50K+ in prizes for winning teams.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="VenturePack Challenge — NC State" data-desc="NC State University&#x27;s annual startup pitch competition offering cash prizes and mentorship. Supports student ventures across technology, agriculture, and life sciences." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">42</span>
       <span class="entry-name">VenturePack Challenge — NC State</span>
       <a class="entry-link" href="https://entrepreneurship.ncsu.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">NC State University&#x27;s annual startup pitch competition offering cash prizes and mentorship. Supports student ventures across technology, agriculture, and life sciences.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Startup Columbia — Columbia University, NYC" data-desc="Columbia University&#x27;s annual entrepreneurship festival featuring pitch competitions, panels, and networking events. One of the largest student-run entrepreneurship events in the US." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">43</span>
       <span class="entry-name">Startup Columbia — Columbia University, NYC</span>
       <a class="entry-link" href="https://entrepreneurship.columbia.edu/startupcolumbia/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Columbia University&#x27;s annual entrepreneurship festival featuring pitch competitions, panels, and networking events. One of the largest student-run entrepreneurship events in the US.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="MIT Water Innovation Prize — Cambridge" data-desc="Annual competition at MIT focused on water and climate innovation. Awards funding to ventures addressing water challenges globally. Open to MIT students and international participants." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">44</span>
       <span class="entry-name">MIT Water Innovation Prize — Cambridge</span>
       <a class="entry-link" href="https://www.mitwaterinnovation.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Annual competition at MIT focused on water and climate innovation. Awards funding to ventures addressing water challenges globally. Open to MIT students and international participants.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Clean Energy Prize — MIT" data-desc="MIT&#x27;s annual competition for clean energy startups. Awards $275K+ in prizes to ventures developing breakthrough clean energy technologies. Part of MIT&#x27;s broader energy initiative." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">45</span>
       <span class="entry-name">Clean Energy Prize — MIT</span>
       <a class="entry-link" href="https://cep.mit.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">MIT&#x27;s annual competition for clean energy startups. Awards $275K+ in prizes to ventures developing breakthrough clean energy technologies. Part of MIT&#x27;s broader energy initiative.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Dorm Room Fund (DRF) Pitch Events — Multiple Cities" data-desc="First Round Capital-backed student venture fund with chapters at major US universities. Regular pitch events where student founders can secure pre-seed investment ($20K checks)." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">46</span>
       <span class="entry-name">Dorm Room Fund (DRF) Pitch Events — Multiple Cities</span>
       <a class="entry-link" href="https://www.dormroomfund.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">First Round Capital-backed student venture fund with chapters at major US universities. Regular pitch events where student founders can secure pre-seed investment ($20K checks).</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Y Combinator Demo Day — San Francisco" data-desc="While technically an accelerator demo day, YC&#x27;s Demo Day is the most prestigious pitch event in the world. Twice annually, ~200 startups pitch to thousands of investors. Alumni include Airbnb, Stripe, Dropbox." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">47</span>
       <span class="entry-name">Y Combinator Demo Day — San Francisco</span>
       <a class="entry-link" href="https://www.ycombinator.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">While technically an accelerator demo day, YC&#x27;s Demo Day is the most prestigious pitch event in the world. Twice annually, ~200 startups pitch to thousands of investors. Alumni include Airbnb, Stripe, Dropbox.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Cartier Women&#x27;s Initiative — Global (US Eligible)" data-desc="International entrepreneurship award for women impact entrepreneurs. Regional winners receive $100K in prize money plus coaching and mentorship from a global network." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">48</span>
       <span class="entry-name">Cartier Women&#x27;s Initiative — Global (US Eligible)</span>
       <a class="entry-link" href="https://www.cartierwomensinitiative.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">International entrepreneurship award for women impact entrepreneurs. Regional winners receive $100K in prize money plus coaching and mentorship from a global network.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Hello Tomorrow Global Challenge — Global (US Eligible)" data-desc="Global deep tech startup competition. Finalists pitch breakthrough technologies in energy, health, industry, and more. Grand prize includes funding and partnership opportunities." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">49</span>
       <span class="entry-name">Hello Tomorrow Global Challenge — Global (US Eligible)</span>
       <a class="entry-link" href="https://hello-tomorrow.org/global-challenge/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Global deep tech startup competition. Finalists pitch breakthrough technologies in energy, health, industry, and more. Grand prize includes funding and partnership opportunities.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Thiel Fellowship — Global (US Based)" data-desc="Peter Thiel&#x27;s $100K fellowship for founders under 22 who skip or leave university to build their venture. Annual application with year-round funding. Alumni include Vitalik Buterin (Ethereum)." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">50</span>
       <span class="entry-name">Thiel Fellowship — Global (US Based)</span>
       <a class="entry-link" href="https://thielfellowship.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Peter Thiel&#x27;s $100K fellowship for founders under 22 who skip or leave university to build their venture. Annual application with year-round funding. Alumni include Vitalik Buterin (Ethereum).</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="1871 WMNtech Pitch — Chicago" data-desc="Annual pitch competition at Chicago&#x27;s 1871 tech hub supporting women-led technology startups. Offers cash prizes, mentorship, and access to Chicago&#x27;s tech ecosystem." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">51</span>
       <span class="entry-name">1871 WMNtech Pitch — Chicago</span>
       <a class="entry-link" href="https://1871.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Annual pitch competition at Chicago&#x27;s 1871 tech hub supporting women-led technology startups. Offers cash prizes, mentorship, and access to Chicago&#x27;s tech ecosystem.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="InsurTechNY — New York City" data-desc="Annual insurance-focused startup competition in NYC. Connects insurtech startups with major insurance carriers for pilots, investment, and partnerships." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">52</span>
       <span class="entry-name">InsurTechNY — New York City</span>
       <a class="entry-link" href="https://www.insurtechny.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Annual insurance-focused startup competition in NYC. Connects insurtech startups with major insurance carriers for pilots, investment, and partnerships.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Transit Tech Lab — New York City" data-desc="NYC-based competition supporting startups developing transit and mobility innovations. Backed by the MTA and city agencies, winners get pilot opportunities with NYC transit systems." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">53</span>
       <span class="entry-name">Transit Tech Lab — New York City</span>
       <a class="entry-link" href="https://transitinnovation.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">NYC-based competition supporting startups developing transit and mobility innovations. Backed by the MTA and city agencies, winners get pilot opportunities with NYC transit systems.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Hult Prize — Global (US HQ)" data-desc="World&#x27;s largest student competition for social enterprise. Campus rounds at 1,000+ universities lead to regional and global finals. Grand prize of $1M in seed funding for ventures tackling global challenges." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">54</span>
       <span class="entry-name">Hult Prize — Global (US HQ)</span>
       <a class="entry-link" href="https://www.hultprize.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">World&#x27;s largest student competition for social enterprise. Campus rounds at 1,000+ universities lead to regional and global finals. Grand prize of $1M in seed funding for ventures tackling global challenges.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Techstars Startup Weekend — Multiple US/Canada Cities" data-desc="54-hour events held globally where participants pitch ideas, form teams, and build startups in a weekend. Winners receive prizes and potential Techstars accelerator consideration." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">55</span>
       <span class="entry-name">Techstars Startup Weekend — Multiple US/Canada Cities</span>
       <a class="entry-link" href="https://startupweekend.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">54-hour events held globally where participants pitch ideas, form teams, and build startups in a weekend. Winners receive prizes and potential Techstars accelerator consideration.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Shark Tank (ABC) — National" data-desc="America&#x27;s iconic TV pitch show where entrepreneurs pitch to celebrity investors. Dilutive deals, but massive national TV exposure can transform consumer brands overnight." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">56</span>
       <span class="entry-name">Shark Tank (ABC) — National</span>
       <a class="entry-link" href="https://abc.com/shows/shark-tank" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">America&#x27;s iconic TV pitch show where entrepreneurs pitch to celebrity investors. Dilutive deals, but massive national TV exposure can transform consumer brands overnight.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="The Pitch (Podcast/Live Events) — Multiple Cities" data-desc="Popular pitch podcast that also hosts live pitch events. Founders pitch real investors in real-time for investment. Provides exposure to a large podcast audience." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">57</span>
       <span class="entry-name">The Pitch (Podcast/Live Events) — Multiple Cities</span>
       <a class="entry-link" href="https://www.thepitch.show/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Popular pitch podcast that also hosts live pitch events. Founders pitch real investors in real-time for investment. Provides exposure to a large podcast audience.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="DEMO Day at Techstars — Multiple Cities" data-desc="While an accelerator, Techstars Demo Days are major pitch events in each city (Boulder, NYC, Toronto, etc.). Portfolio companies pitch to hundreds of investors after 3-month programs." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">58</span>
       <span class="entry-name">DEMO Day at Techstars — Multiple Cities</span>
       <a class="entry-link" href="https://www.techstars.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">While an accelerator, Techstars Demo Days are major pitch events in each city (Boulder, NYC, Toronto, etc.). Portfolio companies pitch to hundreds of investors after 3-month programs.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Google for Startups Demo Day — Various" data-desc="Google&#x27;s pitch events for cohort graduates of their accelerator programs. Equity-free with access to Google engineers, cloud credits, and investor introductions." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">59</span>
       <span class="entry-name">Google for Startups Demo Day — Various</span>
       <a class="entry-link" href="https://startup.google.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">Google&#x27;s pitch events for cohort graduates of their accelerator programs. Equity-free with access to Google engineers, cloud credits, and investor introductions.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Amazon Web Services (AWS) Startup Ramp — Global" data-desc="AWS competitions and pitch events for cloud-native startups. Offers cloud credits worth up to $100K and exposure to Amazon&#x27;s enterprise customer base." data-country="United States">
     <div class="entry-header">
       <span class="entry-num teal">60</span>
       <span class="entry-name">Amazon Web Services (AWS) Startup Ramp — Global</span>
       <a class="entry-link" href="https://aws.amazon.com/startups/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-us">🇺🇸 United States</span></div>
     <div class="entry-desc">AWS competitions and pitch events for cloud-native startups. Offers cloud credits worth up to $100K and exposure to Amazon&#x27;s enterprise customer base.</div>
   </div>
 </div>
 <div class="section-title">🌐 CROSS-BORDER / OPEN TO CANADA + US</div>
 <div class="entries">
-  <div class="entry">
+  <div class="entry" data-name="Startup Battlefield 200 — TechCrunch Disrupt" data-desc="Extended version of TechCrunch&#x27;s Startup Battlefield featuring 200 startups. Open to global applicants including Canadian and American ventures." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">61</span>
       <span class="entry-name">Startup Battlefield 200 — TechCrunch Disrupt</span>
       <a class="entry-link" href="https://techcrunch.com/startup-battlefield/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Extended version of TechCrunch&#x27;s Startup Battlefield featuring 200 startups. Open to global applicants including Canadian and American ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Web Summit PITCH — Lisbon (Open to NA)" data-desc="One of the world&#x27;s largest tech conferences hosts a major pitch competition. Over 1,000 startups apply, with finalists pitching on the main stage to 70K+ attendees." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">62</span>
       <span class="entry-name">Web Summit PITCH — Lisbon (Open to NA)</span>
       <a class="entry-link" href="https://websummit.com/startups/pitch" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">One of the world&#x27;s largest tech conferences hosts a major pitch competition. Over 1,000 startups apply, with finalists pitching on the main stage to 70K+ attendees.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Slush 100 Pitching Competition — Helsinki (Open to NA)" data-desc="Annual pitch competition at Slush conference in Helsinki. 100 startups selected to pitch, with extensive investor networking. Popular with North American AI and deep tech startups." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">63</span>
       <span class="entry-name">Slush 100 Pitching Competition — Helsinki (Open to NA)</span>
       <a class="entry-link" href="https://slush.org/slush-100/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual pitch competition at Slush conference in Helsinki. 100 startups selected to pitch, with extensive investor networking. Popular with North American AI and deep tech startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="K-Startup Grand Challenge — South Korea (Open to NA)" data-desc="Korean government-backed accelerator competition offering free office space, mentorship, and up to $165K in funding. Open to global startups including Canadian and American ventures." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">64</span>
       <span class="entry-name">K-Startup Grand Challenge — South Korea (Open to NA)</span>
       <a class="entry-link" href="https://www.k-startupgc.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Korean government-backed accelerator competition offering free office space, mentorship, and up to $165K in funding. Open to global startups including Canadian and American ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Samsung NEXT Pitch Events — Multiple Cities" data-desc="Samsung&#x27;s venture arm hosts pitch events and startup showcases in North American cities. Focuses on software, AI, and enterprise startups with potential Samsung partnership." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">65</span>
       <span class="entry-name">Samsung NEXT Pitch Events — Multiple Cities</span>
       <a class="entry-link" href="https://samsungnext.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Samsung&#x27;s venture arm hosts pitch events and startup showcases in North American cities. Focuses on software, AI, and enterprise startups with potential Samsung partnership.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Plug and Play Startup Pitch — Sunnyvale + Toronto" data-desc="Silicon Valley&#x27;s largest innovation platform hosts regular pitch events connecting startups with 500+ corporate partners. Toronto location serves Canadian startups." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">66</span>
       <span class="entry-name">Plug and Play Startup Pitch — Sunnyvale + Toronto</span>
       <a class="entry-link" href="https://www.plugandplaytechcenter.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Silicon Valley&#x27;s largest innovation platform hosts regular pitch events connecting startups with 500+ corporate partners. Toronto location serves Canadian startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Collision Conference Startup Showcase — Toronto" data-desc="Major tech conference&#x27;s dedicated startup exhibition and pitch track. Features Alpha (early stage), Beta (growth), and more. Open to North American and global startups." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">67</span>
       <span class="entry-name">Collision Conference Startup Showcase — Toronto</span>
       <a class="entry-link" href="https://collisionconf.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Major tech conference&#x27;s dedicated startup exhibition and pitch track. Features Alpha (early stage), Beta (growth), and more. Open to North American and global startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Creative Destruction Lab (CDL) Super Session — Toronto" data-desc="CDL&#x27;s annual culminating event where portfolio companies pitch to an audience of investors and mentors. Multiple streams (AI, health, climate) with significant follow-on investment." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">68</span>
       <span class="entry-name">Creative Destruction Lab (CDL) Super Session — Toronto</span>
       <a class="entry-link" href="https://www.creativedestructionlab.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">CDL&#x27;s annual culminating event where portfolio companies pitch to an audience of investors and mentors. Multiple streams (AI, health, climate) with significant follow-on investment.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Accelerate Okanagan Pitch Competition — Kelowna" data-desc="Annual BC Interior pitch competition supporting Okanagan Valley tech startups. Offers cash prizes and mentorship from the regional tech community." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">69</span>
       <span class="entry-name">Accelerate Okanagan Pitch Competition — Kelowna</span>
       <a class="entry-link" href="https://www.accelerateokanagan.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual BC Interior pitch competition supporting Okanagan Valley tech startups. Offers cash prizes and mentorship from the regional tech community.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Startup TNT — Edmonton" data-desc="Edmonton-based investment competition and community. Regular pitch nights where local startups pitch to angel investors. Has invested over $3M in Alberta ventures." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">70</span>
       <span class="entry-name">Startup TNT — Edmonton</span>
       <a class="entry-link" href="https://startuptnt.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Edmonton-based investment competition and community. Regular pitch nights where local startups pitch to angel investors. Has invested over $3M in Alberta ventures.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="TiE Young Entrepreneurs (TYE) — Multiple Cities" data-desc="The Indus Entrepreneurs&#x27; youth program with chapters in Toronto, Silicon Valley, and other cities. Annual pitch competition for young founders aged 14-22." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">71</span>
       <span class="entry-name">TiE Young Entrepreneurs (TYE) — Multiple Cities</span>
       <a class="entry-link" href="https://toronto.tie.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">The Indus Entrepreneurs&#x27; youth program with chapters in Toronto, Silicon Valley, and other cities. Annual pitch competition for young founders aged 14-22.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="BioInnovation Challenge — Various" data-desc="Life sciences pitch competition connecting biotech startups with pharma partners and investors. North American focus with events in multiple cities." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">72</span>
       <span class="entry-name">BioInnovation Challenge — Various</span>
       <a class="entry-link" href="https://www.bioinnovation.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Life sciences pitch competition connecting biotech startups with pharma partners and investors. North American focus with events in multiple cities.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="EY Entrepreneur of the Year — National (US + Canada)" data-desc="Annual awards program recognizing outstanding entrepreneurs in multiple categories. Regional competitions lead to national and global finals. Massive prestige and networking value." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">73</span>
       <span class="entry-name">EY Entrepreneur of the Year — National (US + Canada)</span>
       <a class="entry-link" href="https://www.ey.com/en_us/entrepreneur-of-the-year" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual awards program recognizing outstanding entrepreneurs in multiple categories. Regional competitions lead to national and global finals. Massive prestige and networking value.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Inventure$ Conference Pitch — Calgary" data-desc="Alberta&#x27;s flagship innovation conference featuring pitch competitions and startup showcases. Connects prairie startups with national and international investors." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">74</span>
       <span class="entry-name">Inventure$ Conference Pitch — Calgary</span>
       <a class="entry-link" href="https://inventurescanada.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Alberta&#x27;s flagship innovation conference featuring pitch competitions and startup showcases. Connects prairie startups with national and international investors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="WeWork Creator Awards — Global (Discontinued but Legacy)" data-desc="While discontinued, the format inspired similar corporate-backed pitch competitions. Watch for WeWork&#x27;s successor programs supporting their member startups." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">75</span>
       <span class="entry-name">WeWork Creator Awards — Global (Discontinued but Legacy)</span>
       <a class="entry-link" href="https://www.wework.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">While discontinued, the format inspired similar corporate-backed pitch competitions. Watch for WeWork&#x27;s successor programs supporting their member startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="PitchBook Emerging Tech Summit — Various US Cities" data-desc="Data-driven pitch events connecting emerging tech startups with PitchBook&#x27;s investor network. High-quality investor matching based on PitchBook&#x27;s database." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">76</span>
       <span class="entry-name">PitchBook Emerging Tech Summit — Various US Cities</span>
       <a class="entry-link" href="https://pitchbook.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Data-driven pitch events connecting emerging tech startups with PitchBook&#x27;s investor network. High-quality investor matching based on PitchBook&#x27;s database.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="AngelList Demo Day Events — Virtual/SF" data-desc="AngelList&#x27;s platform-based demo days connecting startups with their network of 100K+ angel investors. Rolling applications with periodic showcase events." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">77</span>
       <span class="entry-name">AngelList Demo Day Events — Virtual/SF</span>
       <a class="entry-link" href="https://www.angellist.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">AngelList&#x27;s platform-based demo days connecting startups with their network of 100K+ angel investors. Rolling applications with periodic showcase events.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Penn Wharton Startup Challenge" data-desc="Separate from the Business Plan Competition, this challenge focuses on venture concepts and early-stage ideas. Multiple rounds with mentorship between stages." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">78</span>
       <span class="entry-name">Penn Wharton Startup Challenge</span>
       <a class="entry-link" href="https://entrepreneurship.wharton.upenn.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Separate from the Business Plan Competition, this challenge focuses on venture concepts and early-stage ideas. Multiple rounds with mentorship between stages.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Babson B.E.T.A. Challenge — Wellesley, MA" data-desc="Babson College&#x27;s annual pitch competition for student ventures. Awards cash prizes and leverages Babson&#x27;s #1 ranked entrepreneurship program for mentorship." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">79</span>
       <span class="entry-name">Babson B.E.T.A. Challenge — Wellesley, MA</span>
       <a class="entry-link" href="https://www.babson.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Babson College&#x27;s annual pitch competition for student ventures. Awards cash prizes and leverages Babson&#x27;s #1 ranked entrepreneurship program for mentorship.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Georgetown Entrepreneurship Challenge — Washington DC" data-desc="Annual pitch competition at Georgetown University. Features venture and social enterprise tracks with prizes and DC-area investor connections." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">80</span>
       <span class="entry-name">Georgetown Entrepreneurship Challenge — Washington DC</span>
       <a class="entry-link" href="https://entrepreneurship.georgetown.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual pitch competition at Georgetown University. Features venture and social enterprise tracks with prizes and DC-area investor connections.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="New York StartUp! Competition — NYC" data-desc="State-backed competition supporting New York-based startups with grants and resources. Multiple tracks including tech, clean energy, and manufacturing." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">81</span>
       <span class="entry-name">New York StartUp! Competition — NYC</span>
       <a class="entry-link" href="https://www.ny.gov/programs/new-york-startup" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">State-backed competition supporting New York-based startups with grants and resources. Multiple tracks including tech, clean energy, and manufacturing.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Milken-Penn GSE Education Business Plan Competition" data-desc="Annual competition for education technology and education-focused ventures. $25K+ prizes for startups improving K-12, higher ed, or workforce development." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">82</span>
       <span class="entry-name">Milken-Penn GSE Education Business Plan Competition</span>
       <a class="entry-link" href="https://www.gse.upenn.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual competition for education technology and education-focused ventures. $25K+ prizes for startups improving K-12, higher ed, or workforce development.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Berkeley Startup Competition (LAUNCH) — UC Berkeley" data-desc="UC Berkeley&#x27;s annual startup pitch competition offering $20K+ in prizes. Open to UC Berkeley students with ventures across technology, social impact, and life sciences." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">83</span>
       <span class="entry-name">Berkeley Startup Competition (LAUNCH) — UC Berkeley</span>
       <a class="entry-link" href="https://launch.berkeley.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">UC Berkeley&#x27;s annual startup pitch competition offering $20K+ in prizes. Open to UC Berkeley students with ventures across technology, social impact, and life sciences.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Johns Hopkins Business Plan Competition — Baltimore" data-desc="Johns Hopkins&#x27; annual competition for student ventures, particularly strong in health and biotech. Leverages JHU&#x27;s medical research expertise." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">84</span>
       <span class="entry-name">Johns Hopkins Business Plan Competition — Baltimore</span>
       <a class="entry-link" href="https://ventures.jhu.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Johns Hopkins&#x27; annual competition for student ventures, particularly strong in health and biotech. Leverages JHU&#x27;s medical research expertise.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Yale Venture Challenge — New Haven" data-desc="Yale University&#x27;s pitch competition supporting student entrepreneurs. Awards cash prizes and connects winners with Yale&#x27;s extensive alumni investment network." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">85</span>
       <span class="entry-name">Yale Venture Challenge — New Haven</span>
       <a class="entry-link" href="https://ventures.yale.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Yale University&#x27;s pitch competition supporting student entrepreneurs. Awards cash prizes and connects winners with Yale&#x27;s extensive alumni investment network.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Carnegie Mellon McGinnis Venture Competition — Pittsburgh" data-desc="CMU&#x27;s annual startup competition offering $60K+ in prizes. Strong emphasis on deep tech, robotics, and AI ventures from CMU&#x27;s engineering programs." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">86</span>
       <span class="entry-name">Carnegie Mellon McGinnis Venture Competition — Pittsburgh</span>
       <a class="entry-link" href="https://www.cmu.edu/swartz-center-for-entrepreneurship/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">CMU&#x27;s annual startup competition offering $60K+ in prizes. Strong emphasis on deep tech, robotics, and AI ventures from CMU&#x27;s engineering programs.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="USC Maseeh Entrepreneurship Prize Competition — Los Angeles" data-desc="USC&#x27;s annual pitch competition with $25K+ in prizes. Leverages LA&#x27;s entertainment, tech, and media ecosystem for industry connections." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">87</span>
       <span class="entry-name">USC Maseeh Entrepreneurship Prize Competition — Los Angeles</span>
       <a class="entry-link" href="https://www.marshall.usc.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">USC&#x27;s annual pitch competition with $25K+ in prizes. Leverages LA&#x27;s entertainment, tech, and media ecosystem for industry connections.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Michigan Ross Dare to Dream — Ann Arbor" data-desc="University of Michigan&#x27;s pitch competition supporting student ventures with $100K+ in prize pool. Features multiple tracks and strong Midwest investor connections." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">88</span>
       <span class="entry-name">Michigan Ross Dare to Dream — Ann Arbor</span>
       <a class="entry-link" href="https://www.bus.umich.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">University of Michigan&#x27;s pitch competition supporting student ventures with $100K+ in prize pool. Features multiple tracks and strong Midwest investor connections.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="UVA i.Lab Venture Competition — Charlottesville" data-desc="UVA&#x27;s Innovation Lab pitch competition for student startups. Awards cash prizes and leverages UVA&#x27;s entrepreneurship programs and Darden School network." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">89</span>
       <span class="entry-name">UVA i.Lab Venture Competition — Charlottesville</span>
       <a class="entry-link" href="https://www.ilab.virginia.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">UVA&#x27;s Innovation Lab pitch competition for student startups. Awards cash prizes and leverages UVA&#x27;s entrepreneurship programs and Darden School network.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Georgia Tech InVenture Prize — Atlanta" data-desc="Georgia Tech&#x27;s annual invention competition aired on Georgia Public Broadcasting. Awards $35K+ in prizes for the most innovative student inventions and startups." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">90</span>
       <span class="entry-name">Georgia Tech InVenture Prize — Atlanta</span>
       <a class="entry-link" href="https://inventureprize.gatech.edu/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Georgia Tech&#x27;s annual invention competition aired on Georgia Public Broadcasting. Awards $35K+ in prizes for the most innovative student inventions and startups.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Hatch Pitch Competitions — Various" data-desc="Series of industry-specific pitch competitions held across North America. Vertical-focused events in health, enterprise, fintech, and climate." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">91</span>
       <span class="entry-name">Hatch Pitch Competitions — Various</span>
       <a class="entry-link" href="https://hatchpitch.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Series of industry-specific pitch competitions held across North America. Vertical-focused events in health, enterprise, fintech, and climate.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Prosper Portland Startup PDX Challenge — Portland" data-desc="City of Portland&#x27;s annual pitch competition for local startups. Awards grants and connects winners with Portland&#x27;s thriving startup community." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">92</span>
       <span class="entry-name">Prosper Portland Startup PDX Challenge — Portland</span>
       <a class="entry-link" href="https://prosperportland.us/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">City of Portland&#x27;s annual pitch competition for local startups. Awards grants and connects winners with Portland&#x27;s thriving startup community.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Austin Technology Council Awards — Austin" data-desc="Annual awards and pitch events recognizing Austin&#x27;s tech innovation. Connects startups with Austin&#x27;s booming tech ecosystem." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">93</span>
       <span class="entry-name">Austin Technology Council Awards — Austin</span>
       <a class="entry-link" href="https://www.austintechnologycouncil.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual awards and pitch events recognizing Austin&#x27;s tech innovation. Connects startups with Austin&#x27;s booming tech ecosystem.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Denver Startup Week Pitch Competition — Denver" data-desc="Annual community-organized startup week featuring pitch competitions, panels, and networking. One of the largest free startup events in North America." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">94</span>
       <span class="entry-name">Denver Startup Week Pitch Competition — Denver</span>
       <a class="entry-link" href="https://www.denverstartupweek.org/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual community-organized startup week featuring pitch competitions, panels, and networking. One of the largest free startup events in North America.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="CES Innovation Awards / Eureka Park — Las Vegas" data-desc="Annual Consumer Electronics Show features a startup pitch area (Eureka Park) with 1,000+ startups exhibiting. Innovation Awards highlight breakthrough products across categories." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">95</span>
       <span class="entry-name">CES Innovation Awards / Eureka Park — Las Vegas</span>
       <a class="entry-link" href="https://www.ces.tech/innovation-awards/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Annual Consumer Electronics Show features a startup pitch area (Eureka Park) with 1,000+ startups exhibiting. Innovation Awards highlight breakthrough products across categories.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="eMerge Americas Pitch Competition — Miami" data-desc="Miami&#x27;s annual tech conference featuring pitch competitions connecting Latin American and North American startups with investors." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">96</span>
       <span class="entry-name">eMerge Americas Pitch Competition — Miami</span>
       <a class="entry-link" href="https://emergeamericas.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Miami&#x27;s annual tech conference featuring pitch competitions connecting Latin American and North American startups with investors.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Techstars Founder Catalyst — Virtual" data-desc="Techstars&#x27; pre-accelerator pitch program helping founders validate ideas through a structured process leading to demo day pitches." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">97</span>
       <span class="entry-name">Techstars Founder Catalyst — Virtual</span>
       <a class="entry-link" href="https://www.techstars.com/communities/founder-catalyst" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Techstars&#x27; pre-accelerator pitch program helping founders validate ideas through a structured process leading to demo day pitches.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="AT&amp;T Civic Startup Accelerator Pitch — Various" data-desc="AT&amp;T&#x27;s program supporting civic tech startups with mentorship and pitch opportunities. Connects startups with AT&amp;T&#x27;s enterprise customer base." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">98</span>
       <span class="entry-name">AT&amp;T Civic Startup Accelerator Pitch — Various</span>
       <a class="entry-link" href="https://about.att.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">AT&amp;T&#x27;s program supporting civic tech startups with mentorship and pitch opportunities. Connects startups with AT&amp;T&#x27;s enterprise customer base.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="OpenAI Converge Program — San Francisco" data-desc="OpenAI&#x27;s program for AI startups providing funding ($1M), API credits, and access to OpenAI researchers. Cohorts culminate in a demo/pitch event." data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">99</span>
       <span class="entry-name">OpenAI Converge Program — San Francisco</span>
       <a class="entry-link" href="https://openai.fund/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">OpenAI&#x27;s program for AI startups providing funding ($1M), API credits, and access to OpenAI researchers. Cohorts culminate in a demo/pitch event.</div>
   </div>
-  <div class="entry">
+  <div class="entry" data-name="Indie.vc / Calm Fund Pitch — Various" data-desc="Alternative funding model offering patient capital to founders building sustainable (not hypergrowth) businesses. Pitch events focused on profitability over unicorn potential. **List 2 complete: 100 Pitch Competitions (25 Canada, 35 US, 40 Cross-Border/Open)**" data-country="Canada">
     <div class="entry-header">
       <span class="entry-num teal">100</span>
       <span class="entry-name">Indie.vc / Calm Fund Pitch — Various</span>
       <a class="entry-link" href="https://calmfund.com/" target="_blank" rel="noopener">Visit ↗</a>
     </div>
+    <div class="entry-tags"><span class="entry-tag country-ca">🇨🇦 Canada</span></div>
     <div class="entry-desc">Alternative funding model offering patient capital to founders building sustainable (not hypergrowth) businesses. Pitch events focused on profitability over unicorn potential. **List 2 complete: 100 Pitch Competitions (25 Canada, 35 US, 40 Cross-Border/Open)**</div>
   </div>
 </div>
 
 
+<div class="no-results" id="noResults">No results match your filters. Try adjusting your search or filter.</div>
+
 <footer>
   <p>Project Confluence — Built for founders navigating the ecosystem.</p>
 </footer>
+
+
+<script>
+function applyFilters() {
+  const searchVal = (document.getElementById('searchBox')?.value || '').toLowerCase();
+  const filterSelect = document.getElementById('filterSelect');
+  const filterVal = filterSelect ? filterSelect.value : '';
+  const filterAttr = filterSelect ? filterSelect.dataset.attr : '';
+
+  const entries = document.querySelectorAll('.entry');
+  let visible = 0;
+
+  entries.forEach(el => {
+    const name = (el.dataset.name || '').toLowerCase();
+    const desc = (el.dataset.desc || '').toLowerCase();
+    const filterData = (el.dataset[filterAttr] || '').toLowerCase();
+
+    let show = true;
+
+    // Search filter
+    if (searchVal && !name.includes(searchVal) && !desc.includes(searchVal)) {
+      show = false;
+    }
+
+    // Dropdown filter
+    if (filterVal && filterData !== filterVal.toLowerCase()) {
+      show = false;
+    }
+
+    el.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  // Update count
+  const countEl = document.getElementById('resultsCount');
+  if (countEl) {
+    countEl.textContent = visible + ' of ' + entries.length + ' shown';
+  }
+
+  // No results message
+  const noResults = document.getElementById('noResults');
+  if (noResults) {
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  // Hide/show section titles based on visible children
+  document.querySelectorAll('.section-title').forEach(title => {
+    const nextEntries = title.nextElementSibling;
+    if (nextEntries && nextEntries.classList.contains('entries')) {
+      const hasVisible = nextEntries.querySelector('.entry:not(.hidden)');
+      title.style.display = hasVisible ? '' : 'none';
+      nextEntries.style.display = hasVisible ? '' : 'none';
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('searchBox')?.addEventListener('input', applyFilters);
+  document.getElementById('filterSelect')?.addEventListener('change', applyFilters);
+});
+</script>
 
 </body>
 </html>
