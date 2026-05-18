@@ -1,56 +1,53 @@
 // ============================================================
-// ⚙️ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+// Confluence Visitor Tracker — Google Sheets Backend
 // ============================================================
 const TRACKER_URL = 'https://script.google.com/macros/s/AKfycbxg34rAeJ26dSi_wGe_rALeY_mUvCHdlHSCrIrCsN9l1s6BvbCo4w8At3kzm5j3Msix/exec';
-// ============================================================
 
 (function() {
   if (!TRACKER_URL) return;
 
-  // Only count once per session (new tab = new visit, navigating within = same visit)
-  const sessionKey = 'confluence_tracked';
+  // Only count once per session
+  var sessionKey = 'confluence_tracked';
   if (sessionStorage.getItem(sessionKey)) return;
   sessionStorage.setItem(sessionKey, '1');
 
-  const ua = navigator.userAgent;
+  var ua = navigator.userAgent;
 
   function getBrowser() {
-    if (ua.includes('Firefox/')) return 'Firefox';
-    if (ua.includes('Edg/')) return 'Edge';
-    if (ua.includes('OPR/') || ua.includes('Opera')) return 'Opera';
-    if (ua.includes('Chrome/') && !ua.includes('Edg/')) return 'Chrome';
-    if (ua.includes('Safari/') && !ua.includes('Chrome')) return 'Safari';
-    if (ua.includes('MSIE') || ua.includes('Trident/')) return 'IE';
+    if (ua.indexOf('Firefox') > -1) return 'Firefox';
+    if (ua.indexOf('Edg/') > -1) return 'Edge';
+    if (ua.indexOf('OPR') > -1 || ua.indexOf('Opera') > -1) return 'Opera';
+    if (ua.indexOf('Chrome') > -1 && ua.indexOf('Edg/') === -1) return 'Chrome';
+    if (ua.indexOf('Safari') > -1 && ua.indexOf('Chrome') === -1) return 'Safari';
     return 'Unknown';
   }
 
   function getOS() {
-    if (ua.includes('Windows NT 10')) return 'Windows 10/11';
-    if (ua.includes('Windows NT')) return 'Windows';
-    if (ua.includes('Mac OS X')) return 'macOS';
-    if (ua.includes('iPhone') || ua.includes('iPad')) return 'iOS';
-    if (ua.includes('Android')) return 'Android';
-    if (ua.includes('Linux')) return 'Linux';
-    if (ua.includes('CrOS')) return 'ChromeOS';
+    if (ua.indexOf('Windows') > -1) return 'Windows';
+    if (ua.indexOf('Mac OS X') > -1) return 'macOS';
+    if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) return 'iOS';
+    if (ua.indexOf('Android') > -1) return 'Android';
+    if (ua.indexOf('Linux') > -1) return 'Linux';
     return 'Unknown';
   }
 
-  // Get IP, then log the visit
+  // Get IP then send tracking data
   fetch('https://api.ipify.org?format=json')
-    .then(r => r.json())
-    .then(data => {
-      const params = new URLSearchParams({
-        ip: data.ip || 'unknown',
-        page: window.location.pathname.replace(/.*\//, '').replace('.html', '') || 'index',
-        browser: getBrowser(),
-        os: getOS(),
-        referrer: document.referrer || 'direct',
-        screen: window.screen.width + 'x' + window.screen.height,
-        language: navigator.language || 'unknown'
-      });
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var params = [
+        'ip=' + encodeURIComponent(data.ip || 'unknown'),
+        'page=' + encodeURIComponent(location.pathname.split('/').pop().replace('.html','') || 'index'),
+        'browser=' + encodeURIComponent(getBrowser()),
+        'os=' + encodeURIComponent(getOS()),
+        'referrer=' + encodeURIComponent(document.referrer || 'direct'),
+        'screen=' + encodeURIComponent(screen.width + 'x' + screen.height),
+        'language=' + encodeURIComponent(navigator.language || 'unknown')
+      ].join('&');
 
-      // Use image beacon approach (more reliable than fetch for cross-origin Apps Script)
-      return fetch(TRACKER_URL + '?' + params.toString(), { mode: 'no-cors' });
+      // Use image beacon — most reliable cross-origin method
+      var img = new Image();
+      img.src = TRACKER_URL + '?' + params;
     })
-    .catch(() => {});
+    .catch(function() {});
 })();
