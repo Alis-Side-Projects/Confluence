@@ -20,10 +20,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 24px;
+    background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px;
   }
   .header {
     display: flex; align-items: center; justify-content: space-between;
@@ -34,12 +31,12 @@
     background: linear-gradient(135deg, #6c5ce7, #00cec9);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
-  .header .refresh-btn {
+  .refresh-btn {
     padding: 8px 20px; border-radius: 8px; border: 1px solid var(--border);
     background: var(--surface); color: var(--text); cursor: pointer;
     font-size: 0.9rem; transition: all 0.2s;
   }
-  .header .refresh-btn:hover { border-color: var(--accent1); background: var(--surface2); }
+  .refresh-btn:hover { border-color: var(--accent1); background: var(--surface2); }
   .stats-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
   .stat-card {
     background: var(--surface); border: 1px solid var(--border);
@@ -65,9 +62,7 @@
     text-transform: uppercase; letter-spacing: 0.06em;
     white-space: nowrap; border-bottom: 1px solid var(--border);
   }
-  td {
-    padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap;
-  }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); white-space: nowrap; }
   tr:last-child td { border-bottom: none; }
   .session-row { cursor: pointer; transition: background 0.15s; }
   .session-row:hover td { background: rgba(108,92,231,0.06); }
@@ -84,8 +79,6 @@
   }
   .os-cell { color: var(--accent3); }
   .browser-cell { color: var(--accent2); }
-
-  /* Expanded detail panel */
   .detail-row { display: none; }
   .detail-row.show { display: table-row; }
   .detail-row td {
@@ -103,7 +96,7 @@
     padding: 8px 12px; border-radius: 8px; margin-bottom: 4px;
     background: var(--surface2); font-size: 0.85rem;
   }
-  .event-list .ev-icon {
+  .ev-icon {
     width: 28px; height: 28px; border-radius: 6px;
     display: flex; align-items: center; justify-content: center;
     font-size: 0.8rem; flex-shrink: 0;
@@ -111,10 +104,8 @@
   .ev-pageview .ev-icon { background: rgba(108,92,231,0.15); }
   .ev-click .ev-icon { background: rgba(0,206,201,0.15); }
   .ev-leave .ev-icon { background: rgba(253,121,168,0.15); }
-  .event-list .ev-time {
-    color: var(--text-muted); font-size: 0.78rem; margin-left: auto; white-space: nowrap;
-  }
-  .event-list .ev-detail { color: var(--text); }
+  .ev-time { color: var(--text-muted); font-size: 0.78rem; margin-left: auto; white-space: nowrap; }
+  .ev-detail { color: var(--text); }
   .ev-duration {
     display: inline-block; padding: 2px 8px; border-radius: 4px;
     font-size: 0.75rem; font-weight: 600;
@@ -126,9 +117,7 @@
   }
   .no-events { color: var(--text-muted); font-size: 0.85rem; font-style: italic; }
   .loading { text-align: center; padding: 40px; color: var(--text-muted); }
-  .empty-state {
-    text-align: center; padding: 60px 20px; color: var(--text-muted);
-  }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
   .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
 </style>
 </head>
@@ -140,22 +129,10 @@
 </div>
 
 <div class="stats-row">
-  <div class="stat-card">
-    <div class="label">Total Sessions</div>
-    <div class="value purple" id="totalVisits">—</div>
-  </div>
-  <div class="stat-card">
-    <div class="label">Today</div>
-    <div class="value teal" id="todayVisits">—</div>
-  </div>
-  <div class="stat-card">
-    <div class="label">Unique IPs</div>
-    <div class="value pink" id="uniqueIPs">—</div>
-  </div>
-  <div class="stat-card">
-    <div class="label">Link Clicks</div>
-    <div class="value yellow" id="totalClicks">—</div>
-  </div>
+  <div class="stat-card"><div class="label">Total Sessions</div><div class="value purple" id="totalVisits">—</div></div>
+  <div class="stat-card"><div class="label">Today</div><div class="value teal" id="todayVisits">—</div></div>
+  <div class="stat-card"><div class="label">Unique IPs</div><div class="value pink" id="uniqueIPs">—</div></div>
+  <div class="stat-card"><div class="label">Link Clicks</div><div class="value yellow" id="totalClicks">—</div></div>
 </div>
 
 <div class="table-wrapper">
@@ -163,67 +140,21 @@
   <table id="visitorTable" style="display:none;">
     <thead>
       <tr>
-        <th>#</th>
-        <th>IP Address</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Entry Page</th>
-        <th>Browser</th>
-        <th>OS</th>
-        <th>Screen</th>
-        <th>Pages</th>
-        <th>Clicks</th>
+        <th>#</th><th>IP Address</th><th>Date</th><th>Time</th>
+        <th>Entry Page</th><th>Browser</th><th>OS</th><th>Pages</th><th>Clicks</th>
       </tr>
     </thead>
     <tbody id="visitorRows"></tbody>
   </table>
   <div class="empty-state" id="emptyState" style="display:none;">
-    <div class="icon">👀</div>
-    <p>No visitors yet.</p>
+    <div class="icon">👀</div><p>No visitors yet.</p>
   </div>
 </div>
 
 <script>
 var SHEET_ID = '1_CiIlQat2JN7YzbkY83Kbjq76zBjVFdcbm1tZFRdNHw';
 
-function esc(str) {
-  var d = document.createElement('div'); d.textContent = str || ''; return d.innerHTML;
-}
-
-function fetchSheet(name) {
-  var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
-    '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(name);
-  return fetch(url).then(function(r) { return r.text(); }).then(function(t) {
-    var json = t.replace(/^[^(]*\(/, '').replace(/\);?\s*$/, '');
-    var data = JSON.parse(json);
-    var rows = data.table.rows || [];
-    var cols = data.table.cols || [];
-    // skip header row
-    var result = [];
-    for (var i = 0; i < rows.length; i++) {
-      var r = rows[i].c;
-      if (!r) continue;
-      var first = r[0] ? (r[0].v || '') : '';
-      if (i === 0 && (first === 'Session ID' || first === 'IP Address')) continue;
-      var obj = {};
-      for (var j = 0; j < cols.length; j++) {
-        var key = cols[j].label || ('col' + j);
-        obj[key] = r[j] ? (r[j].f || r[j].v || '') : '';
-        obj['raw_' + key] = r[j] ? (r[j].v || '') : '';
-      }
-      result.push(obj);
-    }
-    return result;
-  });
-}
-
-function parseRows(rows, keys) {
-  return rows.map(function(r) {
-    var obj = {};
-    keys.forEach(function(k, i) { obj[k] = r['col' + i] || r[Object.keys(r)[i]] || ''; });
-    return obj;
-  });
-}
+function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 
 async function loadAll() {
   document.getElementById('loadingState').style.display = 'block';
@@ -231,30 +162,49 @@ async function loadAll() {
   document.getElementById('emptyState').style.display = 'none';
 
   try {
-    var sessionsRaw = await fetchSheet('Sessions');
-    var eventsRaw = [];
-    try { eventsRaw = await fetchSheet('Events'); } catch(e) {}
+    // Fetch Sheet1 (all rows in one sheet now)
+    var url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
+    var res = await fetch(url);
+    var text = await res.text();
+    var json = text.replace(/^[^(]*\(/, '').replace(/\);?\s*$/, '');
+    var data = JSON.parse(json);
+    var rows = data.table.rows || [];
 
-    // Parse sessions
-    var sessions = sessionsRaw.map(function(r) {
-      var vals = Object.values(r).filter(function(v,i) { return i % 2 === 0; }); // skip raw_ keys
-      return {
-        sid: vals[0] || '', ip: vals[1] || '', date: vals[2] || '',
-        time: vals[3] || '', page: vals[4] || '', browser: vals[5] || '',
-        os: vals[6] || '', screen: vals[7] || '', language: vals[8] || '',
-        referrer: vals[9] || ''
-      };
-    });
+    if (rows.length === 0) {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('emptyState').style.display = 'block';
+      ['totalVisits','todayVisits','uniqueIPs','totalClicks'].forEach(function(id){document.getElementById(id).textContent='0';});
+      return;
+    }
 
-    // Parse events
-    var events = eventsRaw.map(function(r) {
-      var vals = Object.values(r).filter(function(v,i) { return i % 2 === 0; });
-      return {
-        sid: vals[0] || '', type: vals[1] || '', page: vals[2] || '',
-        detail: vals[3] || '', duration: vals[4] || '', date: vals[5] || '',
-        time: vals[6] || ''
-      };
-    });
+    // Parse all rows: [sid, ip, date, time, action, page, detail, duration, browser, os, screen, language, referrer]
+    var allRows = [];
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i].c;
+      if (!r) continue;
+      var sid = r[0] ? (r[0].v || '') : '';
+      // Skip header row
+      if (sid === 'Session ID') continue;
+      allRows.push({
+        sid:      sid,
+        ip:       r[1] ? (r[1].v || '') : '',
+        date:     r[2] ? (r[2].f || r[2].v || '') : '',
+        time:     r[3] ? (r[3].f || r[3].v || '') : '',
+        action:   r[4] ? (r[4].v || '') : '',
+        page:     r[5] ? (r[5].v || '') : '',
+        detail:   r[6] ? (r[6].v || '') : '',
+        duration: r[7] ? (r[7].v || '') : '',
+        browser:  r[8] ? (r[8].v || '') : '',
+        os:       r[9] ? (r[9].v || '') : '',
+        screen:   r[10] ? (r[10].v || '') : '',
+        language: r[11] ? (r[11].v || '') : '',
+        referrer: r[12] ? (r[12].v || '') : ''
+      });
+    }
+
+    // Separate sessions (visit) from events (pageview, click, leave)
+    var sessions = allRows.filter(function(r) { return r.action === 'visit'; });
+    var events = allRows.filter(function(r) { return r.action !== 'visit' && r.action !== ''; });
 
     // Group events by session ID
     var eventMap = {};
@@ -267,10 +217,7 @@ async function loadAll() {
     if (sessions.length === 0) {
       document.getElementById('loadingState').style.display = 'none';
       document.getElementById('emptyState').style.display = 'block';
-      document.getElementById('totalVisits').textContent = '0';
-      document.getElementById('todayVisits').textContent = '0';
-      document.getElementById('uniqueIPs').textContent = '0';
-      document.getElementById('totalClicks').textContent = '0';
+      ['totalVisits','todayVisits','uniqueIPs','totalClicks'].forEach(function(id){document.getElementById(id).textContent='0';});
       return;
     }
 
@@ -278,7 +225,7 @@ async function loadAll() {
     var today = new Date().toISOString().split('T')[0];
     var todayCount = sessions.filter(function(s) { return s.date === today; }).length;
     var uniqueIps = new Set(sessions.map(function(s) { return s.ip; }).filter(Boolean)).size;
-    var totalClicks = events.filter(function(e) { return e.type === 'click'; }).length;
+    var totalClicks = events.filter(function(e) { return e.action === 'click'; }).length;
 
     document.getElementById('totalVisits').textContent = sessions.length;
     document.getElementById('todayVisits').textContent = todayCount;
@@ -292,10 +239,9 @@ async function loadAll() {
 
     reversed.forEach(function(s, i) {
       var sessEvents = eventMap[s.sid] || [];
-      var pageviews = sessEvents.filter(function(e) { return e.type === 'pageview'; }).length;
-      var clicks = sessEvents.filter(function(e) { return e.type === 'click'; }).length;
+      var pageviews = sessEvents.filter(function(e) { return e.action === 'pageview'; }).length;
+      var clicks = sessEvents.filter(function(e) { return e.action === 'click'; }).length;
 
-      // Session row
       var tr = document.createElement('tr');
       tr.className = 'session-row';
       tr.dataset.idx = i;
@@ -307,53 +253,50 @@ async function loadAll() {
         '<td><span class="page-cell">' + esc(s.page) + '</span></td>' +
         '<td class="browser-cell">' + esc(s.browser) + '</td>' +
         '<td class="os-cell">' + esc(s.os) + '</td>' +
-        '<td>' + esc(s.screen) + '</td>' +
         '<td>' + pageviews + '</td>' +
         '<td>' + clicks + '</td>';
       tbody.appendChild(tr);
 
-      // Detail row (hidden by default)
+      // Detail row
       var detailTr = document.createElement('tr');
       detailTr.className = 'detail-row';
       detailTr.id = 'detail-' + i;
-      var detailHtml = '<td colspan="10"><div class="detail-panel">';
-      detailHtml += '<h4>Session Activity (' + s.sid + ')</h4>';
+      var dh = '<td colspan="9"><div class="detail-panel">';
+      dh += '<h4>Session Activity (' + esc(s.sid) + ')</h4>';
 
       if (sessEvents.length === 0) {
-        detailHtml += '<p class="no-events">No detailed events recorded for this session.</p>';
+        dh += '<p class="no-events">No detailed events recorded for this session.</p>';
       } else {
-        detailHtml += '<ul class="event-list">';
+        dh += '<ul class="event-list">';
         sessEvents.forEach(function(ev) {
-          var icon = '👁️', cls = 'ev-pageview', label = '';
-          if (ev.type === 'pageview') {
-            icon = '📄'; label = 'Viewed <span class="page-cell">' + esc(ev.page) + '</span>';
-          } else if (ev.type === 'click') {
+          var icon, cls, label;
+          if (ev.action === 'pageview') {
+            icon = '📄'; cls = 'ev-pageview';
+            label = 'Viewed <span class="page-cell">' + esc(ev.page) + '</span>';
+          } else if (ev.action === 'click') {
             icon = '🔗'; cls = 'ev-click';
             label = 'Clicked <span class="ev-click-name">' + esc(ev.detail) + '</span> on <span class="page-cell">' + esc(ev.page) + '</span>';
-          } else if (ev.type === 'leave') {
+          } else if (ev.action === 'leave') {
             icon = '🚪'; cls = 'ev-leave';
             label = 'Left <span class="page-cell">' + esc(ev.page) + '</span> — <span class="ev-duration">' + esc(ev.duration) + 's on page</span>';
+          } else {
+            icon = '•'; cls = 'ev-pageview';
+            label = esc(ev.action) + ' ' + esc(ev.page);
           }
-          detailHtml += '<li class="' + cls + '"><span class="ev-icon">' + icon + '</span><span class="ev-detail">' + label + '</span><span class="ev-time">' + esc(ev.time) + '</span></li>';
+          dh += '<li class="' + cls + '"><span class="ev-icon">' + icon + '</span><span class="ev-detail">' + label + '</span><span class="ev-time">' + esc(ev.time) + '</span></li>';
         });
-        detailHtml += '</ul>';
+        dh += '</ul>';
       }
-
-      detailHtml += '</div></td>';
-      detailTr.innerHTML = detailHtml;
+      dh += '</div></td>';
+      detailTr.innerHTML = dh;
       tbody.appendChild(detailTr);
 
-      // Click to expand
       tr.addEventListener('click', function() {
         var detail = document.getElementById('detail-' + this.dataset.idx);
         var isOpen = detail.classList.contains('show');
-        // Close all
         document.querySelectorAll('.detail-row.show').forEach(function(el) { el.classList.remove('show'); });
         document.querySelectorAll('.session-row.expanded').forEach(function(el) { el.classList.remove('expanded'); });
-        if (!isOpen) {
-          detail.classList.add('show');
-          this.classList.add('expanded');
-        }
+        if (!isOpen) { detail.classList.add('show'); this.classList.add('expanded'); }
       });
     });
 
@@ -361,8 +304,7 @@ async function loadAll() {
     document.getElementById('visitorTable').style.display = 'table';
 
   } catch(err) {
-    document.getElementById('loadingState').innerHTML =
-      '<span style="color:var(--accent3);">Error: ' + esc(err.message) + '</span>';
+    document.getElementById('loadingState').innerHTML = '<span style="color:var(--accent3);">Error: ' + esc(err.message) + '</span>';
   }
 }
 
