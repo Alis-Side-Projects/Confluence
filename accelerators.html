@@ -206,19 +206,27 @@
   .entry-tag.country-us { background: rgba(0,206,201,0.12); color: #00cec9; }
   .entry-tag.country-both { background: rgba(255,180,50,0.12); color: #f0b040; }
   .entry-link {
-    font-size: 0.8rem;
-    color: var(--accent1);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
     text-decoration: none;
     white-space: nowrap;
-    padding: 4px 12px;
-    border: 1px solid rgba(108,92,231,0.3);
-    border-radius: 6px;
-    transition: all 0.2s;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #6c5ce7, #a855f7);
+    border: none;
+    border-radius: 8px;
+    transition: all 0.25s ease;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(108,92,231,0.3);
+    letter-spacing: 0.02em;
   }
   .entry-link:hover {
-    background: rgba(108,92,231,0.1);
-    border-color: var(--accent1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(108,92,231,0.5);
+    background: linear-gradient(135deg, #7c6cf7, #b865ff);
+  }
+  .entry-link:active {
+    transform: translateY(0);
   }
   .entry-desc {
     color: var(--text-muted);
