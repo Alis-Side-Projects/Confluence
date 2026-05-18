@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canadian Startup Incubators — Confluence</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3a;
+    --text: #e4e4ed;
+    --text-muted: #8888a0;
+    --accent1: #6c5ce7;
+    --accent2: #00cec9;
+    --accent3: #fd79a8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .topbar a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .topbar a:hover { color: var(--text); }
+  .topbar .brand {
+    font-weight: 800;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #6c5ce7, #00cec9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-right: 24px;
+  }
+  .page-header {
+    text-align: center;
+    padding: 60px 20px 32px;
+  }
+  .page-header .icon { font-size: 3rem; margin-bottom: 12px; }
+  .page-header h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .section-title {
+    max-width: 900px;
+    margin: 40px auto 16px;
+    padding: 0 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .entries {
+    max-width: 900px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .entry {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    transition: all 0.2s;
+  }
+  .entry:hover {
+    border-color: rgba(108,92,231,0.3);
+    background: var(--surface2);
+  }
+  .entry-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .entry-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .entry-num.purple { background: rgba(108,92,231,0.15); color: #a78bfa; }
+  .entry-num.teal { background: rgba(0,206,201,0.15); color: #00cec9; }
+  .entry-num.pink { background: rgba(253,121,168,0.15); color: #fd79a8; }
+  .entry-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    flex: 1;
+  }
+  .entry-link {
+    font-size: 0.8rem;
+    color: var(--accent1);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 4px 12px;
+    border: 1px solid rgba(108,92,231,0.3);
+    border-radius: 6px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .entry-link:hover {
+    background: rgba(108,92,231,0.1);
+    border-color: var(--accent1);
+  }
+  .entry-desc {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-top: 4px;
+  }
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+  @media (max-width: 600px) {
+    .page-header h1 { font-size: 1.8rem; }
+    .entry { padding: 18px 20px; }
+    .entry-header { flex-direction: column; }
+    .entry-link { align-self: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brand" href="index.html">Confluence</a>
+  <a href="index.html">← Back to Directory</a>
+</div>
+
+<div class="page-header">
+  <div class="icon">🏛️</div>
+  <h1>Canadian Startup Incubators</h1>
+  <p>100 startup incubators across Canada — university-affiliated, college-affiliated, and standalone organizations.</p>
+</div>
+
+<div class="section-title">University &amp; College-Affiliated Incubators</div>
+<div class="entries">
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">1</span>
+      <span class="entry-name">Velocity — University of Waterloo</span>
+      <a class="entry-link" href="https://www.velocityincubator.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Canada&#x27;s most productive university startup incubator, based at the University of Waterloo. Alumni have raised over $3.5 billion in funding. Offers multiple programs including Velocity Start (idea stage), Velocity Fund (seed funding), and a physical incubator space for founders.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">2</span>
+      <span class="entry-name">The Hatchery — University of Toronto</span>
+      <a class="entry-link" href="https://hatchery.engineering.utoronto.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UofT Engineering&#x27;s experiential entrepreneurship program offering mentorship, resources, and community to turn ideas into startups. Runs multiple streams including NEST (summer accelerator), DLI (deep learning), and Launch Lab. Open to all UofT students.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">3</span>
+      <span class="entry-name">Creative Destruction Lab (CDL) — University of Toronto</span>
+      <a class="entry-link" href="https://www.creativedestructionlab.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">World-renowned program for massively scalable, science-based companies. Founded at UofT&#x27;s Rotman School of Management, now expanded to 10+ sites globally. Uses an objectives-based mentorship model pairing founders with experienced entrepreneurs and investors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">4</span>
+      <span class="entry-name">ICUBE — University of Toronto Mississauga</span>
+      <a class="entry-link" href="https://icubeutm.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UofT Mississauga&#x27;s home for social entrepreneurship and startup development. Offers resources, programs, workshops, and mentorship for founders focused on making a social impact. Open to UofT students and community members.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">5</span>
+      <span class="entry-name">The Centre for Entrepreneurship — University of Toronto</span>
+      <a class="entry-link" href="https://www.entrepreneurship.utoronto.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UofT&#x27;s central hub coordinating entrepreneurship programs across all three campuses. Connects students and researchers to 12+ affiliated accelerators and incubators within the university ecosystem.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">6</span>
+      <span class="entry-name">The BRIDGE — University of Toronto</span>
+      <a class="entry-link" href="https://www.thebridge.utoronto.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UofT&#x27;s program bridging the gap between academic research and market-ready ventures. Helps researchers commercialize their discoveries through mentorship, funding, and industry connections.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">7</span>
+      <span class="entry-name">Computer Science Innovation Lab (CSIL) — University of Toronto</span>
+      <a class="entry-link" href="https://web.cs.toronto.edu/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Supports UofT Computer Science students and researchers in building technology startups. Focuses on AI, machine learning, and deep tech ventures emerging from the department&#x27;s world-class research.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">8</span>
+      <span class="entry-name">Dobson Centre for Entrepreneurship — McGill University</span>
+      <a class="entry-link" href="https://www.mcgill.ca/dobson/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">McGill&#x27;s flagship entrepreneurship center offering the Dobson Cup competition, X-1 Accelerator, and Lean Startup program. Has supported over 250 startups that have raised $1B+ in funding collectively.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">9</span>
+      <span class="entry-name">District 3 Innovation Centre — Concordia University</span>
+      <a class="entry-link" href="https://www.concordia.ca/about/innovation/district3.html" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Concordia&#x27;s open innovation center helping science and technology ventures translate research into viable businesses. Offers co-working, mentorship, prototyping facilities, and startup programs open to students and community.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">10</span>
+      <span class="entry-name">Centech — École de technologie supérieure (ÉTS)</span>
+      <a class="entry-link" href="https://centech.co/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Montreal-based deep tech incubator affiliated with ÉTS. Supports hardware, cleantech, and deep tech startups with prototyping facilities, funding, and a 2-year incubation program. One of Canada&#x27;s top-ranked tech incubators.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">11</span>
+      <span class="entry-name">LaBase HEC Montréal</span>
+      <a class="entry-link" href="https://www.hec.ca/en/innovation-entrepreneurship/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">HEC Montréal&#x27;s entrepreneurship hub providing business training, mentorship, and incubation for student and alumni ventures. Strong focus on business model development and market validation.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">12</span>
+      <span class="entry-name">DMZ — Toronto Metropolitan University (formerly Ryerson)</span>
+      <a class="entry-link" href="https://dmz.torontomu.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">World-leading tech incubator ranked #1 university-affiliated incubator globally by UBI Global. Has helped launch 700+ startups including Sampler and Figure 1. Offers a 16-week intensive program with mentorship and network access.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">13</span>
+      <span class="entry-name">Fashion Zone — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/zone-learning/fashion-zone/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">TMU&#x27;s incubator dedicated to fashion, apparel, and wearable tech startups. Provides industry mentorship, studio space, and connections to the fashion industry for student entrepreneurs.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">14</span>
+      <span class="entry-name">Biomedical Zone — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/zone-learning/biomedical-zone/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Located at St. Michael&#x27;s Hospital, this TMU zone incubates health and biomedical startups. Unique access to clinical environment allows ventures to develop and test innovations alongside healthcare professionals.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">15</span>
+      <span class="entry-name">Legal Innovation Zone — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/zone-learning/legal-innovation-zone/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Canada&#x27;s first legal tech incubator, at TMU. Supports startups transforming the legal industry through technology. Provides mentorship from legal professionals and access to law firms for pilot testing.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">16</span>
+      <span class="entry-name">Social Venture Zone — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/zone-learning/social-venture-zone/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">TMU&#x27;s zone focused on social enterprise startups. Helps founders build ventures that address social, cultural, and environmental challenges while remaining financially sustainable.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">17</span>
+      <span class="entry-name">Transmedia Zone — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/zone-learning/transmedia-zone/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">TMU&#x27;s zone for media, entertainment, and content creation startups. Supports ventures in film, gaming, VR/AR, and digital storytelling with industry connections and creative workspace.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">18</span>
+      <span class="entry-name">Design Fabrication Zone (DFZ) — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/zone-learning/design-fabrication-zone/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">TMU&#x27;s maker-focused incubator with prototyping and fabrication equipment. Supports hardware, product design, and manufacturing startups with hands-on resources.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">19</span>
+      <span class="entry-name">Science Discovery Zone — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/zone-learning/science-discovery-zone/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">TMU zone focused on science-based ventures. Helps researchers and students commercialize discoveries in life sciences, chemistry, and physics.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">20</span>
+      <span class="entry-name">Clean Energy Zone — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/zone-learning/clean-energy-zone/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">TMU&#x27;s incubator for clean energy and sustainability startups. Supports ventures in renewable energy, energy storage, and smart grid technologies.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">21</span>
+      <span class="entry-name">Rogers Cybersecure Catalyst — Toronto Metropolitan University</span>
+      <a class="entry-link" href="https://www.torontomu.ca/cybersecure-catalyst/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National centre for cybersecurity innovation and training. Incubates cybersecurity startups while also providing training and certification programs for the industry.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">22</span>
+      <span class="entry-name">EDGE — Sheridan College</span>
+      <a class="entry-link" href="https://www.sheridancollege.ca/research/edge" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Sheridan&#x27;s entrepreneurship discovery and growth engine. Provides programming, mentorship, and co-working space for student entrepreneurs across all disciplines including arts, technology, and business.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">23</span>
+      <span class="entry-name">startGBC — George Brown College</span>
+      <a class="entry-link" href="https://www.georgebrown.ca/research/startgbc" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">George Brown College&#x27;s startup incubator offering mentorship, workshops, and co-working space for student and alumni entrepreneurs. Focuses on hospitality, health sciences, and design-related ventures.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">24</span>
+      <span class="entry-name">ACCEL — Centennial College</span>
+      <a class="entry-link" href="https://www.centennialcollege.ca/accel" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Centennial College&#x27;s applied research and entrepreneurship centre. Supports student-led ventures with prototyping, business development, and industry partnerships.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">25</span>
+      <span class="entry-name">Innovation and Entrepreneurship Centre — Algonquin College</span>
+      <a class="entry-link" href="https://www.algonquincollege.com/innovation/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Ottawa-based college incubator supporting student entrepreneurs with workshops, mentorship, and maker space. Strong connections to the Ottawa tech ecosystem and government innovation programs.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">26</span>
+      <span class="entry-name">eHUB — Durham College / Ontario Tech University</span>
+      <a class="entry-link" href="https://ehub.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Shared incubator between Durham College and Ontario Tech University in Oshawa. Provides co-working space, mentorship, and programming for student and community entrepreneurs.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">27</span>
+      <span class="entry-name">Dunin-Deshpande Queen&#x27;s Innovation Centre (DDQIC) — Queen&#x27;s University</span>
+      <a class="entry-link" href="https://www.queensu.ca/innovationcentre/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Queen&#x27;s University&#x27;s entrepreneurship hub offering the QYourVenture startup program, Summer Initiative, and connections to Kingston&#x27;s innovation ecosystem. Supports ventures from ideation to market launch.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">28</span>
+      <span class="entry-name">Western Accelerator — Western University</span>
+      <a class="entry-link" href="https://www.uwo.ca/se/western_accelerator/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Western&#x27;s startup program providing funding, mentorship, and workspace for student and recent graduate entrepreneurs. Offers summer accelerator cohorts with $5K-25K in seed funding.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">29</span>
+      <span class="entry-name">GreenHouse — University of Waterloo</span>
+      <a class="entry-link" href="https://uwaterloo.ca/stpauls/greenhouse" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UWaterloo&#x27;s social impact incubator at St. Paul&#x27;s University College. Supports ventures tackling social and environmental challenges. Offers the Social Impact Fellowship and co-working space.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">30</span>
+      <span class="entry-name">Longo Centre for Entrepreneurship — Humber College</span>
+      <a class="entry-link" href="https://humber.ca/longo-centre/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Humber College&#x27;s entrepreneurship hub offering business development programs, workshops, and incubation for student ventures across creative, technology, and social enterprise sectors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">31</span>
+      <span class="entry-name">YEDI (York Entrepreneurship Development Institute) — York University</span>
+      <a class="entry-link" href="https://www.yedi.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">York University&#x27;s accelerator for diverse and immigrant entrepreneurs. Offers an intensive 16-week program with mentorship, workshops, and pitch competition. Known for supporting newcomer founders.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">32</span>
+      <span class="entry-name">Y Space — York University</span>
+      <a class="entry-link" href="https://yspace.yorku.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">York&#x27;s community innovation hub in Markham offering co-working, incubation, and acceleration programs. Focuses on tech-enabled startups with connections to York&#x27;s research expertise.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">33</span>
+      <span class="entry-name">GENIAL — York University</span>
+      <a class="entry-link" href="https://www.yorku.ca/genial/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">York&#x27;s generator of new ideas, applications, and launches. Supports student entrepreneurs with workshops, pitch events, and mentorship. Entry point for York students exploring entrepreneurship.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">34</span>
+      <span class="entry-name">Lassonde School BEST Program — York University</span>
+      <a class="entry-link" href="https://lassonde.yorku.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">York&#x27;s Bergeron Entrepreneurs in Science and Technology (BEST) lab embedded in the Lassonde School of Engineering. Provides dedicated space and programs for engineering student startups.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">35</span>
+      <span class="entry-name">Laurier Startup Lab — Wilfrid Laurier University</span>
+      <a class="entry-link" href="https://www.wlu.ca/academics/faculties/lazaridis-school/entrepreneurship/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Laurier&#x27;s entrepreneurship incubator at the Lazaridis School of Business. Offers co-working space, mentorship, and the Lazaridis ScaleUp program for growth-stage ventures.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">36</span>
+      <span class="entry-name">Lazaridis ScaleUp — Wilfrid Laurier University</span>
+      <a class="entry-link" href="https://www.wlu.ca/academics/faculties/lazaridis-school/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Laurier&#x27;s program specifically for scaling ventures beyond the early stage. Provides executive coaching, peer advisory, and access to the Waterloo-Kitchener tech ecosystem.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">37</span>
+      <span class="entry-name">Laurier Women Entrepreneurship Centre — Wilfrid Laurier University</span>
+      <a class="entry-link" href="https://www.wlu.ca/academics/faculties/lazaridis-school/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Laurier&#x27;s centre dedicated to supporting women entrepreneurs with mentorship, programming, and research on women in business. Open to students, alumni, and community members.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">38</span>
+      <span class="entry-name">Innovation Hub — Carleton University</span>
+      <a class="entry-link" href="https://carleton.ca/innovationhub/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Carleton&#x27;s central entrepreneurship hub in Ottawa. Offers programs from ideation (IdeaFest) to launch (Lead To Win accelerator). Strong connections to Ottawa&#x27;s government and defence tech sectors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">39</span>
+      <span class="entry-name">The Forge — McMaster University</span>
+      <a class="entry-link" href="https://theforge.mcmaster.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">McMaster&#x27;s business incubator and accelerator supporting student and community entrepreneurs in Hamilton. Offers programs from idea validation to revenue generation with dedicated mentors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">40</span>
+      <span class="entry-name">Entrepreneurship at UBC — University of British Columbia</span>
+      <a class="entry-link" href="https://entrepreneurship.ubc.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UBC&#x27;s entrepreneurship hub offering the e@UBC program, HATCH co-working space, and Lean LaunchPad program. Supports ventures across all faculties with a strong emphasis on deep tech and life sciences.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">41</span>
+      <span class="entry-name">HATCH Ventures — UBC</span>
+      <a class="entry-link" href="https://hfrg.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UBC&#x27;s venture creation space providing co-working, mentorship, and programming for early-stage startups from the UBC community. Located in the Life Sciences Centre.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">42</span>
+      <span class="entry-name">Venture Labs — University of Victoria</span>
+      <a class="entry-link" href="https://www.uvic.ca/innovation/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UVic&#x27;s venture development program helping researchers and students commercialize research. Provides business development coaching, market validation support, and connections to investors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">43</span>
+      <span class="entry-name">Health Innovation Hub — University of Alberta</span>
+      <a class="entry-link" href="https://www.ualberta.ca/en/health-innovation-hub/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UAlberta&#x27;s hub for health technology commercialization. Supports startups developing health innovations with access to clinical expertise, prototyping, and regulatory guidance.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">44</span>
+      <span class="entry-name">Applied Pharmaceutical Innovation (API) — University of Alberta</span>
+      <a class="entry-link" href="https://apinnovation.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Edmonton-based life sciences incubator affiliated with UAlberta. Provides GMP-grade manufacturing facilities, lab space, and business development for pharmaceutical and biotech startups.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">45</span>
+      <span class="entry-name">LiftOff — University of Alberta</span>
+      <a class="entry-link" href="https://www.ualberta.ca/en/entrepreneurship/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UAlberta&#x27;s startup incubator program within the Innovation Centre. Offers seed funding, mentorship, and programming for student entrepreneurs launching technology ventures.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">46</span>
+      <span class="entry-name">MTLab — HEC Montréal / Tourisme Montréal</span>
+      <a class="entry-link" href="https://mtlab.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Montreal&#x27;s tourism innovation hub affiliated with HEC Montréal. Incubates startups developing technology solutions for the travel and tourism industry. Provides industry mentorship and pilot testing opportunities.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">47</span>
+      <span class="entry-name">Imagination Catalyst — OCAD University</span>
+      <a class="entry-link" href="https://www.ocadu.ca/academics/graduate-studies/imagination-catalyst" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">OCAD University&#x27;s incubator for design-driven startups and social enterprises. Supports ventures that leverage art, design, and digital media for innovation.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">48</span>
+      <span class="entry-name">The Hub — University of Toronto Scarborough</span>
+      <a class="entry-link" href="https://www.utsc.utoronto.ca/thehub/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">UofT Scarborough&#x27;s entrepreneurship space providing programming, mentorship, and co-working for UTSC student entrepreneurs. Entry point for east Toronto student founders.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">49</span>
+      <span class="entry-name">Bioenterprise Canada — University of Guelph area</span>
+      <a class="entry-link" href="https://www.bioenterprise.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Guelph-based agri-tech incubator supporting ventures in agriculture, food, and environmental technology. Provides business development, regulatory guidance, and connections to the agri-food industry.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">50</span>
+      <span class="entry-name">Innovation Boost Zone — Fleming College</span>
+      <a class="entry-link" href="https://flemingcollege.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Fleming College&#x27;s incubator in Peterborough supporting student and community entrepreneurs with workshops, mentorship, and maker space. Focus on rural and community innovation.</div>
+  </div>
+</div>
+<div class="section-title">Standalone / Non-University Incubators</div>
+<div class="entries">
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">51</span>
+      <span class="entry-name">MaRS Discovery District</span>
+      <a class="entry-link" href="https://www.marsdd.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Canada&#x27;s largest urban innovation hub in downtown Toronto. Connects startups with corporate partners, investors, and government programs. Supports ventures in health, cleantech, fintech, and enterprise. Over 1,200 ventures supported.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">52</span>
+      <span class="entry-name">Communitech</span>
+      <a class="entry-link" href="https://www.communitech.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Waterloo&#x27;s flagship innovation community supporting tech startups from ideation to scale. Offers programs like Fierce Founders (women-led), Rev (accelerator), and corporate innovation programs. Hub for the Waterloo-Kitchener tech ecosystem.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">53</span>
+      <span class="entry-name">OneEleven</span>
+      <a class="entry-link" href="https://www.oneeleven.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Toronto&#x27;s high-growth tech community and incubator for scaling startups. Alumni have raised over $290M in follow-on financing. Provides workspace, programming, and connections to corporate partners and investors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">54</span>
+      <span class="entry-name">Accelerator Centre — Waterloo</span>
+      <a class="entry-link" href="https://www.acceleratorcentre.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Waterloo-based incubator focused on technology commercialization and startup development. Provides one-on-one mentorship, substantial in-kind resources, and programs spanning up to 3 years. Over 200 startups supported.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">55</span>
+      <span class="entry-name">Innovation Factory — Hamilton</span>
+      <a class="entry-link" href="https://innovationfactory.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Hamilton&#x27;s regional innovation centre operating programs for entrepreneurs and startups. Runs the LiONS LAIR pitch competition and provides business advisory services, mentorship, and connections to funding.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">56</span>
+      <span class="entry-name">Invest Ottawa</span>
+      <a class="entry-link" href="https://www.investottawa.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Ottawa&#x27;s economic development agency providing incubation, acceleration, and support for startups. Manages Bayview Yards innovation centre and offers programs in cleantech, digital health, and enterprise software.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">57</span>
+      <span class="entry-name">Launch Academy — Vancouver</span>
+      <a class="entry-link" href="https://www.launchacademy.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Vancouver&#x27;s startup hub providing co-working, incubation, and acceleration programs. Focuses on early-stage tech startups with mentorship from Vancouver&#x27;s tech community.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">58</span>
+      <span class="entry-name">Volta — Halifax</span>
+      <a class="entry-link" href="https://voltaeffect.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Halifax&#x27;s innovation hub and startup community. Provides co-working, incubation, and programming for Atlantic Canada&#x27;s tech startups. Gateway to the Halifax tech ecosystem.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">59</span>
+      <span class="entry-name">Platform Calgary</span>
+      <a class="entry-link" href="https://www.platformcalgary.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Calgary&#x27;s innovation hub connecting startups with mentors, investors, and corporate partners. Offers programs and co-working space to support Alberta&#x27;s diversifying tech ecosystem.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">60</span>
+      <span class="entry-name">Startup Calgary</span>
+      <a class="entry-link" href="https://www.startupcalgary.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Grassroots startup community in Calgary fostering entrepreneurship through events, mentorship, and networking. Complements Platform Calgary with community-driven programming.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">61</span>
+      <span class="entry-name">Co.Labs — Edmonton</span>
+      <a class="entry-link" href="https://www.colabs.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Edmonton&#x27;s tech incubator and co-working space supporting early-stage technology startups. Provides mentorship, programming, and connections to Alberta&#x27;s innovation ecosystem.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">62</span>
+      <span class="entry-name">Edmonton Unlimited</span>
+      <a class="entry-link" href="https://www.edmontonunlimited.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Edmonton&#x27;s innovation agency supporting startups, scale-ups, and the broader innovation community. Offers programs, funding connections, and ecosystem building for Edmonton-based ventures.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">63</span>
+      <span class="entry-name">Alberta Innovates</span>
+      <a class="entry-link" href="https://albertainnovates.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Alberta&#x27;s provincial innovation agency providing funding, programs, and support for startups and researchers. Manages multiple accelerator programs across health, energy, and technology sectors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">64</span>
+      <span class="entry-name">New Ventures BC</span>
+      <a class="entry-link" href="https://www.newventuresbc.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">British Columbia&#x27;s startup competition and support organization. Runs the annual New Ventures BC Competition (one of Canada&#x27;s largest) and provides year-round programming and mentorship.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">65</span>
+      <span class="entry-name">Spring Activator — Vancouver</span>
+      <a class="entry-link" href="https://www.springactivator.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Vancouver-based impact investment and startup support organization. Offers programs for impact-driven entrepreneurs including investment readiness, mentorship, and connections to impact investors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">66</span>
+      <span class="entry-name">Foresight Canada — Vancouver</span>
+      <a class="entry-link" href="https://foresightcac.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Canada&#x27;s cleantech accelerator based in Vancouver. Supports cleantech and climate innovation startups with mentorship, funding connections, and programming. Partners with government and industry on sustainability initiatives.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">67</span>
+      <span class="entry-name">North Forge Technology Exchange — Winnipeg</span>
+      <a class="entry-link" href="https://www.northforge.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Winnipeg&#x27;s technology incubator and co-working space supporting Manitoba&#x27;s tech startup ecosystem. Provides programming, mentorship, and community for prairie tech entrepreneurs.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">68</span>
+      <span class="entry-name">Futurpreneur Canada</span>
+      <a class="entry-link" href="https://www.futurpreneur.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National nonprofit providing financing (up to $60K in loans), mentorship, and support tools to aspiring entrepreneurs aged 18-39. Partners with BDC to offer additional financing. Has helped launch over 16,000 businesses.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">69</span>
+      <span class="entry-name">Next Canada</span>
+      <a class="entry-link" href="https://www.nextcanada.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National program fueling young Canadian entrepreneurs with its Next 36 and Next AI programs. Provides seed funding, intensive mentorship from Canada&#x27;s top business leaders, and a powerful alumni network.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">70</span>
+      <span class="entry-name">Google for Startups Canada</span>
+      <a class="entry-link" href="https://startup.google.com/programs/accelerator/canada/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Google&#x27;s Canadian startup accelerator offering equity-free support, Google mentorship, and cloud credits to high-potential startups. Focuses on AI, machine learning, and technology-driven ventures.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">71</span>
+      <span class="entry-name">Antler Canada</span>
+      <a class="entry-link" href="https://www.antler.co/location/canada" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Global venture builder operating in Canada. Brings together exceptional individuals to co-found startups, providing pre-seed investment ($250K+), mentorship, and a co-founder matching process.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">72</span>
+      <span class="entry-name">Highline Beta</span>
+      <a class="entry-link" href="https://highlinebeta.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Canadian venture studio bridging corporations and startups. Builds startups from scratch and accelerates existing ones through corporate partnerships. Combines venture capital with corporate innovation.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">73</span>
+      <span class="entry-name">Tandem Launch</span>
+      <a class="entry-link" href="https://www.tandemlaunch.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Montreal-based deep tech venture builder creating startups from university research. Partners with leading research institutions to identify breakthrough technologies and build companies around them.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">74</span>
+      <span class="entry-name">BrandProject</span>
+      <a class="entry-link" href="https://www.brandproject.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Early-stage venture studio providing $500K-$2M in investment plus operational support for consumer brand startups. Alumni include Daily Harvest and Freshly. Combines capital with deep brand-building expertise.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">75</span>
+      <span class="entry-name">Forum Ventures — Toronto</span>
+      <a class="entry-link" href="https://www.forumvc.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">B2B SaaS-focused pre-seed fund and accelerator. Invests $200K in each company and provides an intensive 12-week program focused on go-to-market strategy for enterprise software startups.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">76</span>
+      <span class="entry-name">L-SPARK — Ottawa</span>
+      <a class="entry-link" href="https://www.l-spark.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Ottawa-based B2B SaaS accelerator providing mentorship and connections on a performance-based equity model (3% only if you raise funding). Has supported 100+ startups with 13 exits.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">77</span>
+      <span class="entry-name">FounderFuel — Montreal</span>
+      <a class="entry-link" href="https://founderfuel.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Montreal&#x27;s premier mentor-driven accelerator providing $120K CAD in funding (5% equity + $100K SAFE) for 16 weeks. Has supported 100+ startups with 18 exits. Part of the Real Ventures ecosystem.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">78</span>
+      <span class="entry-name">Altitude Accelerator — Brampton</span>
+      <a class="entry-link" href="https://www.altitudeaccelerator.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Brampton&#x27;s technology accelerator (formerly Brampton Entrepreneur Centre) providing mentorship, co-working, and programming for tech startups in the Peel Region.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">79</span>
+      <span class="entry-name">Plug and Play Tech Center — Toronto</span>
+      <a class="entry-link" href="https://www.plugandplaytechcenter.com/toronto/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Silicon Valley-based accelerator&#x27;s Toronto outpost connecting startups with corporate partners for pilot projects and investment. Focuses on fintech, health, and supply chain innovation.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">80</span>
+      <span class="entry-name">Toronto Business Development Centre (TBDC)</span>
+      <a class="entry-link" href="https://tbdc.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Toronto&#x27;s immigrant entrepreneur support centre providing incubation, business planning, and mentorship specifically for newcomer entrepreneurs starting businesses in Canada.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">81</span>
+      <span class="entry-name">Toronto Fashion Incubator (TFI)</span>
+      <a class="entry-link" href="https://www.fashionincubator.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Canada&#x27;s first fashion incubator, supporting emerging fashion designers and apparel entrepreneurs with mentorship, showroom space, and industry connections. Located in Exhibition Place.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">82</span>
+      <span class="entry-name">Canada&#x27;s Music Incubator (CMI)</span>
+      <a class="entry-link" href="https://canadasmusicincubator.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National program supporting music industry entrepreneurs with business development training, mentorship, and industry connections. Helps artists and music business professionals build sustainable careers.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">83</span>
+      <span class="entry-name">Climate Ventures</span>
+      <a class="entry-link" href="https://climateventures.org/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National platform supporting climate innovation entrepreneurs across Canada. Provides programming, mentorship, and connections to funding for ventures addressing climate change.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">84</span>
+      <span class="entry-name">JLABS @ Toronto — Johnson &amp; Johnson Innovation</span>
+      <a class="entry-link" href="https://jlabs.jnjinnovation.com/locations/jlabs-toronto" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Johnson &amp; Johnson&#x27;s life sciences incubator in Toronto. Provides lab space, equipment, and connections to J&amp;J&#x27;s global network for biotech, medical device, and digital health startups.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">85</span>
+      <span class="entry-name">Station FinTech Montréal</span>
+      <a class="entry-link" href="https://www.finance-montreal.com/en/station-fintech-montreal" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Montreal&#x27;s fintech hub and accelerator. Supports fintech startups with co-working space, mentorship from financial industry leaders, and access to Montreal&#x27;s banking and financial services sector.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">86</span>
+      <span class="entry-name">Biomedical Commercialization Canada (BCC)</span>
+      <a class="entry-link" href="https://biomedcommerce.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Supports biomedical startups in commercializing health innovations. Provides regulatory guidance, business development, and connections to the healthcare industry and investors.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">87</span>
+      <span class="entry-name">IDEA Mississauga</span>
+      <a class="entry-link" href="https://www.ideamississauga.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Mississauga&#x27;s innovation hub supporting entrepreneurs with co-working, workshops, and mentorship. Focuses on building Mississauga&#x27;s local startup ecosystem with programming for diverse founders.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">88</span>
+      <span class="entry-name">Brampton Venture Zone</span>
+      <a class="entry-link" href="https://bramptonventurezone.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Brampton&#x27;s startup community space providing co-working, events, and mentorship for local entrepreneurs. Works alongside Altitude Accelerator to support Peel Region startups.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">89</span>
+      <span class="entry-name">Launch Lab — Eastern Ontario</span>
+      <a class="entry-link" href="https://www.launchlab.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Regional Innovation Centre serving Eastern Ontario entrepreneurs with business advisory, mentorship, and connections to funding. Supports startups across Kingston, Belleville, and surrounding areas.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">90</span>
+      <span class="entry-name">TechAlliance — London, Ontario</span>
+      <a class="entry-link" href="https://techalliance.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">London&#x27;s Regional Innovation Centre supporting tech startups with mentorship, programming, and connections to Western University and Fanshawe College innovation ecosystems.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">91</span>
+      <span class="entry-name">Halton Region Small Business Centre</span>
+      <a class="entry-link" href="https://www.halton.ca/The-Region/Doing-Business-in-Halton/Small-Business-Centre" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Halton&#x27;s municipal business support centre providing free advisory services, workshops, and mentorship for new entrepreneurs in Oakville, Burlington, and Milton.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">92</span>
+      <span class="entry-name">Parkdale Centre for Innovation</span>
+      <a class="entry-link" href="https://www.parkdaleinnovation.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Toronto&#x27;s community-driven innovation centre in Parkdale. Supports social enterprises and community-focused startups with co-working, mentorship, and programming designed for underserved communities.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">93</span>
+      <span class="entry-name">Artscape Daniels Launchpad</span>
+      <a class="entry-link" href="https://launchpad.artscape.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Toronto&#x27;s creative entrepreneurship hub for artists, designers, and creative industries entrepreneurs. Provides co-working, professional development, and business support for creative ventures.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">94</span>
+      <span class="entry-name">Black Founders Network</span>
+      <a class="entry-link" href="https://blackfoundersnetwork.org/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National program supporting Black entrepreneurs with mentorship, networking, and business development resources. Addresses systemic barriers to entrepreneurship for Black Canadian founders.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">95</span>
+      <span class="entry-name">League of Innovators</span>
+      <a class="entry-link" href="https://www.leagueofinnovators.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National nonprofit founded by Ryan Holmes (Hootsuite) supporting young Canadian entrepreneurs aged 15-25 with mentorship, bootcamps, and community. Free programs across the country.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">96</span>
+      <span class="entry-name">Shad Canada</span>
+      <a class="entry-link" href="https://www.shad.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National enrichment program for high school students combining STEAM and entrepreneurship. Month-long summer program on university campuses develops Canada&#x27;s next generation of innovators.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">97</span>
+      <span class="entry-name">Le Pont — Québec City</span>
+      <a class="entry-link" href="https://lepontqc.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Quebec City&#x27;s startup incubator and co-working space supporting local tech entrepreneurs. Provides programming, mentorship, and connections to Quebec City&#x27;s growing innovation ecosystem.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">98</span>
+      <span class="entry-name">La Piscine — Montreal</span>
+      <a class="entry-link" href="https://lapiscinemtl.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Montreal social impact incubator supporting entrepreneurs building ventures that address social and environmental challenges. Provides programming, mentorship, and community.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">99</span>
+      <span class="entry-name">Alacrity Canada — Victoria</span>
+      <a class="entry-link" href="https://alacritycanada.com/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">Victoria-based venture builder creating B2B tech companies. Provides entrepreneurs with a business idea, $120K salary, and mentorship to build enterprise software companies from scratch.</div>
+  </div>
+  <div class="entry">
+    <div class="entry-header">
+      <span class="entry-num purple">100</span>
+      <span class="entry-name">Canada&#x27;s Tech Network (formerly CABI)</span>
+      <a class="entry-link" href="https://canadastechnetwork.ca/" target="_blank" rel="noopener">Visit ↗</a>
+    </div>
+    <div class="entry-desc">National organization connecting Canada&#x27;s network of incubators and accelerators. Provides best practices, research, and advocacy for the startup support ecosystem. **List 1 complete: 100 Canadian Startup Incubators**</div>
+  </div>
+</div>
+
+
+<footer>
+  <p>Project Confluence — Built for founders navigating the ecosystem.</p>
+</footer>
+
+</body>
+</html>
