@@ -1,12 +1,11 @@
 // ============================================================
-// Confluence Visitor Tracker V2 — Full Session Tracking
+// Confluence Visitor Tracker V3 — Single-param fix
 // ============================================================
 var TRACKER_URL = 'https://script.google.com/macros/s/AKfycbxg34rAeJ26dSi_wGe_rALeY_mUvCHdlHSCrIrCsN9l1s6BvbCo4w8At3kzm5j3Msix/exec';
 
 (function() {
   if (!TRACKER_URL) return;
 
-  // --- Session ID (persists across pages within same tab session) ---
   var sid = sessionStorage.getItem('cfl_sid');
   if (!sid) {
     sid = 'S' + Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
@@ -35,83 +34,57 @@ var TRACKER_URL = 'https://script.google.com/macros/s/AKfycbxg34rAeJ26dSi_wGe_rA
     return 'Unknown';
   }
 
-  function beacon(params) {
+  // Send data as single JSON-encoded param (Google Apps Script chokes on multiple & params)
+  function send(obj) {
     var img = new Image();
-    img.src = TRACKER_URL + '?' + params;
+    img.src = TRACKER_URL + '?d=' + encodeURIComponent(JSON.stringify(obj));
   }
 
-  // --- 1. Initial visit (only once per session) ---
+  function sendBeaconData(obj) {
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(TRACKER_URL + '?d=' + encodeURIComponent(JSON.stringify(obj)));
+    } else {
+      send(obj);
+    }
+  }
+
+  // 1. Initial visit (once per session)
   if (!sessionStorage.getItem('cfl_visited')) {
     sessionStorage.setItem('cfl_visited', '1');
-
     fetch('https://api.ipify.org?format=json')
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        beacon([
-          'action=visit',
-          'sid=' + sid,
-          'ip=' + encodeURIComponent(data.ip || 'unknown'),
-          'page=' + encodeURIComponent(pageName),
-          'browser=' + encodeURIComponent(getBrowser()),
-          'os=' + encodeURIComponent(getOS()),
-          'referrer=' + encodeURIComponent(document.referrer || 'direct'),
-          'screen=' + encodeURIComponent(screen.width + 'x' + screen.height),
-          'language=' + encodeURIComponent(navigator.language || 'unknown')
-        ].join('&'));
+        send({
+          a: 'visit', sid: sid, ip: data.ip || 'unknown',
+          pg: pageName, br: getBrowser(), os: getOS(),
+          ref: document.referrer || 'direct',
+          sc: screen.width + 'x' + screen.height,
+          ln: navigator.language || 'unknown'
+        });
       })
       .catch(function() {});
   }
 
-  // --- 2. Page view event (every page, including navigations) ---
-  beacon([
-    'action=pageview',
-    'sid=' + sid,
-    'page=' + encodeURIComponent(pageName)
-  ].join('&'));
+  // 2. Pageview (every page)
+  send({ a: 'pageview', sid: sid, pg: pageName });
 
-  // --- 3. Click tracking on "Visit" links ---
+  // 3. Click tracking
   document.addEventListener('click', function(e) {
     var link = e.target.closest('.entry-link');
     if (!link) return;
-
     var entry = link.closest('.entry');
-    var entryName = entry ? (entry.dataset.name || entry.querySelector('.entry-name')?.textContent || 'unknown') : 'unknown';
-
-    beacon([
-      'action=click',
-      'sid=' + sid,
-      'page=' + encodeURIComponent(pageName),
-      'detail=' + encodeURIComponent(entryName)
-    ].join('&'));
+    var name = entry ? (entry.dataset.name || 'unknown') : 'unknown';
+    send({ a: 'click', sid: sid, pg: pageName, dt: name });
   });
 
-  // --- 4. Time on page (fires when leaving/closing) ---
-  function sendLeaveEvent() {
-    var duration = Math.round((Date.now() - pageStart) / 1000);
-    if (duration < 1) return;
-
-    // Use sendBeacon for reliability on page close
-    if (navigator.sendBeacon) {
-      var params = [
-        'action=leave',
-        'sid=' + sid,
-        'page=' + encodeURIComponent(pageName),
-        'duration=' + duration
-      ].join('&');
-      navigator.sendBeacon(TRACKER_URL + '?' + params);
-    } else {
-      beacon([
-        'action=leave',
-        'sid=' + sid,
-        'page=' + encodeURIComponent(pageName),
-        'duration=' + duration
-      ].join('&'));
-    }
+  // 4. Leave tracking (time on page)
+  function onLeave() {
+    var dur = Math.round((Date.now() - pageStart) / 1000);
+    if (dur < 1) return;
+    sendBeaconData({ a: 'leave', sid: sid, pg: pageName, dur: dur });
   }
-
-  // Fire on page hide (covers tab close, navigation, mobile background)
   document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'hidden') sendLeaveEvent();
+    if (document.visibilityState === 'hidden') onLeave();
   });
-  window.addEventListener('pagehide', sendLeaveEvent);
+  window.addEventListener('pagehide', onLeave);
 })();
